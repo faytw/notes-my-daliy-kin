@@ -1,0 +1,76 @@
+{
+  "tutorials": [
+    {
+      "id": 1,
+      "series": "JavaScript Tutorial for Beginners",
+      "author": "Paul"
+    },
+    {
+      "id": 2,
+      "series": "TypeScript Tutorial for Beginners",
+      "author": "Bill"
+    },
+    {
+      "id": 3,
+      "series": "Webpack Tutorial for Beginners",
+      "author": "Daniel"
+    },
+    {
+      "id": 4,
+      "series": "Vue.js Tutorial for Beginners",
+      "author": "Benjamin"
+    },
+    {
+      "id": 5,
+      "series": "Vuex Tutorial for Beginners",
+      "author": "Caroline"
+    },
+    {
+      "id": 6,
+      "series": "Nuxt.js Tutorial for Beginners",
+      "author": "Jason"
+    },
+    {
+      "id": 7,
+      "series": "React.js Tutorial for Beginners",
+      "author": "Mike"
+    },
+    {
+      "id": 8,
+      "series": "Redux Tutorial for Beginners",
+      "author": "Andrew"
+    },
+    {
+      "id": 9,
+      "series": "MobX Tutorial for Beginners",
+      "author": "Andy"
+    },
+    {
+      "id": 10,
+      "series": "Next.js Tutorial for Beginners",
+      "author": "Adam"
+    }
+  ],
+  "books": [
+    {
+      "id": 1,
+      "title": "Learn Vue.js",
+      "author": "Denny"
+    },
+    {
+      "id": 2,
+      "title": "Learn React.js",
+      "author": "Tom"
+    },
+    {
+      "id": 3,
+      "title": "Learn Angular",
+      "author": "Jerry"
+    }
+  ],
+  "profile": {
+    "name": "Jackson",
+    "age": 22,
+    "phone": "0986868686"
+  }
+}

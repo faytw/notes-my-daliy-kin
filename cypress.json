@@ -1,0 +1,11 @@
+{
+  "baseUrl": "http://localhost:8080",
+  "chromeWebSecurity": false,
+  "env": {
+    "apiUrl": "/"
+  },
+  "ignoreTestFiles": ["*.js", "*.md"],
+  "pluginsFile": "tests/e2e/plugins/index.js",
+  "viewportWidth": 1440,
+  "viewportHeight": 1050
+}
