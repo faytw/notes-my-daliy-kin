@@ -42,9 +42,7 @@ export default {
     this.setDate()
     this.setDataAt()
     this.calulateDateMainIcon()
-  },
-  computed: {
-    
+    this.showIcons()
   },
   methods: {
     setDate(input = new Date()) {
@@ -98,6 +96,48 @@ export default {
         }     
       })
     },
+    getIcons(input) {
+      const iconTable =  {
+        0: '太陽', 1: '龍', 2: '風', 3: '夜', 4: '種子', 5: '蛇', 6: '世界橋' , 7: '手', 8: '星星', 9: '月',
+        10: '狗', 11: '猴', 12: '人', 13: '天行者', 14: '巫師', 15: '鷹', 16: '戰士', 17: '地球', 18: '鏡',
+        19: '風暴',
+      }
+      let temp = []
+      for(let i=0; i<13; i++) {
+        temp.push(input - 20 * i)
+        if (input - 20 * i < 20) break
+      }
+      const mainNum = temp[temp.length - 1]
+      const icons = {
+        middle: iconTable[mainNum],
+        right: iconTable[19 - mainNum],
+        left: mainNum < 10 ? iconTable[mainNum + 10] : iconTable[mainNum - 10],
+        bottom: 21 - mainNum > 20 ? iconTable[21 - mainNum - 20] : iconTable[21 - mainNum]
+      }
+      return icons
+    },
+    showIcons() {
+      const val = this.calulateDateMainIcon()
+      const icons = this.getIcons(val)
+      this.initData.forEach((data, index) => {
+        switch(data.location) {
+          case 'middle' :
+            data = { ...data,
+              kin: val,
+              text: icons[data.location]
+            }
+            break
+          case `${data.location}` :
+            data = { ...data,
+              text: icons[data.location]
+            }
+            break
+          default:
+            break
+        }
+        this.initData.splice(index, 1, data)
+      })
+    },
     calulateDateMainIcon() {
       const { year, month, date } = this.today
       const yTable = {
@@ -126,53 +166,7 @@ export default {
           ans = temp[temp.length - 1]
         }
       }
-
-      const iconTable =  {
-        0: '太陽', 1: '龍', 2: '風', 3: '夜', 4: '種子', 5: '蛇', 6: '世界橋' , 7: '手', 8: '星星', 9: '月',
-        10: '狗', 11: '猴', 12: '人', 13: '天行者', 14: '巫師', 15: '鷹', 16: '戰士', 17: '地球', 18: '鏡',
-        19: '風暴',
-      }
-
-      function getIcon(num) {
-        let temp = []
-        for(let i=0; i<13; i++) {
-          temp.push(num - 20 * i)
-          if (num - 20 * i < 20) break
-        }
-        const mainNum = temp[temp.length - 1]
-        const icons = {
-          middle: iconTable[mainNum],
-          right: iconTable[19 - mainNum],
-          left: mainNum < 10 ? iconTable[mainNum + 10] : iconTable[mainNum - 10],
-          bottom: 21 - mainNum > 20 ? iconTable[21 - mainNum - 20] : iconTable[21 - mainNum]
-        }
-        return icons
-      }
-      let icon = getIcon(20)
-      this.initData.forEach((data, index) => {
-        if(data.location === 'middle') {
-          data = { ...data,
-            kin: ans,
-            text: icon['middle']
-          }
-        }
-        if(data.location === 'right') {
-           data = { ...data,
-            text: icon['right']
-          }
-        }
-        if(data.location === 'left') {
-           data = { ...data,
-            text: icon['left']
-          }
-        }
-        if(data.location === 'bottom') {
-           data = { ...data,
-            text: icon['bottom']
-          }
-        }
-        this.initData.splice(index, 1, data)
-      })
+      return ans
     },
   },
 }
