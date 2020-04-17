@@ -16,7 +16,7 @@
           :data-mc='item.location'
           :data-now='item.now'
         >
-          <v-img :src='require(`../assets/${item.icon}.png`)'/>
+          <v-img :src='require(`../assets/${ item.icon }.png`)'/>
           <div class="text-center">{{ item.text }}</div>
           <div class="text-center">KIN {{ item.kin }}</div>
         </div>
@@ -41,103 +41,9 @@ export default {
   mounted(){
     this.setDate()
     this.setDataAt()
-    this.calulateDateMainIcon()
     this.showIcons()
   },
   methods: {
-    setDate(input = new Date()) {
-      const d = input
-      const year = d.getFullYear()
-      const month = d.getMonth()+1
-      const date = d.getDate()
-      const hours = d.getHours()
-      const minutes = d.getMinutes()
-
-      this.today = {
-        year,
-        month,
-        date,
-        hours,
-        minutes
-      }
-    },
-    setDataAt(input = this.today.hours) {
-      const list = [{ 
-        at: 't1', 
-        val: [0, 1, 2, 3, 4, 5],
-      },{ 
-        at: 't2', 
-        val: [6, 7, 8, 9, 10, 11],
-      },{ 
-        at: 't3', 
-        val: [12,13,14,15,16,17] ,
-      },{ 
-        at: 't4', 
-        val: [18,19,20,21,22,23],
-      }]
-      const table = { 
-        t1: 'right', 
-        t2: 'top', 
-        t3: 'left', 
-        t4: 'bottom',
-      }
-      const temp = this.initData.slice()
-
-      list.forEach((item) => {
-        if (item.val.includes(input)) {
-          temp.forEach((elm ,index) => {
-            if (elm.location === table[item.at]) {
-              elm = { ...elm,
-                now: true
-              }
-              this.initData.splice(index, 1, elm)
-            }
-          })
-        }     
-      })
-    },
-    getIcons(input) {
-      const iconTable =  {
-        0: '太陽', 1: '龍', 2: '風', 3: '夜', 4: '種子', 5: '蛇', 6: '世界橋' , 7: '手', 8: '星星', 9: '月',
-        10: '狗', 11: '猴', 12: '人', 13: '天行者', 14: '巫師', 15: '鷹', 16: '戰士', 17: '地球', 18: '鏡',
-        19: '風暴',
-      }
-      let temp = []
-      for(let i=0; i<13; i++) {
-        temp.push(input - 20 * i)
-        if (input - 20 * i < 20) break
-      }
-      const mainNum = temp[temp.length - 1]
-      const icons = {
-        middle: iconTable[mainNum],
-        right: iconTable[19 - mainNum],
-        left: mainNum < 10 ? iconTable[mainNum + 10] : iconTable[mainNum - 10],
-        bottom: 21 - mainNum > 20 ? iconTable[21 - mainNum - 20] : iconTable[21 - mainNum]
-      }
-      return icons
-    },
-    showIcons() {
-      const val = this.calulateDateMainIcon()
-      const icons = this.getIcons(val)
-      this.initData.forEach((data, index) => {
-        switch(data.location) {
-          case 'middle' :
-            data = { ...data,
-              kin: val,
-              text: icons[data.location]
-            }
-            break
-          case `${data.location}` :
-            data = { ...data,
-              text: icons[data.location]
-            }
-            break
-          default:
-            break
-        }
-        this.initData.splice(index, 1, data)
-      })
-    },
     calulateDateMainIcon() {
       const { year, month, date } = this.today
       const yTable = {
@@ -167,6 +73,89 @@ export default {
         }
       }
       return ans
+    },
+    getIcons(input) {
+      const iconTable =  {
+        0: '太陽', 1: '龍', 2: '風', 3: '夜', 4: '種子', 5: '蛇', 6: '世界橋' , 7: '手', 8: '星星', 9: '月',
+        10: '狗', 11: '猴', 12: '人', 13: '天行者', 14: '巫師', 15: '鷹', 16: '戰士', 17: '地球', 18: '鏡',
+        19: '風暴',
+      }
+      let temp = []
+      for(let i=0; i<13; i++) {
+        temp.push(input - 20 * i)
+        if (input - 20 * i < 20) break
+      }
+      const mainNum = temp[temp.length - 1]
+      const icons = {
+        middle: iconTable[mainNum],
+        right: iconTable[19 - mainNum],
+        left: mainNum < 10 ? iconTable[mainNum + 10] : iconTable[mainNum - 10],
+        bottom: 21 - mainNum > 20 ? iconTable[21 - mainNum - 20] : iconTable[21 - mainNum]
+      }
+      return icons
+    },
+    setDataAt(input = this.today.hours) {
+      const list = [{ 
+        location: 'right',
+        val: [0, 1, 2, 3, 4, 5],
+      },
+      { 
+        location: 'top',
+        val: [6, 7, 8, 9, 10, 11],
+      },
+      { 
+        location: 'left',
+        val: [12, 13, 14, 15, 16, 17] ,
+      },
+      { 
+        location: 'bottom',
+        val: [18, 19, 20, 21, 22, 23],
+      }]
+      const temp = this.initData.slice()
+      list.forEach((item) => {
+        temp.forEach((elm,index) => {
+          if (item.val.includes(input) && item.location === elm.location) {
+            elm = { ...elm,
+              now: true
+            }
+            this.initData.splice(index, 1, elm)
+          }
+        })
+      })
+    },
+    setDate(input = new Date()) {
+      const d = input
+      const year = d.getFullYear()
+      const month = d.getMonth()+1
+      const date = d.getDate()
+      const hours = d.getHours()
+      const minutes = d.getMinutes()
+
+      this.today = {
+        year,
+        month,
+        date,
+        hours,
+        minutes
+      }
+    },
+    showIcons() {
+      const val = this.calulateDateMainIcon()
+      const icons = this.getIcons(val)
+      const temp = this.initData.slice()
+      temp.forEach((data, index) => {
+        if(data.location === 'middle') {
+          data = { ...data,
+            kin: val,
+            text: icons[data.location]
+          }
+        } else {
+          data = { ...data,
+            text: icons[data.location]
+          }
+        }
+        this.initData.splice(index, 1, data)
+      })
     },
   },
 }
