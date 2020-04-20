@@ -17,6 +17,7 @@
           :data-now='item.now'
         >
           <v-img :src='require(`../assets/${ item.icon }.png`)'/>
+          <div class="text-center">{{ item.tone }}</div>
           <div class="text-center">{{ item.text }}</div>
           <div class="text-center">KIN {{ item.kin }}</div>
         </div>
@@ -29,7 +30,14 @@
 export default {
   name: 'today',
   data: () => ({
-    today: {},
+    today: {
+      year: 1911,
+      month: 11,
+      date: 11,
+      mainKin: null,
+      mainIcon: null,
+      mainTone: null,
+    },
     initData: [
       {location: 'top', icon:'hunabku'},
       {location: 'left', icon:'hunabku'},
@@ -41,6 +49,8 @@ export default {
   mounted(){
     this.setDate()
     this.setDataAt()
+    this.calulateDateMainIcon()
+    this.showTones()
     this.showIcons()
   },
   methods: {
@@ -72,13 +82,18 @@ export default {
           ans = temp[temp.length - 1]
         }
       }
-      return ans
+      this.today.mainKin = ans
     },
-    getIcons(input) {
+    getIcons(input = this.today.mainKin, tone = this.today.mainTone) {
       const iconTable =  {
         0: '太陽', 1: '龍', 2: '風', 3: '夜', 4: '種子', 5: '蛇', 6: '世界橋' , 7: '手', 8: '星星', 9: '月',
         10: '狗', 11: '猴', 12: '人', 13: '天行者', 14: '巫師', 15: '鷹', 16: '戰士', 17: '地球', 18: '鏡',
         19: '風暴',
+      }
+      const guideIconTable = {
+        0: { 0: [1, 6, 11], 1: [2, 7, 12], 2: [3, 8, 13], 3: [4, 9], 4: [5, 10]},
+        1: { 0: [1, 6, 11], 1: [2, 7, 12], 2: [3, 8, 13], 3: [4, 9], 4: [5, 10]},
+        2: { 2: [1, 6, 11], 6: [2, 7, 12], 10: [3, 8, 13], 14: [4, 9], 18: [5, 10]},
       }
       let temp = []
       for(let i=0; i<13; i++) {
@@ -86,13 +101,38 @@ export default {
         if (input - 20 * i < 20) break
       }
       const mainNum = temp[temp.length - 1]
+      const guideIconGroup = guideIconTable[mainNum]
+      const guideIconNum = Object.keys(guideIconGroup).filter((key) => guideIconGroup[key].includes(tone) ? key : null) [0]
+      
       const icons = {
         middle: iconTable[mainNum],
         right: iconTable[19 - mainNum],
         left: mainNum < 10 ? iconTable[mainNum + 10] : iconTable[mainNum - 10],
-        bottom: 21 - mainNum > 20 ? iconTable[21 - mainNum - 20] : iconTable[21 - mainNum]
+        bottom: 21 - mainNum > 20 ? iconTable[21 - mainNum - 20] : iconTable[21 - mainNum],
+        top: iconTable[guideIconNum]
       }
       return icons
+    },
+    getTones(input = this.today.mainKin){
+      const toneTable = {
+        1: '磁性', 2: '月亮', 3: '電力', 4: '自我存在', 5: '超頻', 6: '韻律', 7: '共振',
+        8: '銀河', 9: '太陽', 10: '行星', 11: '光譜', 12: '水晶', 13: '宇宙'
+      }
+      let temp = []
+      for(let i=0; i<20; i++) {
+        temp.push(input - 13 * i)
+        if (input - 13 * i < 13) break
+      }
+      const mainTone =  temp[temp.length - 1]
+      const tones = {
+        middle: toneTable[mainTone],
+        right: toneTable[mainTone],
+        left: toneTable[mainTone],
+        top: toneTable[mainTone],
+        bottom: toneTable[14 - mainTone]
+      }
+      this.today.mainTone = mainTone
+      return tones
     },
     setDataAt(input = this.today.hours) {
       const list = [{ 
@@ -140,13 +180,12 @@ export default {
       }
     },
     showIcons() {
-      const val = this.calulateDateMainIcon()
-      const icons = this.getIcons(val)
+      const icons = this.getIcons()
       const temp = this.initData.slice()
       temp.forEach((data, index) => {
         if(data.location === 'middle') {
           data = { ...data,
-            kin: val,
+            kin: this.today.mainKin,
             text: icons[data.location]
           }
         } else {
@@ -157,6 +196,16 @@ export default {
         this.initData.splice(index, 1, data)
       })
     },
+    showTones() {
+      const tones = this.getTones()
+      const temp = this.initData.slice()
+      temp.forEach((data, index) => {
+        data = { ...data,
+          tone: tones[data.location]
+        }
+        this.initData.splice(index, 1, data)
+      })
+    }
   },
 }
 </script>
