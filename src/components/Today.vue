@@ -7,7 +7,7 @@
     </v-row>
     <v-row justify="center">
       <v-col 
-        class='mc-container col-md-4'
+        class='mc-container col-md-6 col-sm-6 text-center'
         cols="10">
         <div 
           class="square" 
@@ -15,10 +15,11 @@
           :key='item.location' 
           :data-mc='item.location'
           :data-now='item.now'
+          :data-bgColor='item.color'
         >
-          <v-img :src='require(`../assets/${ item.icon }.png`)'/>
-          <div class="text-center">{{ item.tone }}{{ item.text }}</div>
-          <div class="text-center">KIN {{ item.kin }}</div>
+          <div class="text-center">{{ item.tone }}</div>
+          <div class="text-center" >{{ item.text }}</div>
+          <div class="text-center" >KIN {{ item.kin }}</div>
         </div>
       </v-col>
     </v-row>
@@ -221,27 +222,46 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
   .square[data-mc] {      
     font-size: 12px;
-    width: 31%;
-    display: inline-block;
+    width: 31.5%;
+    display: inline-flex;
     margin: 0px 3px;
     padding: 3px 5px;
+    font-weight: 700;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 99em;
+    width: 90px;
+    height: 90px;
   }
   .square[data-mc='top'] {
-    display: block;
+    display: flex;
     margin: 0 auto;
-    margin-bottom: 5px
+    margin-bottom: 5px;
+    justify-content: center
   }
   .square[data-mc='bottom'] {
-    display: block;
+    display: flex;
     margin: 0 auto;
     margin-top: 5px
   }
+  .square[data-bgColor='red'] {
+    background-color: #f92f2f;
+  }
+  .square[data-bgColor='yellow'] {
+    background-color: #f6f940;
+  }
+  .square[data-bgColor='blue'] {
+    background-color: #5252ea;
+  }
+  .square[data-bgColor='white'] {
+    background-color: #fbfafa;
+  }
   .square[data-now] {
-    box-shadow: 3px 3px 3px cadetblue;
-    border-radius: 8px;
+    box-shadow: 3px 3px 8px #a5a8a8;
   }
   .display-time {
     font-size: 0.375em;

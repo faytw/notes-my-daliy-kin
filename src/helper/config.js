@@ -10,10 +10,10 @@ export const iconTable =  {
 }
 
 export const colorTable = {
-  r: [1, 5, 9, 13, 17],
-  w: [2, 6, 10, 14, 18],
-  b: [3, 7, 11, 15, 19],
-  y: [0, 4, 8, 12, 16],
+  red: [1, 5, 9, 13, 17],
+  white: [2, 6, 10, 14, 18],
+  blue: [3, 7, 11, 15, 19],
+  yellow: [0, 4, 8, 12, 16],
 }
 
 export const guideIconTable = {
