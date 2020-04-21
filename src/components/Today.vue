@@ -3,7 +3,6 @@
     <v-row class="text-center">
       <v-col class="mb-1 font-weight-bold">
         <div>{{ `${today.year} / ${today.month} / ${today.date}` }}</div>
-        <div>KIN {{ today.mainKin }}</div>
       </v-col>
     </v-row>
     <v-row justify="center">
@@ -18,8 +17,8 @@
           :data-now='item.now'
         >
           <v-img :src='require(`../assets/${ item.icon }.png`)'/>
-          <div class="text-center">{{ item.tone }}</div>
-          <div class="text-center">{{ item.text }}</div>
+          <div class="text-center">{{ item.tone }}{{ item.text }}</div>
+          <div class="text-center">KIN {{ item.kin }}</div>
         </div>
       </v-col>
     </v-row>
@@ -100,37 +99,61 @@ export default {
       }
       const mainNum = temp[temp.length - 1]
       const guideIconGroup = guideIconTable[mainNum]
-      const guideIconNum = Object.keys(guideIconGroup).filter((key) => guideIconGroup[key].includes(tone))
+      const guideIconNum = Object.keys(guideIconGroup).filter((key) => guideIconGroup[key].includes(tone))[0]
 
       const middleN = mainNum
       const rightN = 19 - mainNum
       const leftN = mainNum < 10 ? mainNum + 10 : mainNum - 10
       const bottomN = 21 - mainNum > 20 ? 21 - mainNum - 20 : 21 - mainNum
-      const topN = guideIconNum
+      const topN = Number(guideIconNum)
       
       const icons = {
         middle: {
           text: iconTable[mainNum], 
-          color: Object.keys(colorTable).filter((key) => colorTable[key].includes(middleN))[0]
+          color: Object.keys(colorTable).filter((key) => colorTable[key].includes(middleN))[0],
+          kin: this.today.mainKin
         },
         right: {
           text: iconTable[rightN], 
-          color: Object.keys(colorTable).filter((key) => colorTable[key].includes(rightN))[0]
+          color: Object.keys(colorTable).filter((key) => colorTable[key].includes(rightN))[0],
+          kin: this.getIconKins('right', rightN)
         },
         left: {
           text: iconTable[leftN],
-          color: Object.keys(colorTable).filter((key) => colorTable[key].includes(leftN))[0]
+          color: Object.keys(colorTable).filter((key) => colorTable[key].includes(leftN))[0],
+          kin: this.getIconKins('left', leftN)
         },
         bottom: {
           text: iconTable[bottomN], 
-          color: Object.keys(colorTable).filter((key) => colorTable[key].includes(bottomN))[0]
+          color: Object.keys(colorTable).filter((key) => colorTable[key].includes(bottomN))[0],
+          kin: this.getIconKins('bottom', bottomN)
         },
         top: {
           text: iconTable[topN],
-          color: Object.keys(colorTable).filter((key) => colorTable[key].includes(topN))[0]
+          color: Object.keys(colorTable).filter((key) => colorTable[key].includes(topN))[0],
+          kin: this.getIconKins('top', topN)
         },
       }
       return icons
+    },
+    getIconKins(location, locationN, tone = this.today.mainTone) {
+      let temp = []
+      let kin = null
+      switch(location) {
+        case 'bottom':
+          for(let i=0; i<13; i++) {
+            temp.push(20 * i + locationN)
+          }
+          kin = temp.filter(elm => (elm - (14 - tone)) % 13 === 0)[0]
+          break
+        default:
+          for(let i=0; i<13; i++) {
+            temp.push(20 * i + locationN)
+          }
+          kin = temp.filter(elm => (elm - tone) % 13 === 0)[0]
+          break
+      }
+      return kin
     },
     getTones(input = this.today.mainKin){
       const toneTable = { ...this.toneTable }
@@ -189,6 +212,7 @@ export default {
           text: icons[data.location].text,
           tone: tones[data.location],
           color: icons[data.location].color,
+          kin: icons[data.location].kin
         }
         this.initData.splice(index, 1, data)
       })
