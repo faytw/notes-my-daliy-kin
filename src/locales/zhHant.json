@@ -1,0 +1,39 @@
+{
+  "tone": {
+    "magnetic": "磁性", 
+    "lunar": "月亮",
+    "electric": "電力",
+    "self-existing": "自我存在",
+    "overtone": "超頻",
+    "rhythmic": "韻律",
+    "resonant": "共振",
+    "galactic": "銀河",
+    "solar": "太陽",
+    "planetary": "行星",
+    "spectral": "光譜",
+    "crystal": "水晶",
+    "cosmic": "宇宙"
+  },
+  "iconText": {
+    "sun": "黃太陽",
+    "dragon": "紅龍",
+    "wind": "白風",
+    "night": "藍夜",
+    "seed": "黃種子",
+    "snake": "紅蛇",
+    "world-bridge": "白世界橋",
+    "hand": "藍手",
+    "star": "黃星星",
+    "moon": "紅月",
+    "dog": "白狗",
+    "monkey": "藍猴",
+    "human": "黃人",
+    "skywoler": "紅天行者",
+    "wizard": "白巫師",
+    "eagle": "藍鷹",
+    "warrior": "黃戰士",
+    "earth": "紅地球",
+    "mirror": "白鏡",
+    "storm": "藍風暴"
+  }
+}

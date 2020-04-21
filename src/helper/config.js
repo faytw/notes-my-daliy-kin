@@ -1,12 +1,12 @@
 export const toneTable = {
-  1: '磁性', 2: '月亮', 3: '電力', 4: '自我存在', 5: '超頻', 6: '韻律', 7: '共振',
-  8: '銀河', 9: '太陽', 10: '行星', 11: '光譜', 12: '水晶', 13: '宇宙'
+  1: 'magnetic', 2: 'lunar', 3: 'electric', 4: 'self-existing', 5: 'overtone', 6: 'rhythmic', 7: 'resonant',
+  8: 'galactic', 9: 'solar', 10: 'planetary', 11: 'spectral', 12: 'crystal', 13: 'cosmic'
 }
 
 export const iconTable =  {
-  0: '太陽', 1: '龍', 2: '風', 3: '夜', 4: '種子', 5: '蛇', 6: '世界橋' , 7: '手', 8: '星星', 9: '月',
-  10: '狗', 11: '猴', 12: '人', 13: '天行者', 14: '巫師', 15: '鷹', 16: '戰士', 17: '地球', 18: '鏡',
-  19: '風暴',
+  0: 'sun', 1: 'dragon', 2: 'wind', 3: 'night', 4: 'seed', 5: 'snake', 6: 'world-bridge' , 7: 'hand', 8: 'star', 9: 'moon',
+  10: 'dog', 11: 'monkey', 12: 'human', 13: 'skywoler', 14: 'wizard', 15: 'eagle', 16: 'warrior', 17: 'earth', 18: 'mirror',
+  19: 'storm',
 }
 
 export const colorTable = {

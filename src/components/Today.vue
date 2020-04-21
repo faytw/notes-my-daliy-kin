@@ -17,9 +17,9 @@
           :data-now='item.now'
           :data-bgColor='item.color'
         >
-          <div class="text-center">{{ item.tone }}</div>
-          <div class="text-center" >{{ item.text }}</div>
-          <div class="text-center" >KIN {{ item.kin }}</div>
+          <div class="text-center" v-if='item.tone'>{{ $t(`tone.${item.tone}`) }}</div>
+          <div class="text-center" v-if='item.text'>{{ $t(`iconText.${item.text}`) }}</div>
+          <div class="text-center" v-if="item.kin">KIN {{ item.kin }}</div>
         </div>
       </v-col>
     </v-row>

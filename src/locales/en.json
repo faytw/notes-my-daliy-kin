@@ -1,0 +1,39 @@
+{
+  "tone": {
+    "magnetic": "Magnetic", 
+    "lunar": "Lunar",
+    "electric": "Electric",
+    "self-existing": "Self-Existing",
+    "overtone": "Overtone",
+    "rhythmic": "Rhythmic",
+    "resonant": "Resonant",
+    "galactic": "Galactic",
+    "solar": "Solar",
+    "planetary": "Planetary",
+    "spectral": "Spectral",
+    "crystal": "Crystal",
+    "cosmic": "Cosmic"
+  },
+  "iconText": {
+    "sun": "Yellow Sun",
+    "dragon": "Red Dragon",
+    "wind": "White Wind",
+    "night": "Blue Night",
+    "seed": "Yellow Seed",
+    "snake": "Red Snake",
+    "world-bridge": "White World-Bridge",
+    "hand": "Blue Hand",
+    "star": "Yellow Star",
+    "moon": "Red Moon",
+    "dog": "White Dog",
+    "monkey": "Blue Monkey",
+    "human": "Yellow Human",
+    "skywoler": "Red Skywoler",
+    "wizard": "White Wizard",
+    "eagle": "Blue Eagle",
+    "warrior": "Yellow Warrior",
+    "earth": "Red Earth",
+    "mirror": "White Mirror",
+    "storm": "Blue Storm"
+  }
+}
