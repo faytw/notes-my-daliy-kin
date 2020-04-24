@@ -5,6 +5,61 @@
         <div>{{ `${dateNow.year} / ${dateNow.month} / ${dateNow.date}` }}</div>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <v-bottom-navigation
+          v-model="bottomNav"
+          dark
+        >
+          <v-btn value="notes" @click="dialog=true">
+            <span>Notes</span>
+            <v-icon>mdi-pen-plus</v-icon>
+          </v-btn>
+          <v-btn value="notes">
+            <span>Notebook</span>
+            <v-icon>mdi-notebook</v-icon>
+          </v-btn>
+        </v-bottom-navigation>
+      </v-col>
+    </v-row>
+    <v-row justify="center">
+      <v-dialog v-model="dialog" persistent max-width="290">
+        <v-card>
+          <v-card-title class="headline">新增事件筆記</v-card-title>
+          <v-card-text>
+            <v-textarea
+              outlined
+              :label="`主印記-${ $t(`iconText.${initData.middle.iconText}`)}`"
+            />
+            <v-textarea
+              outlined
+              :label="`支持-${ $t(`iconText.${initData.right.iconText}`)}`"
+            />
+            <v-textarea
+              outlined
+              :label="`引導-${ $t(`iconText.${initData.top.iconText}`)}`"
+            />
+            <v-textarea
+              outlined
+              :label="`挑戰-${ $t(`iconText.${initData.left.iconText}`)}`"
+            />
+            <v-textarea
+              outlined
+              :label="`隱藏推動-${ $t(`iconText.${initData.bottom.iconText}`)}`"
+            />
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="dialog = false">
+              <span>Cancel</span>
+            </v-btn>
+            <v-btn color="blue darken-1" text @click="dialog = false">
+              <span>Save</span>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
     <v-row justify="center">
       <v-col 
         class='mc-container col-md-6 col-sm-6 text-center'
@@ -17,7 +72,7 @@
           :data-now='item.now'
           :data-bgColor='item.color'
         >
-          <div class="text-center" v-if='item.tone'>{{ $t(`tone.${item.tone}`) }}</div>
+          <div class="text-center" v-if='item.toneText'>{{ $t(`tone.${item.toneText}`) }}</div>
           <div class="text-center" v-if='item.iconText'>{{ $t(`iconText.${item.iconText}`) }}</div>
           <div class="text-center" v-if="item.kin">KIN {{ item.kin }}</div>
         </div>
@@ -34,7 +89,14 @@ export default {
   data: () => ({
     dateNow,
     initData,
+    bottomNav: 'note',
+    dialog: false
   }),
+  methods: {
+    addNote() {
+      console.log('ADD NOTE')
+    }
+  }
 }
 </script>
 

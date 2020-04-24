@@ -76,11 +76,11 @@ const getTones = (input) => {
   const tempTone = temp[temp.length - 1] === 0 ? 13 : temp[temp.length - 1]
   const toneTableIndex = tempTone - 1
   const tones = {
-    bottom: toneTable[(14 - tempTone - 1)],
+    top: toneTable[toneTableIndex],
     left: toneTable[toneTableIndex],
     middle: toneTable[toneTableIndex],
     right: toneTable[toneTableIndex],
-    top: toneTable[toneTableIndex],
+    bottom: toneTable[(14 - tempTone - 1)],
   }
   const data = {
     tones,
@@ -106,10 +106,10 @@ const getIcons = (mainKin, mainTone)  => {
   const topN = Number(guideIconNum)
   
   const data = {
-    bottom: {
-      iconText: iconTable[bottomN], 
-      color: Object.keys(iconColorTable).filter((key) => iconColorTable[key].includes(bottomN))[0],
-      kin: setIconKins('bottom', bottomN, mainTone)
+    top: {
+      iconText: iconTable[topN],
+      color: Object.keys(iconColorTable).filter((key) => iconColorTable[key].includes(topN))[0],
+      kin: setIconKins('top', topN, mainTone)
     },
     left: {
       iconText: iconTable[leftN],
@@ -126,10 +126,10 @@ const getIcons = (mainKin, mainTone)  => {
       color: Object.keys(iconColorTable).filter((key) => iconColorTable[key].includes(rightN))[0],
       kin: setIconKins('right', rightN, mainTone)
     },
-    top: {
-      iconText: iconTable[topN],
-      color: Object.keys(iconColorTable).filter((key) => iconColorTable[key].includes(topN))[0],
-      kin: setIconKins('top', topN, mainTone)
+    bottom: {
+      iconText: iconTable[bottomN], 
+      color: Object.keys(iconColorTable).filter((key) => iconColorTable[key].includes(bottomN))[0],
+      kin: setIconKins('bottom', bottomN, mainTone)
     },
   }
   return data
@@ -164,8 +164,9 @@ const setInitData = () => {
     if(iKey === Object.keys(tones)[index]) {
       icons[iKey] = {
         ... icons[iKey],
-        tone: tones[iKey],
-        position: [iKey]
+        tone: iKey === 'bottom' ? 14 - mainTone : mainTone,
+        toneText: tones[iKey],
+        position: [iKey][0]
       }
     }
     data = icons

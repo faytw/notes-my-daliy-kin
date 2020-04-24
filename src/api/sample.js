@@ -1,4 +1,4 @@
-import http from "../http"
+import http from "../helpers/http"
 
 export const sampleOne = (params) => {
   return http.get('http://localhost:3000/tutorials', params)
