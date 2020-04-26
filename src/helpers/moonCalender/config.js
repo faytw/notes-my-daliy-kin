@@ -1,10 +1,10 @@
-export const toneTable = [
+export const toneTextTable = [
   'magnetic', 'lunar', 'electric', 'self-existing', 'overtone',
   'rhythmic', 'resonant', 'galactic', 'solar', 'planetary',
   'spectral', 'crystal', 'cosmic'
 ]
 
-export const iconTable = [
+export const iconTextTable = [
   'sun', 'dragon', 'wind', 'night', 'seed',
   'snake', 'world-bridge', 'hand', 'star', 'moon',
   'dog', 'monkey', 'human', 'skywoler', 'wizard',
@@ -23,6 +23,14 @@ const timeZones = {
   'top': [6, 7, 8, 9, 10, 11],
   'left': [12, 13, 14, 15, 16, 17],
   'bottom': [18, 19, 20, 21, 22, 23]
+}
+
+export const positionTextTable = {
+  'top': 'guide',
+  'middle': 'important',
+  'bottom': 'potential',
+  'left': 'challenge',
+  'right': 'support'
 }
 
 export const guideIconGroups = {
@@ -68,8 +76,9 @@ export const yearTable = {
 }
 
 export default {
-  toneTable,
-  iconTable,
+  toneTextTable,
+  iconTextTable,
+  positionTextTable,
   guideIconGroups,
   iconColorTable,
   monthTable,

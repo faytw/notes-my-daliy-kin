@@ -2,58 +2,45 @@
 <v-container>
     <v-row class="text-center">
       <v-col class="mb-1 font-weight-bold">
-        <div>{{ `${dateNow.year} / ${dateNow.month} / ${dateNow.date}` }}</div>
+        <div>{{ displayTodayFormat }}</div>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
         <v-bottom-navigation
-          v-model="bottomNav"
+          v-model="pageNav"
           dark
         >
-          <v-btn value="notes" @click="dialog=true">
-            <span>Notes</span>
+          <v-btn value="notes" @click="noteDialog=true">
+            <span v-t="`nav.notes`"></span>
             <v-icon>mdi-pen-plus</v-icon>
           </v-btn>
-          <v-btn value="notes">
-            <span>Notebook</span>
+          <v-btn value="notebook">
+            <span v-t="`nav.notebook`"></span>
             <v-icon>mdi-notebook</v-icon>
           </v-btn>
         </v-bottom-navigation>
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-dialog v-model="dialog" persistent max-width="290">
+      <v-dialog v-model="noteDialog" persistent max-width="100%">
         <v-card>
           <v-card-title class="headline">新增事件筆記</v-card-title>
           <v-card-text>
             <v-textarea
+              v-for="column in notesColumnsTitle"
+              :key="column.kin"
               outlined
-              :label="`主印記-${ $t(`iconText.${initData.middle.iconText}`)}`"
-            />
-            <v-textarea
-              outlined
-              :label="`支持-${ $t(`iconText.${initData.right.iconText}`)}`"
-            />
-            <v-textarea
-              outlined
-              :label="`引導-${ $t(`iconText.${initData.top.iconText}`)}`"
-            />
-            <v-textarea
-              outlined
-              :label="`挑戰-${ $t(`iconText.${initData.left.iconText}`)}`"
-            />
-            <v-textarea
-              outlined
-              :label="`隱藏推動-${ $t(`iconText.${initData.bottom.iconText}`)}`"
+              :label="column.title"
+              @input="(value) => addNotes(value, column.kin)"
             />
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="dialog = false">
+            <v-btn color="blue darken-1" text @click="noteDialog = false">
               <span>Cancel</span>
             </v-btn>
-            <v-btn color="blue darken-1" text @click="dialog = false">
+            <v-btn color="blue darken-1" text @click="noteDialog = false">
               <span>Save</span>
             </v-btn>
           </v-card-actions>
@@ -72,7 +59,7 @@
           :data-now='item.now'
           :data-bgColor='item.color'
         >
-          <div class="text-center" v-if='item.toneText'>{{ $t(`tone.${item.toneText}`) }}</div>
+          <div class="text-center" v-if='item.toneText'>{{ $t(`toneText.${item.toneText}`) }}</div>
           <div class="text-center" v-if='item.iconText'>{{ $t(`iconText.${item.iconText}`) }}</div>
           <div class="text-center" v-if="item.kin">KIN {{ item.kin }}</div>
         </div>
@@ -89,12 +76,41 @@ export default {
   data: () => ({
     dateNow,
     initData,
-    bottomNav: 'note',
-    dialog: false
+    pageNav: 'notes',
+    noteDialog: false,
+    notes: []
   }),
+  computed: {
+    displayTodayFormat() {
+      const { year, month, date } = this.dateNow
+      return `${year} / ${month} / ${date}`
+    },
+    notesColumnsTitle() {
+      const { top, middle, right, left, bottom } = this.initData
+      const columns = [ top, middle, right, left, bottom ]
+      const columnsTitleText = columns.map(({ iconText, toneText, position, positionText, kin }) => {
+        return {
+          title: `${this.$t(`positionText.${positionText}`)}-${this.$t(`toneText.${toneText}`)}${this.$t(`iconText.${iconText}`)}`,
+          position, 
+          kin
+        }
+      })
+      this.notes = columns.map(({kin}) => {
+        return {kin}
+      })
+      return columnsTitleText
+    }
+  },
   methods: {
-    addNote() {
-      console.log('ADD NOTE')
+    addNotes(input, kin) {
+      let notesIndex = 0
+      this.notes.forEach((note, index) => {
+        if(note.kin === kin) notesIndex = index
+      })
+      this.notes[notesIndex] = {
+        ...this.notes[notesIndex],
+        input,
+      }
     }
   }
 }

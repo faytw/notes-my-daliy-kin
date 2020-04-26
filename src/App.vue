@@ -17,7 +17,6 @@
         text
       >
         <span class="mr-2">Sign In</span>
-        <v-icon>mdi-login</v-icon>
       </v-btn>
     </v-app-bar>
 

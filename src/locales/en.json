@@ -1,5 +1,5 @@
 {
-  "tone": {
+  "toneText": {
     "magnetic": "Magnetic", 
     "lunar": "Lunar",
     "electric": "Electric",
@@ -35,5 +35,17 @@
     "earth": "Red Earth",
     "mirror": "White Mirror",
     "storm": "Blue Storm"
+  },
+  "nav": {
+    "notes": "Notes",
+    "notebook": "Notebook",
+    "relationship": "Relationship"
+  },
+  "positionText": {
+    "guide": "Guide",
+    "important": "Important",
+    "potential": "Potential",
+    "challenge": "Challenge",
+    "support": "Support"
   }
 }

@@ -1,10 +1,11 @@
 import {
-  toneTable,
-  iconTable,
+  toneTextTable,
+  iconTextTable,
   iconColorTable,
   monthTable,
   yearTable,
-  guideIconGroups
+  guideIconGroups,
+  positionTextTable
 } from './config'
 
 const setGuideIcon = (iconGroups, icon, tone) => {
@@ -76,11 +77,11 @@ const getTones = (input) => {
   const tempTone = temp[temp.length - 1] === 0 ? 13 : temp[temp.length - 1]
   const toneTableIndex = tempTone - 1
   const tones = {
-    top: toneTable[toneTableIndex],
-    left: toneTable[toneTableIndex],
-    middle: toneTable[toneTableIndex],
-    right: toneTable[toneTableIndex],
-    bottom: toneTable[(14 - tempTone - 1)],
+    top: toneTextTable[toneTableIndex],
+    left: toneTextTable[toneTableIndex],
+    middle: toneTextTable[toneTableIndex],
+    right: toneTextTable[toneTableIndex],
+    bottom: toneTextTable[(14 - tempTone - 1)],
   }
   const data = {
     tones,
@@ -107,27 +108,27 @@ const getIcons = (mainKin, mainTone)  => {
   
   const data = {
     top: {
-      iconText: iconTable[topN],
+      iconText: iconTextTable[topN],
       color: Object.keys(iconColorTable).filter((key) => iconColorTable[key].includes(topN))[0],
       kin: setIconKins('top', topN, mainTone)
     },
     left: {
-      iconText: iconTable[leftN],
+      iconText: iconTextTable[leftN],
       color: Object.keys(iconColorTable).filter((key) => iconColorTable[key].includes(leftN))[0],
       kin: setIconKins('left', leftN, mainTone)
     },
     middle: {
-      iconText: iconTable[mainNum], 
+      iconText: iconTextTable[mainNum], 
       color: Object.keys(iconColorTable).filter((key) => iconColorTable[key].includes(middleN))[0],
       kin: mainKin
     },
     right: {
-      iconText: iconTable[rightN], 
+      iconText: iconTextTable[rightN], 
       color: Object.keys(iconColorTable).filter((key) => iconColorTable[key].includes(rightN))[0],
       kin: setIconKins('right', rightN, mainTone)
     },
     bottom: {
-      iconText: iconTable[bottomN], 
+      iconText: iconTextTable[bottomN], 
       color: Object.keys(iconColorTable).filter((key) => iconColorTable[key].includes(bottomN))[0],
       kin: setIconKins('bottom', bottomN, mainTone)
     },
@@ -166,7 +167,8 @@ const setInitData = () => {
         ... icons[iKey],
         tone: iKey === 'bottom' ? 14 - mainTone : mainTone,
         toneText: tones[iKey],
-        position: [iKey][0]
+        position: [iKey][0],
+        positionText: positionTextTable[[iKey][0]]
       }
     }
     data = icons

@@ -1,5 +1,5 @@
 {
-  "tone": {
+  "toneText": {
     "magnetic": "磁性", 
     "lunar": "月亮",
     "electric": "電力",
@@ -35,5 +35,17 @@
     "earth": "紅地球",
     "mirror": "白鏡",
     "storm": "藍風暴"
+  },
+  "nav": {
+    "notes": "筆記",
+    "notebook": "筆記本",
+    "relationship": "關係合盤"
+  },
+  "positionText": {
+    "guide": "引導",
+    "important": "主印記",
+    "potential": "隱藏推動",
+    "challenge": "挑戰",
+    "support": "支持"
   }
 }
