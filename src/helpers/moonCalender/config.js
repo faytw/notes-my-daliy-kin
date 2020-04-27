@@ -4,14 +4,14 @@ export const toneTextTable = [
   'spectral', 'crystal', 'cosmic'
 ]
 
-export const iconTextTable = [
+export const sealTextTable = [
   'sun', 'dragon', 'wind', 'night', 'seed',
   'snake', 'world-bridge', 'hand', 'star', 'moon',
   'dog', 'monkey', 'human', 'skywoler', 'wizard',
   'eagle', 'warrior', 'earth', 'mirror', 'storm'
 ]
 
-export const iconColorTable = {
+export const sealColorTable = {
   'red': [1, 5, 9, 13, 17],
   'white': [2, 6, 10, 14, 18],
   'blue': [3, 7, 11, 15, 19],
@@ -33,7 +33,7 @@ export const positionTextTable = {
   'right': 'support'
 }
 
-export const guideIconGroups = {
+export const guideSealGroups = {
   0: [0, 12, 4, 16, 8],
   1: [1, 13, 5, 17, 9],
   2: [2, 14, 6, 18, 10],
@@ -77,10 +77,10 @@ export const yearTable = {
 
 export default {
   toneTextTable,
-  iconTextTable,
+  sealTextTable,
   positionTextTable,
-  guideIconGroups,
-  iconColorTable,
+  guideSealGroups,
+  sealColorTable,
   monthTable,
   yearTable,
   timeZones,

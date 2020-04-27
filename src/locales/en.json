@@ -14,7 +14,7 @@
     "crystal": "Crystal",
     "cosmic": "Cosmic"
   },
-  "iconText": {
+  "sealText": {
     "sun": "Yellow Sun",
     "dragon": "Red Dragon",
     "wind": "White Wind",
@@ -39,7 +39,8 @@
   "nav": {
     "notes": "Notes",
     "notebook": "Notebook",
-    "relationship": "Relationship"
+    "relationship": "Relationship",
+    "signature": "Signature"
   },
   "positionText": {
     "guide": "Guide",

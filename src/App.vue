@@ -21,14 +21,18 @@
     </v-app-bar>
 
     <v-content>
-      <router-view/>
+      <home/>
     </v-content>
   </v-app>
 </template>
 
 <script>
+import Home from './components/Home.vue'
 export default {
   name: 'App',
+  components: {
+    Home
+  },
   data: () => ({
     //
   }),

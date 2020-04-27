@@ -1,16 +1,16 @@
 import {
   toneTextTable,
-  iconTextTable,
-  iconColorTable,
+  sealTextTable,
+  sealColorTable,
   monthTable,
   yearTable,
-  guideIconGroups,
+  guideSealGroups,
   positionTextTable,
   timeZones,
 } from './config'
 
-const setGuideIcon = (iconGroups, icon, tone) => {
-  const group = iconGroups[icon]
+const setGuideIcon = (sealGroups, icon, tone) => {
+  const group = sealGroups[icon]
   let toneGroup = null
   if (tone % 5 === 1) {
     toneGroup = 0
@@ -91,7 +91,7 @@ const getTones = (input) => {
   return data
 }
 
-const getIcons = (mainKin, mainTone)  => {
+const getSeals = (mainKin, mainTone)  => {
   let temp = []
   for (let i=0; i<13; i++) {
     let icon = mainKin - 20 * i
@@ -99,45 +99,45 @@ const getIcons = (mainKin, mainTone)  => {
     if (icon < 20) break
   }
   const mainNum = temp[temp.length - 1]
-  const guideIconNum = setGuideIcon(guideIconGroups, mainNum, mainTone)
+  const guideSealNum = setGuideIcon(guideSealGroups, mainNum, mainTone)
 
   const middleN = mainNum
   const rightN = 19 - mainNum
   const leftN = mainNum < 10 ? mainNum + 10 : mainNum - 10
   const bottomN = 21 - mainNum > 20 ? 21 - mainNum - 20 : 21 - mainNum
-  const topN = Number(guideIconNum)
+  const topN = Number(guideSealNum)
   
   const data = {
     top: {
-      iconText: iconTextTable[topN],
-      color: Object.keys(iconColorTable).filter((key) => iconColorTable[key].includes(topN))[0],
-      kin: setIconKins('top', topN, mainTone)
+      sealText: sealTextTable[topN],
+      color: Object.keys(sealColorTable).filter((key) => sealColorTable[key].includes(topN))[0],
+      kin: setSealKins('top', topN, mainTone)
     },
     left: {
-      iconText: iconTextTable[leftN],
-      color: Object.keys(iconColorTable).filter((key) => iconColorTable[key].includes(leftN))[0],
-      kin: setIconKins('left', leftN, mainTone)
+      sealText: sealTextTable[leftN],
+      color: Object.keys(sealColorTable).filter((key) => sealColorTable[key].includes(leftN))[0],
+      kin: setSealKins('left', leftN, mainTone)
     },
     middle: {
-      iconText: iconTextTable[mainNum], 
-      color: Object.keys(iconColorTable).filter((key) => iconColorTable[key].includes(middleN))[0],
+      sealText: sealTextTable[mainNum], 
+      color: Object.keys(sealColorTable).filter((key) => sealColorTable[key].includes(middleN))[0],
       kin: mainKin
     },
     right: {
-      iconText: iconTextTable[rightN], 
-      color: Object.keys(iconColorTable).filter((key) => iconColorTable[key].includes(rightN))[0],
-      kin: setIconKins('right', rightN, mainTone)
+      sealText: sealTextTable[rightN], 
+      color: Object.keys(sealColorTable).filter((key) => sealColorTable[key].includes(rightN))[0],
+      kin: setSealKins('right', rightN, mainTone)
     },
     bottom: {
-      iconText: iconTextTable[bottomN], 
-      color: Object.keys(iconColorTable).filter((key) => iconColorTable[key].includes(bottomN))[0],
-      kin: setIconKins('bottom', bottomN, mainTone)
+      sealText: sealTextTable[bottomN], 
+      color: Object.keys(sealColorTable).filter((key) => sealColorTable[key].includes(bottomN))[0],
+      kin: setSealKins('bottom', bottomN, mainTone)
     },
   }
   return data
 }
 
-const setIconKins = (position, positionN, mainTone) => {
+const setSealKins = (position, positionN, mainTone) => {
   let temp = []
   let kin = null
   switch(position) {
@@ -160,12 +160,12 @@ const setIconKins = (position, positionN, mainTone) => {
 const setInitData = () => {
   const mainKin = calulateDateMainIcon(dateNow)
   const { tones, mainTone } = getTones(mainKin)
-  const icons = getIcons(mainKin , mainTone)
+  const seals = getSeals(mainKin , mainTone)
   let data = {}
-  Object.keys(icons).forEach((iKey, index) => {
+  Object.keys(seals).forEach((iKey, index) => {
     if(iKey === Object.keys(tones)[index]) {
-      icons[iKey] = {
-        ... icons[iKey],
+      seals[iKey] = {
+        ... seals[iKey],
         tone: iKey === 'bottom' ? 14 - mainTone : mainTone,
         toneText: tones[iKey],
         position: [iKey][0],
@@ -173,7 +173,7 @@ const setInitData = () => {
         positionTimeZone: timeZones[[iKey][0]]
       }
     }
-    data = icons
+    data = seals
   })
   const  { bottom, top, left, right, middle } = data
   return [ top, left, middle, right, bottom ]

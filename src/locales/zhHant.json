@@ -14,7 +14,7 @@
     "crystal": "水晶",
     "cosmic": "宇宙"
   },
-  "iconText": {
+  "sealText": {
     "sun": "黃太陽",
     "dragon": "紅龍",
     "wind": "白風",
@@ -39,7 +39,8 @@
   "nav": {
     "notes": "筆記",
     "notebook": "筆記本",
-    "relationship": "關係合盤"
+    "relationship": "關係合盤",
+    "signature": "星系印記"
   },
   "positionText": {
     "guide": "引導",
