@@ -5,7 +5,8 @@ import {
   monthTable,
   yearTable,
   guideIconGroups,
-  positionTextTable
+  positionTextTable,
+  timeZones,
 } from './config'
 
 const setGuideIcon = (iconGroups, icon, tone) => {
@@ -168,12 +169,14 @@ const setInitData = () => {
         tone: iKey === 'bottom' ? 14 - mainTone : mainTone,
         toneText: tones[iKey],
         position: [iKey][0],
-        positionText: positionTextTable[[iKey][0]]
+        positionText: positionTextTable[[iKey][0]],
+        positionTimeZone: timeZones[[iKey][0]]
       }
     }
     data = icons
   })
-  return data
+  const  { bottom, top, left, right, middle } = data
+  return [ top, left, middle, right, bottom ]
 }
 
 export const dateNow = setDateNow()

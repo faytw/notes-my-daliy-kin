@@ -18,7 +18,7 @@ export const iconColorTable = {
   'yellow': [0, 4, 8, 12, 16],
 }
 
-const timeZones = {
+export const timeZones = {
   'right': [0, 1, 2, 3, 4, 5],
   'top': [6, 7, 8, 9, 10, 11],
   'left': [12, 13, 14, 15, 16, 17],
@@ -82,5 +82,6 @@ export default {
   guideIconGroups,
   iconColorTable,
   monthTable,
-  yearTable
+  yearTable,
+  timeZones,
 }

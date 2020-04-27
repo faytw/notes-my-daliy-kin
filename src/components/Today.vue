@@ -11,7 +11,7 @@
           v-model="pageNav"
           dark
         >
-          <v-btn value="notes" @click="noteDialog=true">
+          <v-btn value="notes" @click="handleNotesDialog('open')">
             <span v-t="`nav.notes`"></span>
             <v-icon>mdi-pen-plus</v-icon>
           </v-btn>
@@ -23,7 +23,7 @@
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-dialog v-model="noteDialog" persistent max-width="100%">
+      <v-dialog v-model="noteDialog" persistent max-width="60%">
         <v-card>
           <v-card-title class="headline">新增事件筆記</v-card-title>
           <v-card-text>
@@ -32,15 +32,18 @@
               :key="column.kin"
               outlined
               :label="column.title"
-              @input="(value) => addNotes(value, column.kin)"
+              rows="3"
+              :hint="column.hint"
+              counter="50"
+              @input="(value) => addNewNotes(value, column.kin)"
             />
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="noteDialog = false">
+            <v-btn color="blue darken-1" text @click="handleNotesDialog('close')">
               <span>Cancel</span>
             </v-btn>
-            <v-btn color="blue darken-1" text @click="noteDialog = false">
+            <v-btn color="blue darken-1" text @click="handleNotesDialog('close')">
               <span>Save</span>
             </v-btn>
           </v-card-actions>
@@ -53,11 +56,11 @@
         cols="10">
         <div 
           class="square" 
-          v-for='(item, index) in initData' 
+          v-for='(item, index) in displayData' 
           :key='index' 
           :data-mc='item.position'
-          :data-now='item.now'
           :data-bgColor='item.color'
+          :data-now='item.positionNow'
         >
           <div class="text-center" v-if='item.toneText'>{{ $t(`toneText.${item.toneText}`) }}</div>
           <div class="text-center" v-if='item.iconText'>{{ $t(`iconText.${item.iconText}`) }}</div>
@@ -69,25 +72,31 @@
 </template>
 
 <script>
-import { dateNow, initData } from '../helpers/moonCalender'
+import { 
+  dateNow, 
+  initData ,
+} from '../helpers/moonCalender'
 
 export default {
   name: 'today',
   data: () => ({
-    dateNow,
-    initData,
+    dateNow: dateNow || {},
+    initData: initData || [],
+    displayData: [],
+    displayTodayFormat: '',
     pageNav: 'notes',
     noteDialog: false,
-    notes: []
+    notes: [],
+    notesColumnsTitle: [],
   }),
-  computed: {
-    displayTodayFormat() {
-      const { year, month, date } = this.dateNow
-      return `${year} / ${month} / ${date}`
-    },
-    notesColumnsTitle() {
-      const { top, middle, right, left, bottom } = this.initData
-      const columns = [ top, middle, right, left, bottom ]
+  mounted() {
+    this.setPositionNowProp()
+    this.setDisplayTodayFormat()
+  },
+  methods: {
+    getNotesColumnsTitle() {
+      const columnOrder = ['middle', 'right', 'left', 'top', 'bottom']
+      const columns = this.initData.slice()
       const columnsTitleText = columns.map(({ iconText, toneText, position, positionText, kin }) => {
         return {
           title: `${this.$t(`positionText.${positionText}`)}-${this.$t(`toneText.${toneText}`)}${this.$t(`iconText.${iconText}`)}`,
@@ -98,19 +107,41 @@ export default {
       this.notes = columns.map(({kin}) => {
         return {kin}
       })
-      return columnsTitleText
-    }
-  },
-  methods: {
-    addNotes(input, kin) {
+      for (let i=0; i<columnOrder.length; i++) {
+        this.notesColumnsTitle[i] = columnsTitleText.filter(({position}) => position === columnOrder[i])[0]
+      }
+    },
+    handleNotesDialog(status = 'open' ) {
+      this.noteDialog = status === 'open'
+      if (this.noteDialog) this.getNotesColumnsTitle()
+    },
+    addNewNotes(input, kin) {
       let notesIndex = 0
       this.notes.forEach((note, index) => {
         if(note.kin === kin) notesIndex = index
       })
       this.notes[notesIndex] = {
         ...this.notes[notesIndex],
-        input,
+        note: {
+          value: input,
+          date: new Date().toUTCString()//UTC(+0)
+        }
       }
+    },
+    setDisplayTodayFormat() {
+      const { year, month, date } = this.dateNow
+      this.displayTodayFormat =  `${year}-${month < 10 ? '0' + month : month}-${date}`
+    },
+    setPositionNowProp(){
+      const { hours } = this.dateNow
+      const temp = this.initData.slice()
+      this.displayData = temp.map((data) => {
+        data = {
+          ...data,
+          positionNow : data.position === 'middle' ? false : data.positionTimeZone.includes(Number(hours)) 
+        }
+        return data
+      })
     }
   }
 }
@@ -154,8 +185,8 @@ export default {
   .square[data-bgColor='white'] {
     background-color: #fbfafa;
   }
-  .square[data-now] {
-    box-shadow: 3px 3px 8px #a5a8a8;
+  .square[data-now='true'] {
+    box-shadow: 3px 3px 8px #3c4444;
   }
   .display-time {
     font-size: 0.375em;
