@@ -1,7 +1,7 @@
-import sample from './sample'
+import notes from './notes'
 
-export const SAMPLE = { ...sample}
+export const NOTES = { ...notes }
 
 export default {
-    SAMPLE,
+    NOTES,
 }

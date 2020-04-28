@@ -49,6 +49,7 @@ export default {
   }),
   mounted() {
     this.setDisplayTodayFormat()
+    this.pageNav = this.$route.name
   },
   methods: {
     goToPage(pathName) {
