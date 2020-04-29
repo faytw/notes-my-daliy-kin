@@ -26,10 +26,10 @@ const setGuideIcon = (sealGroups, icon, tone) => {
   return group[toneGroup]
 }
 
-const setDateNow = (input = new Date()) => {
+export const setDate = (input = new Date()) => {
   const d = input
   const year = d.getFullYear()
-  const month = d.getMonth() + 1
+  const month = d.getMonth()
   const date = d.getDate()
   const hours = d.getHours()
   const minutes = d.getMinutes()
@@ -47,7 +47,7 @@ const setDateNow = (input = new Date()) => {
 const calulateDateMainIcon = (dateInput) => {
   const { year, month, date} = dateInput
   const n1 = Object.keys(yearTable).filter((key) => yearTable[key].includes(year))[0]
-  const n2 = monthTable[month]
+  const n2 = monthTable[month+1]
   const n3 = date
 
   let ans = 0
@@ -179,10 +179,11 @@ const setInitData = () => {
   return [ top, left, middle, right, bottom ]
 }
 
-export const dateNow = setDateNow()
+export const dateNow = setDate()
 export const initData = setInitData()
 
 export default {
   dateNow,
-  initData  
+  initData,
+  setDate
 }
