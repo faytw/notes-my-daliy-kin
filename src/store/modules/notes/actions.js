@@ -8,7 +8,6 @@ export default {
       .then(({
         data
       }) => {
-        console.log(data)
         commit('setNoteInfos', data)
       })
       .catch((err) => console.log(err))
