@@ -1,7 +1,10 @@
 import actions from './actions'
-
-// const action = {...action}
+import mutations from './mutations'
+import state from './state'
 
 export default {
-  actions
+  namespaced: true,
+  actions,
+  mutations,
+  state,
 }

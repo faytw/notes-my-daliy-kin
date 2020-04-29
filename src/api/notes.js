@@ -1,7 +1,9 @@
 import http from "../helpers/http"
 
-export const getNotes = () => {
-  return http.get('notes', {})
+export function getNotes() {
+  return http.request('get', 'notes', null, null)
+  .then(({ data }) => data)  
+  .catch((err) => console.log(err))
 }
 
 export const createNotes = (params) => {

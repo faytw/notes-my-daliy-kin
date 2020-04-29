@@ -18,8 +18,6 @@
 
 <script>
 import { initData } from '../helpers/moonCalender'
-import { mapActions } from 'vuex'
-
 
 export default {
   name: 'notes',
@@ -30,13 +28,8 @@ export default {
   }),
   mounted() {
     this.getNotesColumnsTitle()
-    this.getNotes()
   },
   methods: {
-     ...mapActions({
-      getNotes: 'GET_NOTES',
-      createNotes: 'CREATE_NOTES'
-     }),
     getNotesColumnsTitle() {
       const [top, left, middle, right, bottom] = this.initData
       const columnsOrder = [middle, left, right, top, bottom]

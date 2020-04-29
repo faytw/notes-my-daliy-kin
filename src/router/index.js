@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Notes from '@/components/Notes.vue'
+import Notebook from '@/components/Notebook.vue'
 import Signature from '@/components/Signature.vue'
 
 Vue.use(Router)
@@ -24,6 +25,11 @@ const routes = [
     component: Signature,
 
   },
+  {
+    path: '/notebook',
+    name: 'notebook',
+    component: Notebook,
+  }
 ]
 
 const originalPush = Router.prototype.push

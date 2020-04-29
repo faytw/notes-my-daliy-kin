@@ -5,35 +5,34 @@ const apiHost = process.env.NODE_ENV === 'development'
   : '/'
 
 const instance = axios.create()
+
 instance.defaults.baseURL = '/api'
 
-export const get = (uri, params = {}) => {
-  let query = ''
-  if(params) {
-    query = Object.entries(params)
-    .map((key) =>
-    `${encodeURIComponent(key[0])}=${encodeURIComponent(key[1])}` 
-    ).join('&')
+instance.interceptors.response.use((response) => {
+  if (response.status === 200) {
+    return Promise.resolve(response);
   }
-  const url = query ? `${apiHost}/${uri}?${query}` : `${apiHost}/${uri}`
-  return instance.get(url)
-}
+  return Promise.reject(response);
+}, error => Promise.reject(error));
 
-export const post = (uri, data = {}) => {
-  return instance.post(`${apiHost}/${uri}`, data)
-}
+export function request(method, uri, data = null, params = null) {
+  if (!method) {
+    throw new Error('API function call requires method argument.');
+  }
 
-export const put = (uri, data = {}) => {
-  return instance.put(`${apiHost}/${uri}`, data)
-}
+  if (!uri) {
+    throw new Error('API function call requires uri argument');
+  }
 
-export const remove = (uri) => {
-  return instance.delete(`${apiHost}/${uri}`)
+  const url = `${apiHost}/${uri}`;
+  return instance({
+    method,
+    url,
+    data,
+    params,
+  });
 }
 
 export default {
-  get,
-  post,
-  put,
-  remove,
+  request,
 }

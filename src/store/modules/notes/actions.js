@@ -3,9 +3,14 @@ import {
 } from '../../../api'
 
 export default {
-  GET_NOTES: () => {
-    api.getNotes().then((response) => {
-      //commit to set state.notes
-    }).catch((err) => console.log(err))
+  GET_NOTES: ({commit}) => {
+    api.getNotes()
+      .then(({
+        data
+      }) => {
+        console.log(data)
+        commit('setNoteInfos', data)
+      })
+      .catch((err) => console.log(err))
   },
 }
