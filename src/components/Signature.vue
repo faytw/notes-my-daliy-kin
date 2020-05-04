@@ -21,24 +21,29 @@
 
 <script>
 import { 
-  dateNow, 
-  initData ,
+  setDate,
 } from '../helpers/moonCalender'
+import { mapState } from 'vuex'
 
 export default {
   name: 'signature',
   data: () => ({
-    dateNow: dateNow || {},
-    initData: initData || [],
     displayData: [],
   }),
-  mounted() {
-    this.setPositionNowProp()
+  computed: {
+    ...mapState('signature', [
+      'infos',
+    ])
+  },
+  watch: {
+    infos(val) {
+      this.setPositionNowProp(val)
+    }
   },
   methods: {
-    setPositionNowProp(){
-      const { hours } = this.dateNow
-      const temp = this.initData.slice()
+    setPositionNowProp(val){
+      const { hours } = setDate(new Date())
+      const temp = val.slice()
       this.displayData = temp.map((data) => {
         data = {
           ...data,
@@ -47,7 +52,7 @@ export default {
         return data
       })
     }
-  }
+  },
 }
 </script>
 

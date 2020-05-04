@@ -44,7 +44,7 @@ export const setDate = (input = new Date()) => {
   return data
 }
 
-const calulateDateMainIcon = (dateInput) => {
+export const calulateDateMainIcon = (dateInput) => {
   const { year, month, date} = dateInput
   const n1 = Object.keys(yearTable).filter((key) => yearTable[key].includes(year))[0]
   const n2 = monthTable[month+1]
@@ -157,8 +157,9 @@ const setSealKins = (position, positionN, mainTone) => {
   return kin
 }
 
-const setInitData = () => {
-  const mainKin = calulateDateMainIcon(dateNow)
+export const setInitData = () => {
+  const date = setDate()
+  const mainKin = calulateDateMainIcon(date)
   const { tones, mainTone } = getTones(mainKin)
   const seals = getSeals(mainKin , mainTone)
   let data = {}
@@ -179,11 +180,8 @@ const setInitData = () => {
   return [ top, left, middle, right, bottom ]
 }
 
-export const dateNow = setDate()
-export const initData = setInitData()
-
 export default {
-  dateNow,
-  initData,
-  setDate
+  setDate,
+  calulateDateMainIcon,
+  setInitData,
 }

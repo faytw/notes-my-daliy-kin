@@ -1,6 +1,7 @@
 <template>
   <v-row justify="center">
     <v-col>
+      <div class="text-center">KIN {{ this.displayKin }}</div>
       <v-card
         class="infos mb-20"
         v-for="(info, index) in infoData"
@@ -24,20 +25,22 @@ export default {
   name: 'notebook',
   data: () => ({
     infoData: [],
-    displayKin: '31',
   }),
   computed: {
-    ...mapState('notes', [
-      'infos'
-    ]),
+    ...mapState('notes', {
+      notes: 'infos'
+    }),
+    ...mapState('signature', {
+      displayKin: 'displayKin'
+    }),
   },
   mounted() {
     this.getNotes()
   },
   watch: {
-    infos() {
+    displayKin() {
       this.setInfoData()
-    }
+    },
   },
   methods: {
     ...mapActions('notes', {
@@ -52,13 +55,13 @@ export default {
       return d.split(' ')[0].replace('/', '-').replace('/', '-')
     },
     setInfoData(){
-      const temp = this.infos.slice()
+      const temp = this.notes.slice()
       const data = temp.reduce((acc, next) => {
         acc[next.kin] = acc[next.kin] || []
         acc[next.kin].push(next)
         return acc
       }, {})
-      const dataKey = Object.keys(data).filter((key) => key === this.displayKin)[0]
+      const dataKey = Object.keys(data).filter((key) => Number(key) === this.displayKin)
       this.infoData = data[dataKey]
     }
   },

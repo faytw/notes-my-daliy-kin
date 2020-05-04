@@ -17,21 +17,27 @@
 </template>
 
 <script>
-import { initData } from '../helpers/moonCalender'
+import { mapState } from 'vuex'
 
 export default {
   name: 'notes',
   data: () => ({
-    initData: initData || [],
     notes: [],
     notesColumnsTitle: [],
   }),
-  mounted() {
-    this.getNotesColumnsTitle()
+  computed: {
+    ...mapState('signature', [
+      'infos',
+    ])
+  },
+  watch: {
+    infos(val) {
+      this.getNotesColumnsTitle(val)
+    }
   },
   methods: {
-    getNotesColumnsTitle() {
-      const [top, left, middle, right, bottom] = this.initData
+    getNotesColumnsTitle(val) {
+      const [top, left, middle, right, bottom] = val
       const columnsOrder = [middle, left, right, top, bottom]
       
       this.notesColumnsTitle = columnsOrder.map(({
