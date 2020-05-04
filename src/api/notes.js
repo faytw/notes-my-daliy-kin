@@ -6,12 +6,10 @@ export function getNotes() {
   .catch((err) => console.log(err))
 }
 
-export const createNotes = (params) => {
-  http.post('notes', params).then(({
-    data
-  }) => {
-    console.log(data)
-  }).catch((err) => console.log(err))
+export const createNotes = (data) => {
+  return http.request('post', 'createNotes', data, null)
+  .then(({ data }) => data)  
+  .catch((err) => console.log(err))
 }
 
 export const updateNotes = (params) => {

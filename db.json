@@ -1,28 +1,17 @@
 {
-  "notes": 
-    {
-      "data":
-      [
-        {
-          "kin": 31,
-          "note": "kin 31 fisrt note lalala",
-          "date": "Tue, 29 Apr 2020 00:00:00 GMT"
-        },
-        {
-          "kin": 32,
-          "note": "kin 31 first note lululu",
-          "date": "Wed, 30 Apr 2020 06:55:16 GMT"
-        },
-        {
-          "kin": 31,
-          "note": "kin 31 second note dududu",
-          "date": "Tue, 29 Apr 2021 00:00:00 GMT"
-        },
-        {
-          "kin": 33,
-          "note": "kin 33 first note hahaha",
-          "date": "Thu, 1 May 2020 00:00:00 GMT"
-        }
-      ]
-  }
+  "notes": {
+    "data": [
+      {
+        "kin": 36,
+        "note": "jhelkfj;w",
+        "date": "Mon, 04 May 2020 12:47:02 GMT"
+      },
+      {
+        "kin": 23,
+        "note": "ejnkqkfm;",
+        "date": "Mon, 04 May 2020 12:47:05 GMT"
+      }
+    ]
+  },
+  "createNotes": []
 }

@@ -41,6 +41,9 @@ export default {
     displayKin() {
       this.setInfoData()
     },
+    notes() {
+      this.setInfoData()
+    }
   },
   methods: {
     ...mapActions('notes', {

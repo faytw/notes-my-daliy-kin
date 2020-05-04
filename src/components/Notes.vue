@@ -1,6 +1,6 @@
 <template>
-  <v-row justify="center">
-    <v-col>
+  <v-row justify="center" >
+    <v-col cols="12">
        <v-textarea
         v-for="column in notesColumnsTitle" 
         :key="column.kin" 
@@ -12,12 +12,15 @@
         @input="(value) => addNewNotes(value, column.kin)"
       />
     </v-col>
+    <v-col align="end">
+      <v-btn @click="saveNotes" color="success" outlined>SAVE</v-btn>
+    </v-col>
   </v-row>
 
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'notes',
@@ -36,6 +39,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions('notes', {
+      createNotes: 'CREATE_NOTES'
+    }),
     getNotesColumnsTitle(val) {
       const [top, left, middle, right, bottom] = val
       const columnsOrder = [middle, left, right, top, bottom]
@@ -68,11 +74,18 @@ export default {
       })
       this.notes[notesIndex] = {
         ...this.notes[notesIndex],
-        note: {
-          value: input,
-          date: new Date().toUTCString() //UTC(+0)
-        }
+        note: input,
+        date: new Date().toUTCString() //UTC(+0)
       }
+    },
+    saveNotes() {
+      let data = []
+      this.notes.forEach((note) => {
+        if (note.hasOwnProperty('note')) {
+          data.push(note)
+        }
+      })
+      this.createNotes(data)
     },
   }
 }
