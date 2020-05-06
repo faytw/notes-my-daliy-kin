@@ -14,6 +14,21 @@
     "crystal": "水晶",
     "cosmic": "宇宙"
   },
+  "toneBody": {
+    "magnetic": "右腳踝", 
+    "lunar": "右膝蓋",
+    "electric": "右髖關骨",
+    "self-existing": "右手腕",
+    "overtone": "右手肘",
+    "rhythmic": "右肩",
+    "resonant": "頸椎",
+    "galactic": "左肩",
+    "solar": "左手肘",
+    "planetary": "左手腕",
+    "spectral": "左髖關骨",
+    "crystal": "左膝蓋",
+    "cosmic": "左腳踝"
+  },
   "toneQuestion": {
     "magnetic": "我的目的是什麼？我能夠吸引什麼？", 
     "lunar": "我的挑戰是什麼？挑起我的恐懼與害怕的是什麼？",

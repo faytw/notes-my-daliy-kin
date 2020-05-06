@@ -1,9 +1,12 @@
 <template>
   <v-row justify="center">
     <v-col>
-      <div class="text-center">KIN {{ this.displayKin }}</div>
+      <div class="text-center">{{ board.name }}</div>
+      <div class="text-center caption">{{ board.question }}</div>
+      <div class="text-center caption font-italic">{{ board.body }}</div>
+      <v-spacer></v-spacer>
       <v-card
-        class="infos mb-20"
+        class="infos"
         v-for="(info, index) in infoData"
         :key="index"
       >
@@ -19,12 +22,16 @@
 </template>
 
 <script>
+import { 
+  handleNotebookData,
+} from '../helpers/moonCalender'
 import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'notebook',
   data: () => ({
     infoData: [],
+    board: {},
   }),
   computed: {
     ...mapState('notes', {
@@ -38,8 +45,14 @@ export default {
     this.getNotes()
   },
   watch: {
-    displayKin() {
+    displayKin(val) {
       this.setInfoData()
+      const { sealText, toneText } = handleNotebookData(val)
+      this.board = { ...this.board, 
+        name: `${this.$t(`toneText.${toneText}`)}${this.$t(`sealText.${sealText}`)}`,
+        question: this.$t(`toneQuestion.${toneText}`),
+        body: `${this.$t(`toneBody.${toneText}`)}&${this.$t(`sealBody.${sealText}`)}`
+      }
     },
     notes() {
       this.setInfoData()
@@ -72,6 +85,7 @@ export default {
 </script>
 <style scoped>
 .infos {
+  margin-top: 20px;
   margin-bottom: 20px;
 }
 </style>

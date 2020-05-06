@@ -180,8 +180,19 @@ export const setInitData = () => {
   return [ top, left, middle, right, bottom ]
 }
 
+export const handleNotebookData = (displayKin) => {
+  const { mainTone } = getTones(displayKin)
+  const { middle } = getSeals(displayKin , mainTone)
+  const data = { ...middle,
+    tone: mainTone,
+    toneText: toneTextTable[mainTone - 1]
+  }
+  return data
+}
+
 export default {
   setDate,
   calulateDateMainIcon,
   setInitData,
+  handleNotebookData,
 }

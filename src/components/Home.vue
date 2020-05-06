@@ -24,7 +24,7 @@
       </v-col>
     </v-row>
 
-    <v-row class="text-center" v-if="showDateInfoStatus">
+    <v-row class="text-center justify-center" v-if="showDateInfoStatus">
       <v-col class="mb-1 font-weight-bold">
         <span 
           v-show="showArrowButtonStatus" 
@@ -32,7 +32,11 @@
         >
           <v-icon>mdi-chevron-left</v-icon>
         </span>
+      </v-col>
+      <v-col>
         <span>{{ displayDateFormat }}</span>
+      </v-col>
+      <v-col>
         <span 
           v-show="showArrowButtonStatus"
           @click="goDate('tomorrow')"
