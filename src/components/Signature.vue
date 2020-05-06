@@ -1,5 +1,13 @@
 <template>
   <v-row justify="center">
+    <v-col cols="12" class="text-center">
+      <div class="mc-qustion font-italic" 
+        v-for="(content,index) in questionContent"
+        :key="index"
+      >
+        {{ content }}
+      </div>
+    </v-col>
     <v-col 
       class='mc-container col-md-6 col-sm-6 text-center'
       cols="10">
@@ -29,6 +37,7 @@ export default {
   name: 'signature',
   data: () => ({
     displayData: [],
+    questionContent: [],
   }),
   computed: {
     ...mapState('signature', [
@@ -38,10 +47,11 @@ export default {
   watch: {
     infos(val) {
       this.setPositionNowProp(val)
+      this.setQuestionContent(val)
     }
   },
   methods: {
-    setPositionNowProp(val){
+    setPositionNowProp(val) {
       const { hours } = setDate(new Date())
       const temp = val.slice()
       this.displayData = temp.map((data) => {
@@ -51,6 +61,18 @@ export default {
         }
         return data
       })
+    },
+    setQuestionContent(val) {
+      const toneText = val.filter(info => info.position === 'middle')[0].toneText
+      const tempString = this.$t(`toneQuestion.${toneText}`)
+      const questionMarkType = {
+        en: '?', 
+        zhHant: '？'
+      }
+      const mark = questionMarkType[this.$i18n.locale]
+      this.questionContent = tempString.split(`${mark}`)
+        .filter(content => content)
+        .map((content) => `${content}${mark}`)
     }
   },
 }
