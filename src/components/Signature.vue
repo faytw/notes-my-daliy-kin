@@ -7,6 +7,14 @@
       >
         {{ content }}
       </div>
+      <div class="mc-body font-italic caption">
+        <span
+          v-for="(body, index) in bodyParts"
+          :key="index"
+        >
+          {{ body }}
+        </span>
+      </div>
     </v-col>
     <v-col 
       class='mc-container col-md-6 col-sm-6 text-center'
@@ -38,6 +46,7 @@ export default {
   data: () => ({
     displayData: [],
     questionContent: [],
+    bodyParts: []
   }),
   computed: {
     ...mapState('signature', [
@@ -48,6 +57,7 @@ export default {
     infos(val) {
       this.setPositionNowProp(val)
       this.setQuestionContent(val)
+      this.setBodys(val)
     }
   },
   methods: {
@@ -73,6 +83,9 @@ export default {
       this.questionContent = tempString.split(`${mark}`)
         .filter(content => content)
         .map((content) => `${content}${mark}`)
+    },
+    setBodys(val) {
+      this.bodyParts = val.map(({ sealText }) => this.$t(`sealBody.${sealText}`))
     }
   },
 }

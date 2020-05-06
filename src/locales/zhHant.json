@@ -51,6 +51,28 @@
     "mirror": "白鏡",
     "storm": "藍風暴"
   },
+  "sealBody": {
+    "sun": "右手大拇指",
+    "dragon": "右手食指",
+    "wind": "右手中指",
+    "night": "右手無名指",
+    "seed": "右手小指",
+    "snake": "右腳大拇趾",
+    "world-bridge": "右腳食趾",
+    "hand": "右腳中趾",
+    "star": "右腳無名趾",
+    "moon": "右腳小趾",
+    "dog": "左手大拇指",
+    "monkey": "左手食指",
+    "human": "左手中指",
+    "skywoler": "左手無名指",
+    "wizard": "左手小指",
+    "eagle": "左腳大拇趾",
+    "warrior": "左腳食趾",
+    "earth": "左腳中趾",
+    "mirror": "左腳無名趾",
+    "storm": "左腳小趾"
+  },
   "nav": {
     "notes": "筆記",
     "notebook": "筆記本",
