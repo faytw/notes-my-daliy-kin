@@ -1,18 +1,6 @@
 <template>
   <v-container>
     <v-row class="text-center">
-      <v-col class="mb-1 font-weight-bold">
-        <span v-if="pageNav==='notebook'" @click="goDate('yesterday')">
-          <v-icon>mdi-chevron-left</v-icon>
-        </span>
-        <span>{{ displayDateFormat }}</span>
-         <span v-if="pageNav==='notebook'" @click="goDate('tomorrow')">
-          <v-icon>mdi-chevron-right</v-icon>
-        </span>
-      </v-col>
-    </v-row>
-
-    <v-row class="text-center">
       <v-col>
         <v-bottom-navigation
           v-model="pageNav"
@@ -33,6 +21,24 @@
             <v-icon>mdi-notebook</v-icon>
           </v-btn>
         </v-bottom-navigation>
+      </v-col>
+    </v-row>
+
+    <v-row class="text-center" v-if="showDateInfoStatus">
+      <v-col class="mb-1 font-weight-bold">
+        <span 
+          v-show="showArrowButtonStatus" 
+          @click="goDate('yesterday')"
+        >
+          <v-icon>mdi-chevron-left</v-icon>
+        </span>
+        <span>{{ displayDateFormat }}</span>
+        <span 
+          v-show="showArrowButtonStatus"
+          @click="goDate('tomorrow')"
+        >
+          <v-icon>mdi-chevron-right</v-icon>
+        </span>
       </v-col>
     </v-row>
 
@@ -64,7 +70,13 @@ export default {
   computed: {
     ...mapState('signature', [
       'displayKin',
-    ])
+    ]),
+    showArrowButtonStatus() {
+      return this.$route.name === 'notebook'
+    },
+    showDateInfoStatus() {
+      return this.$route.name !== 'notes'
+    }
   },
   methods: {
     ...mapActions('signature',{
@@ -88,6 +100,7 @@ export default {
           kin += days
           break
       }
+      setInitData(d)
       this.setDisplayFormat(d)
       this.setDisplayKin(kin)
     },

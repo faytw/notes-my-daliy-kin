@@ -7,7 +7,7 @@
         outlined 
         :label="column.title"
         :hint="column.hint"
-        rows="3"
+        rows="2"
         counter="50" 
         @input="(value) => addNewNotes(value, column.kin)"
       />
@@ -44,8 +44,8 @@ export default {
     }),
     getNotesColumnsTitle(val) {
       const [top, left, middle, right, bottom] = val
-      const columnsOrder = [middle, left, right, top, bottom]
-      
+      const columnsOrder = [middle, right, top, left, bottom]
+
       this.notesColumnsTitle = columnsOrder.map(({
         sealText,
         toneText,
@@ -53,10 +53,15 @@ export default {
         positionText,
         kin
       }) => {
+        let posText = `${this.$t(`positionText.${positionText}`)}`
+        let tText = `${this.$t(`toneText.${toneText}`)}`
+        let sText = `${this.$t(`sealText.${sealText}`)}`
+        let timeText = `${this.$t(`positionTimeAreaText.${positionText}`)}`
+        let titleFormat = `${posText}-${tText}${sText}(${timeText})`
         return {
-          title: `${this.$t(`positionText.${positionText}`)}-${this.$t(`toneText.${toneText}`)}${this.$t(`sealText.${sealText}`)}`,
+          title: titleFormat,
           position,
-          kin
+          kin,
         }
       })
       this.notes = columnsOrder.map(({

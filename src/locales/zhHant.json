@@ -63,5 +63,12 @@
     "potential": "隱藏推動",
     "challenge": "挑戰",
     "support": "支持"
+  },
+  "positionTimeAreaText": {
+    "support": "午夜～日出",
+    "guide": "日出～中午",
+    "challenge": "中午～日落",
+    "potential": "日落～午夜",
+    "important": "當天"
   }
 }
