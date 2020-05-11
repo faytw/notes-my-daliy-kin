@@ -15,7 +15,7 @@ export function getNotes(params) {
 }
 
 export function createNotes(params) {
-  const {doc, ...updateData} = params
+  const { doc, ...updateData } = params
   const data = [ updateData ]
   return new Promise((resolve, reject) => {
     notesRef.doc(`${doc}`).set({data}).then((docSnapshot) => {

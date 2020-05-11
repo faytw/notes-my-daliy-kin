@@ -107,5 +107,11 @@
     "challenge": "中午～日落",
     "potential": "日落～午夜",
     "important": "當天"
+  },
+  "common": {
+    "signIn": "登入",
+    "signUp": "註冊",
+    "signOut": "登出",
+    "project": "星際馬雅13月亮曆"
   }
 }

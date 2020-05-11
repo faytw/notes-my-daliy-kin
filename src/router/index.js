@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Notes from '@/components/Notes.vue'
 import Notebook from '@/components/Notebook.vue'
 import Signature from '@/components/Signature.vue'
+import Relationships from '@/components/Relationships.vue'
 
 Vue.use(Router)
 
@@ -12,7 +13,6 @@ const routes = [
     path: '/',
     name: 'home',
     component: Signature,
-
   },
   {
     path: '/notes',
@@ -23,12 +23,16 @@ const routes = [
     path: '/signature',
     name: 'signature',
     component: Signature,
-
   },
   {
     path: '/notebook',
     name: 'notebook',
     component: Notebook,
+  },
+  {
+    path: '/relationships',
+    name: 'relationships',
+    component: Relationships,
   }
 ]
 

@@ -4,9 +4,8 @@ import {
 
 export default {
   GET_NOTES: ({ commit }, payload) => {
-    console.log(payload)
     api.getNotes(payload).then(({ data }) => {
-      const infos = data[0]
+      const infos = data ? data[0] : {}
       commit('setNoteInfos', infos)
     })
     .catch( (err) => console.log(err))

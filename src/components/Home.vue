@@ -7,18 +7,19 @@
           dark
         >
           <v-btn value="signature" href="/signature">
-            <span v-t="`nav.signature`"></span>
-            <v-icon>mdi-pen-plus</v-icon>
+            <v-icon>mdi-heart-half-full</v-icon>
           </v-btn>
 
           <v-btn value="notes" href="/notes">
-            <span v-t="`nav.notes`"></span>
             <v-icon>mdi-pen-plus</v-icon>
           </v-btn>
 
           <v-btn value="notebook" href="/notebook">
-            <span v-t="`nav.notebook`"></span>
             <v-icon>mdi-notebook</v-icon>
+          </v-btn>
+
+          <v-btn value="relationships" href="/relationships">
+            <v-icon>mdi-handshake</v-icon>
           </v-btn>
         </v-bottom-navigation>
       </v-col>
@@ -79,7 +80,8 @@ export default {
       return this.$route.name === 'notebook'
     },
     showDateInfoStatus() {
-      return this.$route.name !== 'notes'
+      const whiteList = ['notebook', 'signature']
+      return whiteList.includes(this.$route.name)
     }
   },
   methods: {

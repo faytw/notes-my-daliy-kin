@@ -1,13 +1,15 @@
 <template>
   <v-row justify="center">
     <v-col cols="12" class="text-center">
-      <div class="mc-qustion font-italic" 
-        v-for="(content,index) in questionContent"
-        :key="index"
-      >
-        {{ content }}
+      <div class="mc-qustion font-italic" v-if="config.showQuestions">
+        <div
+          v-for="(content,index) in questionContent"
+          :key="index"
+        >
+          {{ content }}
+        </div>
       </div>
-      <div class="mc-body font-italic caption">
+      <div class="mc-body font-italic caption" v-if="config.showBodyInfos">
         <span
           v-for="(body, index) in bodyParts"
           :key="index"
@@ -46,7 +48,11 @@ export default {
   data: () => ({
     displayData: [],
     questionContent: [],
-    bodyParts: []
+    bodyParts: [],
+    config: {
+      showBodyInfos: false,
+      showQuestions: true
+    }
   }),
   computed: {
     ...mapState('signature', [

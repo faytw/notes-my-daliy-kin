@@ -42,9 +42,9 @@ export default {
       displayKin: 'displayKin',
       signatureInfos: 'infos'
     }),
-  },
-  mounted() {
-    
+    ...mapState('user', [
+      'email'
+    ])
   },
   watch: {
     displayKin(val) {
@@ -59,8 +59,12 @@ export default {
       }
       this.getNotes(params)
     },
-    notes() {
-      this.setInfoData()
+    notes(val) {
+      if (Object.entries(val).length === 0) {
+        this.infoData = []
+      } else {
+        this.setInfoData()
+      }
     },
     signatureInfos() {
       const middle = this.signatureInfos.filter(info => info.position === 'middle')[0]
@@ -83,7 +87,7 @@ export default {
       const d = new Date(date).toLocaleString('zh-TW', options)
       return d.split(' ')[0].replace('/', '-').replace('/', '-')
     },
-    setInfoData(){
+    setInfoData() {
       const { data } = this.notes[this.displayKin]
       this.infoData = data
     }

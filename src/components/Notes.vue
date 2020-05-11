@@ -31,6 +31,9 @@ export default {
   computed: {
     ...mapState('signature', [
       'infos',
+    ]),
+    ...mapState('user', [
+      'email'
     ])
   },
   watch: {
@@ -102,6 +105,7 @@ export default {
             note,
             date,
           },
+          author: this.email
         }
         all.push(params)
       })

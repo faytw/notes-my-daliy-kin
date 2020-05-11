@@ -6,7 +6,7 @@
       dark
     >
       <div class="d-flex align-center">
-       <v-btn href="/" text><span>Moons Calender</span></v-btn>
+       <v-btn href="/" text><span>{{ $t(`common.project`) }}</span></v-btn>
       </div>
 
       <v-spacer></v-spacer>
@@ -16,7 +16,7 @@
         target="_blank"
         text
       >
-        <span class="mr-2">Sign In</span>
+        <span class="mr-2">{{ $t(`common.signIn`) }}</span>
       </v-btn>
     </v-app-bar>
 
