@@ -11,7 +11,8 @@
         :key="index"
       >
         <v-card-text>
-          <div>{{ changeDateFormat(info.date) }}</div>
+          <!-- <div>{{ changeDateFormat(info.date) }}</div> -->
+          <!-- <div>{{info.date}}</div> -->
           <div>{{ info.note }}</div>
         </v-card-text>
 
@@ -38,24 +39,36 @@ export default {
       notes: 'infos'
     }),
     ...mapState('signature', {
-      displayKin: 'displayKin'
+      displayKin: 'displayKin',
+      signatureInfos: 'infos'
     }),
   },
   mounted() {
-    this.getNotes()
+    
   },
   watch: {
     displayKin(val) {
-      this.setInfoData()
       const { sealText, toneText } = handleNotebookData(val)
       this.board = { ...this.board, 
         name: `${this.$t(`toneText.${toneText}`)}${this.$t(`sealText.${sealText}`)}`,
         question: this.$t(`toneQuestion.${toneText}`),
         body: `${this.$t(`toneBody.${toneText}`)}&${this.$t(`sealBody.${sealText}`)}`
       }
+      const params = {
+        sealText
+      }
+      this.getNotes(params)
     },
     notes() {
       this.setInfoData()
+    },
+    signatureInfos() {
+      const middle = this.signatureInfos.filter(info => info.position === 'middle')[0]
+      const { sealText } = middle
+      const params = {
+        sealText
+      }
+      this.getNotes(params)
     }
   },
   methods: {
@@ -71,14 +84,8 @@ export default {
       return d.split(' ')[0].replace('/', '-').replace('/', '-')
     },
     setInfoData(){
-      const temp = this.notes.slice()
-      const data = temp.reduce((acc, next) => {
-        acc[next.kin] = acc[next.kin] || []
-        acc[next.kin].push(next)
-        return acc
-      }, {})
-      const dataKey = Object.keys(data).filter((key) => Number(key) === this.displayKin)
-      this.infoData = data[dataKey]
+      const { data } = this.notes[this.displayKin]
+      this.infoData = data
     }
   },
 }

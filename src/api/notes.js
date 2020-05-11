@@ -1,36 +1,31 @@
-import http from "../helpers/http"
+import { db } from '../plugins/firebaseStore';
 
-export function getNotes() {
-  return http.request('get', 'notes', null, null)
-  .then(({ data }) => data)  
-  .catch((err) => console.log(err))
+const notesRef = db.collection('users').doc('records').collection('diaries')
+
+export function getNotes(params) {
+  const { sealText } = params
+  return new Promise((resolve, reject) => {
+    notesRef.doc(`${sealText}`).get().then((docSnapshot) => {
+      if(docSnapshot.exists) {
+        let notes = docSnapshot.data()
+        resolve(notes)
+      }
+    }).catch((err) => reject(err))
+  })
 }
 
-export const createNotes = (data) => {
-  return http.request('post', 'createNotes', data, null)
-  .then(({ data }) => data)  
-  .catch((err) => console.log(err))
-}
-
-export const updateNotes = (params) => {
-  http.patch('notes', params).then(({
-    data
-  }) => {
-    console.log(data)
-  }).catch((err) => console.log(err))
-}
-
-export const removeNotes = (params) => {
-  http.remove('notes', params).then(({
-    data
-  }) => {
-    console.log(data)
-  }).catch((err) => console.log(err))
+export function createNotes(params) {
+  const {doc, ...updateData} = params
+  const data = [ updateData ]
+  return new Promise((resolve, reject) => {
+    notesRef.doc(`${doc}`).set({data}).then((docSnapshot) => {
+      console.log(docSnapshot)
+      
+    }).catch((err) => reject(err))
+  })
 }
 
 export default {
   getNotes,
   createNotes,
-  removeNotes,
-  updateNotes,
 }

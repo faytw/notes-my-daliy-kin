@@ -62,13 +62,16 @@ export default {
           title: titleFormat,
           position,
           kin,
+          sealText,
         }
       })
       this.notes = columnsOrder.map(({
-        kin
+        kin,
+        sealText,
       }) => {
         return {
-          kin
+          kin,
+          sealText
         }
       })
     },
@@ -90,7 +93,19 @@ export default {
           data.push(note)
         }
       })
-      this.createNotes(data)
+      const all = []
+      data.forEach(({sealText, kin, note, date}) => {
+        const params = {
+          sealText,
+          kin,
+          data: {
+            note,
+            date,
+          },
+        }
+        all.push(params)
+      })
+      this.createNotes(all)
     },
   }
 }
