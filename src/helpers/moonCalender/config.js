@@ -1,12 +1,12 @@
 export const toneTextTable = [
-  'magnetic', 'lunar', 'electric', 'self-existing', 'overtone',
+  'magnetic', 'lunar', 'electric', 'self_existing', 'overtone',
   'rhythmic', 'resonant', 'galactic', 'solar', 'planetary',
   'spectral', 'crystal', 'cosmic'
 ]
 
 export const sealTextTable = [
   'sun', 'dragon', 'wind', 'night', 'seed',
-  'snake', 'world-bridge', 'hand', 'star', 'moon',
+  'snake', 'world_bridge', 'hand', 'star', 'moon',
   'dog', 'monkey', 'human', 'skywoler', 'wizard',
   'eagle', 'warrior', 'earth', 'mirror', 'storm'
 ]

@@ -1,6 +1,6 @@
 import { db } from '../plugins/firebaseStore';
 
-const notesRef = db.collection('users').doc('records').collection('diaries')
+const notesRef = db.collection('diaries')
 
 export function getNotes(params) {
   const { sealText } = params
@@ -15,12 +15,12 @@ export function getNotes(params) {
 }
 
 export function createNotes(params) {
-  const { doc, ...updateData } = params
-  const data = [ updateData ]
+  const { doc, ...updated } = params
+  const data = []
+  data.push(updated)
   return new Promise((resolve, reject) => {
-    notesRef.doc(`${doc}`).set({data}).then((docSnapshot) => {
-      console.log(docSnapshot)
-      
+    notesRef.doc(`${doc}`).set({ data }).then(() => {
+      console.log('UPDATED SUCCESS')
     }).catch((err) => reject(err))
   })
 }

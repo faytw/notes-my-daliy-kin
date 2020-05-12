@@ -11,8 +11,7 @@
         :key="index"
       >
         <v-card-text>
-          <!-- <div>{{ changeDateFormat(info.date) }}</div> -->
-          <!-- <div>{{info.date}}</div> -->
+          <div class="font-italic text-right">{{ info.created_time ? changeDateFormat(info.created_time) : ''}}</div>
           <div>{{ info.note }}</div>
         </v-card-text>
 
@@ -40,7 +39,6 @@ export default {
     }),
     ...mapState('signature', {
       displayKin: 'displayKin',
-      signatureInfos: 'infos'
     }),
     ...mapState('user', [
       'email'
@@ -60,20 +58,8 @@ export default {
       this.getNotes(params)
     },
     notes(val) {
-      if (Object.entries(val).length === 0) {
-        this.infoData = []
-      } else {
-        this.setInfoData()
-      }
+      this.setInfoData(val)
     },
-    signatureInfos() {
-      const middle = this.signatureInfos.filter(info => info.position === 'middle')[0]
-      const { sealText } = middle
-      const params = {
-        sealText
-      }
-      this.getNotes(params)
-    }
   },
   methods: {
     ...mapActions('notes', {
@@ -84,12 +70,12 @@ export default {
       const options = {
         hour12: false
       }
-      const d = new Date(date).toLocaleString('zh-TW', options)
-      return d.split(' ')[0].replace('/', '-').replace('/', '-')
+      const d = new Date(date.seconds * 1000).toLocaleString('zh-TW', options)
+      return d.split(' ')[0]
     },
-    setInfoData() {
-      const { data } = this.notes[this.displayKin]
-      this.infoData = data
+    setInfoData(val) {
+      const data = val[this.displayKin]
+      this.infoData = data && Object.entries(data).length > 0 ? data : []
     }
   },
 }

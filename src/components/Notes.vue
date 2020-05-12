@@ -86,26 +86,26 @@ export default {
       this.notes[notesIndex] = {
         ...this.notes[notesIndex],
         note: input,
-        date: new Date().toUTCString() //UTC(+0)
+        createdTime: new Date()
       }
     },
     saveNotes() {
-      let data = []
+      const temp = []
+      const all = []
       this.notes.forEach((note) => {
         if (note.hasOwnProperty('note')) {
-          data.push(note)
+          temp.push(note)
         }
       })
-      const all = []
-      data.forEach(({sealText, kin, note, date}) => {
+      temp.forEach(({sealText, kin, note, createdTime}) => {
         const params = {
           sealText,
           kin,
           data: {
             note,
-            date,
+            created_time: createdTime,
+            author: this.email,
           },
-          author: this.email
         }
         all.push(params)
       })

@@ -5,7 +5,7 @@ import {
 export default {
   GET_NOTES: ({ commit }, payload) => {
     api.getNotes(payload).then(({ data }) => {
-      const infos = data ? data[0] : {}
+      const infos = data && Object.entries(data[0]).length > 0 ? data[0] : []
       commit('setNoteInfos', infos)
     })
     .catch( (err) => console.log(err))
@@ -15,15 +15,10 @@ export default {
       const params = {
         sealText: element.sealText 
       } 
-      api.getNotes(params).then(( {data} ) => {
-        const oriData = data ? data[0] : {}
-        let updateData = { ...oriData[element.kin] }
-        if (updateData.hasOwnProperty('data')) {
-          updateData.data.push(element.data)
-        } else {
-          updateData.data = []
-          updateData.data.push(element.data)
-        }
+      api.getNotes(params).then(({ data }) => {
+        const oriData = data ? data[0] : []
+        let updateData = oriData[element.kin].slice()
+        updateData.push(element.data)
         const dbParams = {
           ...oriData,
           [element.kin]: updateData,
