@@ -28,6 +28,7 @@
         :data-mc='item.position'
         :data-bgColor='item.color'
         :data-now='item.positionNow'
+        :data-isGreenGrid='item.isGreenGrid'
       >
         <div class="text-center" v-if='item.toneText'>{{ $t(`toneText.${item.toneText}`) }}</div>
         <div class="text-center" v-if='item.sealText'>{{ $t(`sealText.${item.sealText}`) }}</div>
@@ -39,7 +40,8 @@
 
 <script>
 import { 
-  setDate,
+  setDate, 
+  isGreenGrid,
 } from '../helpers/moonCalender'
 import { mapState } from 'vuex'
 
@@ -57,6 +59,7 @@ export default {
   computed: {
     ...mapState('signature', [
       'infos',
+      'displayKin'
     ])
   },
   watch: {
@@ -73,7 +76,8 @@ export default {
       this.displayData = temp.map((data) => {
         data = {
           ...data,
-          positionNow : data.position === 'middle' ? false : data.positionTimeZone.includes(Number(hours)) 
+          isGreenGrid: isGreenGrid(data.kin),
+          positionNow : data.position === 'middle' ? false : data.positionTimeZone.includes(Number(hours))
         }
         return data
       })
@@ -137,6 +141,9 @@ export default {
   }
   .square[data-now='true'] {
     box-shadow: 3px 3px 8px #3c4444;
+  }
+  .square[data-isGreenGrid='true'] {
+    border: 3px solid green;
   }
   .display-time {
     font-size: 0.375em;

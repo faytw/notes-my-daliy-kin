@@ -1,7 +1,10 @@
 <template>
   <v-row justify="center">
     <v-col>
-      <div class="text-center">{{ board.name }}</div>
+      <div class="text-center">
+        <span>{{ board.name }}</span>
+        <v-icon v-show="board.isGreenGrid" color="green">mdi-judaism</v-icon>
+      </div>
       <div class="text-center caption">{{ board.question }}</div>
       <div class="text-center caption font-italic">{{ board.body }}</div>
       <v-spacer></v-spacer>
@@ -32,6 +35,7 @@
 <script>
 import { 
   handleNotebookData,
+  isGreenGrid,
 } from '../helpers/moonCalender'
 import { mapActions, mapState } from 'vuex'
 
@@ -55,7 +59,8 @@ export default {
       this.board = { ...this.board, 
         name: `${this.$t(`toneText.${toneText}`)}${this.$t(`sealText.${sealText}`)}`,
         question: this.$t(`toneQuestion.${toneText}`),
-        body: `${this.$t(`toneBody.${toneText}`)}&${this.$t(`sealBody.${sealText}`)}`
+        body: `${this.$t(`toneBody.${toneText}`)} & ${this.$t(`sealBody.${sealText}`)}`,
+        isGreenGrid: isGreenGrid(val),
       }
       const params = {
         sealText

@@ -4,6 +4,7 @@ import {
   sealColorTable,
   monthTable,
   yearTable,
+  greenGrids,
   guideSealGroups,
   positionTextTable,
   timeZones,
@@ -66,6 +67,10 @@ export const calulateDateMainIcon = (dateInput) => {
     }
   }
   return ans
+}
+
+export const isGreenGrid = (kin, table = greenGrids) => {
+  return table.some(grid => kin === grid)
 }
 
 const getTones = (input) => {
@@ -195,4 +200,5 @@ export default {
   calulateDateMainIcon,
   setInitData,
   handleNotebookData,
+  isGreenGrid
 }
