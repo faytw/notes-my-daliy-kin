@@ -11,8 +11,16 @@
         :key="index"
       >
         <v-card-text>
-          <div class="font-italic text-right">{{ info.created_time ? changeDateFormat(info.created_time) : ''}}</div>
-          <div>{{ info.note }}</div>
+          <div class="text-right">{{ info.createdTime }}</div>
+          <ul>
+            <li 
+              class="infos-content"
+              v-for="(note, index) in info.notes"
+              :key="index"
+            >
+            {{ note }}
+            </li>
+          </ul>
         </v-card-text>
 
       </v-card>
@@ -40,9 +48,6 @@ export default {
     ...mapState('signature', {
       displayKin: 'displayKin',
     }),
-    ...mapState('user', [
-      'email'
-    ])
   },
   watch: {
     displayKin(val) {
@@ -70,12 +75,39 @@ export default {
       const options = {
         hour12: false
       }
-      const d = new Date(date.seconds * 1000).toLocaleString('zh-TW', options)
-      return d.split(' ')[0]
+      if (date && date.seconds) {
+        const d = new Date(date.seconds * 1000).toLocaleString('zh-TW', options)
+        return d.split(' ')[0]
+      } else {
+        throw new Error('Failed, "created_time" must be exist.')
+      }
     },
     setInfoData(val) {
       const data = val[this.displayKin]
-      this.infoData = data && Object.entries(data).length > 0 ? data : []
+      if (data && Object.entries(data).length > 0) {
+        const infos = data.slice()
+        let tempArr = []
+        infos.forEach((elm) => {
+          elm.createdTime = this.changeDateFormat(elm.created_time)
+          tempArr.push(elm)
+        })
+        const result = tempArr.reduce((acc, info) => {
+          const itemIndex = acc.findIndex(accVal => accVal.createdTime === info.createdTime)
+          if (itemIndex >= 0) {
+            acc[itemIndex].notes.push(info.note)
+          } else {
+            acc.push({
+              notes: [info.note],
+              createdTime: info.createdTime,
+              author: info.author
+            })
+          }
+          return acc
+        }, [])
+        this.infoData = result
+      } else {
+        this.infoData = []
+      }  
     }
   },
 }
