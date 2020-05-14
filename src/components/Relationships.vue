@@ -8,7 +8,14 @@
 </template>
 
 <script>
-  export default {
-    name: 'relationships',
-  }
+import { 
+  getWave 
+} from '../helpers/moonCalender'
+export default {
+  name: 'relationships',
+  data: () => ({
+    wave: '',
+    waveQuestionBoard: []// 波符 13 問
+  }),
+}
 </script>

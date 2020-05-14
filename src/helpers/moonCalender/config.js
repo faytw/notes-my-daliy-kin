@@ -11,6 +11,13 @@ export const sealTextTable = [
   'eagle', 'warrior', 'earth', 'mirror', 'storm'
 ]
 
+export const waveIndexTable = [
+  40, 1, 222, 183, 144, 
+  105, 66, 27, 248, 209,
+  170, 131, 92, 53, 14,
+  235, 196, 157, 118, 79
+]
+
 export const sealColorTable = {
   'red': [1, 5, 9, 13, 17],
   'white': [2, 6, 10, 14, 18],
@@ -31,6 +38,18 @@ export const positionTextTable = {
   'bottom': 'potential',
   'left': 'challenge',
   'right': 'support'
+}
+
+export const setWaveTable = () => {
+  let kins = []
+  for (let i=1; i<=260; i++) {
+    kins.push(i)
+  }
+  const table = []
+  for(let i=0; i<20; i++) {
+    table[i] = kins.slice(i*13, (i+1)*13)
+  }
+  return table
 }
 
 export const greenGrids = [
@@ -82,6 +101,8 @@ export const yearTable = {
   172: [2020, ]
 }
 
+export const waveTable = setWaveTable()
+
 export default {
   toneTextTable,
   sealTextTable,
@@ -92,4 +113,6 @@ export default {
   yearTable,
   timeZones,
   greenGrids,
+  waveTable,
+  waveIndexTable,
 }

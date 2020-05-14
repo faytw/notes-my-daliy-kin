@@ -1,6 +1,11 @@
 <template>
   <v-row justify="center">
     <v-col cols="12" class="text-center">
+      <div class="mc-wave font-italic" v-if="config.showWaveInfos">
+        {{ waveText }}
+      </div>
+    </v-col>
+    <v-col cols="12" class="text-center">
       <div class="mc-qustion font-italic" v-if="config.showQuestions">
         <div
           v-for="(content,index) in questionContent"
@@ -8,14 +13,6 @@
         >
           {{ content }}
         </div>
-      </div>
-      <div class="mc-body font-italic caption" v-if="config.showBodyInfos">
-        <span
-          v-for="(body, index) in bodyParts"
-          :key="index"
-        >
-          {{ body }}
-        </span>
       </div>
     </v-col>
     <v-col 
@@ -42,6 +39,7 @@
 import { 
   setDate, 
   isGreenGrid,
+  getWave,
 } from '../helpers/moonCalender'
 import { mapState } from 'vuex'
 
@@ -50,11 +48,11 @@ export default {
   data: () => ({
     displayData: [],
     questionContent: [],
-    bodyParts: [],
     config: {
-      showBodyInfos: false,
-      showQuestions: true
-    }
+      showQuestions: true,
+      showWaveInfos: true,
+    },
+    waveText: ''
   }),
   computed: {
     ...mapState('signature', [
@@ -66,10 +64,14 @@ export default {
     infos(val) {
       this.setPositionNowProp(val)
       this.setQuestionContent(val)
-      this.setBodys(val)
+      this.setWaveInfos(this.displayKin)
     }
   },
   methods: {
+    setWaveInfos(kin) {
+      const wave = getWave(kin)
+      this.waveText = `${this.$t(`sealText.${wave}`)}${this.$t('common.wave')}`
+    },
     setPositionNowProp(val) {
       const { hours } = setDate(new Date())
       const temp = val.slice()
@@ -93,9 +95,6 @@ export default {
       this.questionContent = tempString.split(`${mark}`)
         .filter(content => content)
         .map((content) => `${content}${mark}`)
-    },
-    setBodys(val) {
-      this.bodyParts = val.map(({ sealText }) => this.$t(`sealBody.${sealText}`))
     }
   },
 }

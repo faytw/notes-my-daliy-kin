@@ -8,6 +8,8 @@ import {
   guideSealGroups,
   positionTextTable,
   timeZones,
+  waveTable,
+  waveIndexTable,
 } from './config'
 
 const setGuideIcon = (sealGroups, icon, tone) => {
@@ -185,6 +187,13 @@ export const setInitData = () => {
   return [ top, left, middle, right, bottom ]
 }
 
+export const getWave = (kin) => {
+  const wave = waveTable.filter((wave) => wave.includes(kin))[0]
+  const firstKin = wave[0]
+  const waveIndex = waveIndexTable.indexOf(firstKin)
+  return sealTextTable[waveIndex]
+}
+
 export const handleNotebookData = (displayKin) => {
   const { mainTone } = getTones(displayKin)
   const { middle } = getSeals(displayKin , mainTone)
@@ -200,5 +209,6 @@ export default {
   calulateDateMainIcon,
   setInitData,
   handleNotebookData,
-  isGreenGrid
+  isGreenGrid,
+  getWave
 }

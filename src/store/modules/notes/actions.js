@@ -18,6 +18,7 @@ export default {
       api.getNotes(params).then(({ data }) => {
         const oriData = data ? data[0] : []
         let updateData = oriData[element.kin].slice()
+        //TODO: 檢查 updateData 是否存在，不存在則建立一個 [element.lin]: [element.data]
         updateData.push(element.data)
         const dbParams = {
           ...oriData,
