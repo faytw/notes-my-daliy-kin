@@ -50,23 +50,21 @@ export const setDate = (input = new Date()) => {
 export const calulateDateMainIcon = (dateInput) => {
   const { year, month, date} = dateInput
   const n1 = Object.keys(yearTable).filter((key) => yearTable[key].includes(year))[0]
-  const n2 = monthTable[month+1]
+  const n2 = monthTable[month + 1]
   const n3 = date
 
   let ans = 0
   let sum = 0
-  if (n1 && n2 && n3) {
-    sum = Number(n1) + Number(n2) + Number(n3)
-    if (sum <= 260) {
-      ans = sum
-    } else {
-      let temp = []
-      for (let i=0; i<6; i++) {
-        temp.push( sum - 260 * i)
-        if (sum - 260 * i <= 260 ) break
-      }
-      ans = temp[temp.length - 1]
+  sum = Number(n1) + Number(n2) + Number(n3)
+  if (sum <= 260) {
+    ans = sum
+  } else {
+    let temp = []
+    for (let i=0; i<6; i++) {
+      temp.push( sum - 260 * i)
+      if (sum - 260 * i <= 260 ) break
     }
+    ans = temp[temp.length - 1]
   }
   return ans
 }
@@ -164,8 +162,8 @@ const setSealKins = (position, positionN, mainTone) => {
   return kin
 }
 
-export const setInitData = () => {
-  const date = setDate()
+export const setInitData = (input = new Date()) => {
+  const date = setDate(input)
   const mainKin = calulateDateMainIcon(date)
   const { tones, mainTone } = getTones(mainKin)
   const seals = getSeals(mainKin , mainTone)
@@ -194,7 +192,7 @@ export const getWave = (kin) => {
   return sealTextTable[waveIndex]
 }
 
-export const handleNotebookData = (displayKin) => {
+export const handleKinData = (displayKin) => {
   const { mainTone } = getTones(displayKin)
   const { middle } = getSeals(displayKin , mainTone)
   const data = { ...middle,
@@ -208,7 +206,7 @@ export default {
   setDate,
   calulateDateMainIcon,
   setInitData,
-  handleNotebookData,
+  handleKinData,
   isGreenGrid,
   getWave
 }

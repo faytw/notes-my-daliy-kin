@@ -34,7 +34,7 @@
 
 <script>
 import { 
-  handleNotebookData,
+  handleKinData,
   isGreenGrid,
 } from '../helpers/moonCalender'
 import { mapActions, mapState } from 'vuex'
@@ -55,7 +55,7 @@ export default {
   },
   watch: {
     displayKin(val) {
-      const { sealText, toneText } = handleNotebookData(val)
+      const { sealText, toneText } = handleKinData(val)
       this.board = { ...this.board, 
         name: `${this.$t(`toneText.${toneText}`)}${this.$t(`sealText.${sealText}`)}`,
         question: this.$t(`toneQuestion.${toneText}`),

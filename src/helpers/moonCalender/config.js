@@ -98,7 +98,9 @@ export const monthTable = {
 }
 
 export const yearTable = {
-  172: [2020, ]
+  172: [2020, ],
+  37: [1989,],
+  32: [1984,]
 }
 
 export const waveTable = setWaveTable()
