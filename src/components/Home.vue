@@ -65,11 +65,18 @@ export default {
   data: () => ({
     displayDateFormat: '',
     displayDate: new Date(),
+    routeNameConfig: {
+      relationshipList: 'relationships',
+      relationshipStepper: 'relationships',
+      signature: 'signature',
+      notes: 'notes',
+      notebook: 'notebook'
+    },
     pageNav: 'signature',
   }),
   mounted() {
     this.setDisplayFormat()
-    this.pageNav = this.$route.name
+    this.pageNav = this.routeNameConfig[this.$route.name]
     this.init()
   },
   computed: {

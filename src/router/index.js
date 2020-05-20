@@ -5,6 +5,9 @@ import Notes from '@/components/Notes.vue'
 import Notebook from '@/components/Notebook.vue'
 import Signature from '@/components/Signature.vue'
 import Relationships from '@/components/Relationships.vue'
+import RelationshipStepper from '@/components/RelationshipStepper.vue'
+import RelationshipList from '@/components/RelationshipList.vue'
+
 
 Vue.use(Router)
 
@@ -33,7 +36,19 @@ const routes = [
     path: '/relationships',
     name: 'relationships',
     component: Relationships,
-  }
+    children: [
+      {
+        path: 'steps',
+        name: 'relationshipStepper',
+        component: RelationshipStepper
+      },
+      {
+        path: '/',
+        name: 'relationshipList',
+        component: RelationshipList
+      }
+    ]
+  },
 ]
 
 const originalPush = Router.prototype.push

@@ -54,7 +54,7 @@ const getYearValue = (input) => {
   yearTable.forEach((group) => {
     if (group.indexOf(input) !== -1) gIndex = group.indexOf(input)
   })
-  if (gIndex) {
+  if (gIndex >= 0) {
     return yearTableValue[gIndex] 
   } else {
     throw new Error(errMessage)
