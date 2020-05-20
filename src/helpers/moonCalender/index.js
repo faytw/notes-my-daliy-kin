@@ -4,6 +4,7 @@ import {
   sealColorTable,
   monthTable,
   yearTable,
+  yearTableValue,
   greenGrids,
   guideSealGroups,
   positionTextTable,
@@ -47,9 +48,22 @@ export const setDate = (input = new Date()) => {
   return data
 }
 
+const getYearValue = (input) => {
+  let gIndex = null
+  const errMessage = `input value "${input}" is out of years setting.`
+  yearTable.forEach((group) => {
+    if (group.indexOf(input) !== -1) gIndex = group.indexOf(input)
+  })
+  if (gIndex) {
+    return yearTableValue[gIndex] 
+  } else {
+    throw new Error(errMessage)
+  }
+}
+
 export const calulateDateMainIcon = (dateInput) => {
   const { year, month, date} = dateInput
-  const n1 = Object.keys(yearTable).filter((key) => yearTable[key].includes(year))[0]
+  const n1 = getYearValue(year)
   const n2 = monthTable[month + 1]
   const n3 = date
 
