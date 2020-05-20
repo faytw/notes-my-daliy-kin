@@ -1,5 +1,64 @@
 <template>
-  <v-row class="text-center">
+  <v-row>
+    <v-col cols="12" sm="6" md="4">
+      <p>STEP 1.</p>
+      <v-menu
+        ref="menu1"
+        v-model="menu1"
+        :close-on-content-click="false"
+        transition="scale-transition"
+        offset-y
+        min-width="290px"
+        max-height="170px"
+      >
+        <template v-slot:activator="{ on }">
+          <v-text-field
+            v-model="date1"
+            label="第一個日期"
+            readonly
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-date-picker
+          ref="picker1"
+          v-model="date1"
+          :max="new Date().toISOString().substr(0, 10)"
+          min="1950-01-01"
+          @change="setCustomDate1()"
+        >
+        </v-date-picker>
+      </v-menu>
+      
+      <p>STEP 2.</p>
+      <v-menu
+        ref="menu2"
+        v-model="menu2"
+        :close-on-content-click="false"
+        transition="scale-transition"
+        offset-y
+        min-width="290px"
+        max-height="170px"
+      >
+        <template v-slot:activator="{ on }">
+          <v-text-field
+            v-model="date2"
+            label="第二個日期"
+            readonly
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-date-picker
+          ref="picker2"
+          v-model="date2"
+          :max="new Date().toISOString().substr(0, 10)"
+          min="1950-01-01"
+          @change="setCustomDate2()"
+        ></v-date-picker>
+      </v-menu>
+
+      <p>STEP 3.</p>
+      <v-btn @click.native="calculate(date1, date2)">計算</v-btn>
+    </v-col>
     <v-col>
       <v-expansion-panels
         accordion 
@@ -70,11 +129,16 @@ import {
   setInitData,
   handleKinData
 } from '../helpers/moonCalender'
+
 export default {
   name: 'relationships',
   data: () => ({
     wave: [],
     kinData: [],
+    menu1: false,
+    menu2: false,
+    date1: '',
+    date2: '',
     waveQuestionBoard: [{
       powerQText: '這段關係的源頭是什麼？',
       toneKeyword: '個體 吸引'
@@ -116,14 +180,29 @@ export default {
       toneKeyword: '揚升 超越 橋樑'
     }, ]
   }),
-  mounted() {
-    const r1 = setInitData(new Date('1989-9-10'))
-    const r2 = setInitData(new Date('1984-1-31'))
-    const p1 = r1.filter((item) => item.position === 'middle')[0].kin
-    const p2 = r2.filter((item) => item.position === 'middle')[0].kin
-    const add = p1 + p2
-    const wave = getWave(add)
-    this.kinData = handleKinData(add)
-  }
+  methods: {
+    setCustomDate1(date) {
+      this.$refs.menu1.save(date)
+    },
+    setCustomDate2(date) {
+      this.$refs.menu2.save(date)
+    },
+    calculate(date1, date2) {
+      const r1 = setInitData(new Date(date1))
+      const r2 = setInitData(new Date(date2))
+      const p1 = r1.filter((item) => item.position === 'middle')[0].kin
+      const p2 = r2.filter((item) => item.position === 'middle')[0].kin
+      const add = p1 + p2 > 260 ?  p1 + p2 - 260 : p1 + p2
+      this.kinData = handleKinData(add)
+    }
+  },
+  watch: {
+    menu1 (val) {
+      val && setTimeout(() => (this.$refs.picker1.activePicker = 'YEAR'))
+    },
+    menu2 (val) {
+      val && setTimeout(() => (this.$refs.picker2.activePicker = 'YEAR'))
+    },
+  },
 }
 </script>

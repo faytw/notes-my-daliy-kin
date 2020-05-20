@@ -104,7 +104,7 @@ export const setWaveTable = () => {
   return table
 }
 
-export const setYearTable = (input) => {
+export const setYearTable = () => {
   //TODO: input range is 1858 ~ this year ＋ 52
   const yearNow = new Date().getFullYear()
   const length = Math.round((yearNow - 1858) % 52) > 0 
