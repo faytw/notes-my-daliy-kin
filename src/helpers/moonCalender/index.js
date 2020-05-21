@@ -199,6 +199,27 @@ export const setInitData = (input = new Date()) => {
   return [ top, left, middle, right, bottom ]
 }
 
+export const calulateRelatiionshipsData = (kin) => {
+  const { tones, mainTone } = getTones(kin)
+  const seals = getSeals(kin , mainTone)
+  const result = []
+  Object.keys(seals).forEach((iKey, index) => {
+    if (iKey === Object.keys(tones)[index]) {
+      seals[iKey] = {
+        ... seals[iKey],
+        tone: iKey === 'bottom' ? 14 - mainTone : mainTone,
+        toneText: tones[iKey],
+        position: [iKey][0],
+        positionText: positionTextTable[[iKey][0]],
+        positionTimeZone: timeZones[[iKey][0]]
+      }
+    }
+    result.push(seals[iKey])
+  })
+  return result
+}
+
+
 export const getWave = (kin) => {
   const wave = waveTable.filter((wave) => wave.includes(kin))[0]
   const firstKin = wave[0]
@@ -219,6 +240,7 @@ export const handleKinData = (displayKin) => {
 export default {
   setDate,
   calulateDateMainIcon,
+  calulateRelatiionshipsData,
   setInitData,
   handleKinData,
   isGreenGrid,

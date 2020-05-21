@@ -1,13 +1,11 @@
 <template>
   <div>
-    <v-btn href="/relationships/steps">新增合盤</v-btn>
-   <p>Relationship List Page</p>
+    <v-btn href="/relationships/computer">新增星盤</v-btn>
   </div>
 </template>
 
 <script>
 
 export default {
-    name: 'relationshipLists'
+  name: 'relationshipList'
 }
-</script>

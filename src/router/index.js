@@ -38,7 +38,7 @@ const routes = [
     component: Relationships,
     children: [
       {
-        path: 'steps',
+        path: 'computer',
         name: 'relationshipStepper',
         component: RelationshipStepper
       },
