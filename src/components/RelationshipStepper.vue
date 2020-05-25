@@ -6,39 +6,13 @@
           :complete="step > 1" 
           step="1"
         >
-          輸入第一組名稱與第一組日期
+          選擇新增類型
         </v-stepper-step>
         <v-stepper-content step="1">
-          <v-menu 
-            ref="menu1" 
-            v-model="menu1" 
-            :close-on-content-click="false" 
-            transition="scale-transition" 
-            offset-y
-            min-width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field
-                v-model="name1" 
-                label="第ㄧ組名稱" 
-              >
-              </v-text-field>
-              <v-text-field 
-                v-model="date1" 
-                label="第一組日期" 
-                readonly 
-                v-on="on"
-              >
-              </v-text-field>
-            </template>
-            <v-date-picker 
-              ref="picker1" 
-              v-model="date1" 
-              :max="new Date().toISOString().substr(0, 10)" 
-              min="1950-01-01"
-              @change="setCustomDate1()">
-            </v-date-picker>
-          </v-menu>
+          <v-radio-group v-model="type" column>
+            <v-radio label="個人" value="single"></v-radio>
+            <v-radio label="合盤" value="multiple"></v-radio>
+          </v-radio-group>
 
           <v-btn 
             color="primary" 
@@ -58,10 +32,49 @@
           :complete="step > 2" 
           step="2"
         >
-          輸入第二組名稱與第二組日期
+          填寫欄位
         </v-stepper-step>
         <v-stepper-content step="2">
+          <v-text-field
+            v-model="name1" 
+            label="第ㄧ組名稱" 
+          >
+          </v-text-field>
+          <v-menu
+            ref="menu1" 
+            v-model="menu1" 
+            :close-on-content-click="false" 
+            transition="scale-transition" 
+            offset-y
+            min-width="290px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field 
+                v-model="date1" 
+                label="第一組日期" 
+                readonly 
+                v-on="on"
+              >
+              </v-text-field>
+            </template>
+
+            <v-date-picker 
+              ref="picker1" 
+              v-model="date1" 
+              :max="new Date().toISOString().substr(0, 10)" 
+              min="1950-01-01"
+              @change="setCustomDate1()">
+            </v-date-picker>
+          </v-menu>
+
+          <v-text-field
+            v-if="type === 'multiple'"
+            v-model="name2" 
+            label="第二組名稱" 
+          >
+          </v-text-field>
           <v-menu 
+            v-if="type === 'multiple'"
             ref="menu2" 
             v-model="menu2" 
             :close-on-content-click="false" 
@@ -70,11 +83,6 @@
             min-width="290px"
           >
             <template v-slot:activator="{ on }">
-              <v-text-field
-                v-model="name2" 
-                label="第二組名稱" 
-              >
-              </v-text-field>
               <v-text-field 
                 v-model="date2" 
                 label="第二組日期" 
@@ -91,6 +99,7 @@
             >
             </v-date-picker>
           </v-menu>
+
           <v-btn 
             color="primary" 
             @click="setSteps(3)"
@@ -112,7 +121,13 @@
           結果
         </v-stepper-step>
         <v-stepper-content step="3">
-          <div class="signature-infos">
+          <div class="signature-infos" v-if="type === 'single'">
+            <div class="d-flex">
+              <span>{{ showSignatureInfos(signature1) }}</span>
+              <v-icon >mdi-content-save</v-icon>
+            </div>
+          </div>
+          <div class="signature-infos" v-else>
             <div class="d-flex">
               <span>{{ showSignatureInfos(signature1) }}</span>
               <v-icon>mdi-content-save</v-icon>
@@ -154,6 +169,7 @@
   export default {
     name: 'relationshipStepper',
     data: () => ({
+      type: 'single',
       step: 1,
       name1: '',
       name2: '',
@@ -170,14 +186,15 @@
     },
     computed: {
       kin1() {
-        return this.signature1 && this.signature1.filter((item) => item.position === 'middle')[0].kin || null
+        return this.signature1.length > 0 && this.signature1.filter((item) => item.position === 'middle')[0].kin || null
       },
       kin2() {
-        return this.signature2 && this.signature2.filter((item) => item.position === 'middle')[0].kin || null
+        return this.signature2.length > 0 && this.signature2.filter((item) => item.position === 'middle')[0].kin || null
       },
     },
     methods: {
       setDefaultValue() {
+        this.type = 'single'
         this.step = 1
         this.name1 = ''
         this.name2 = ''
@@ -228,14 +245,24 @@
         this.$refs.menu2.save(date)
       },
       calculateSignatures(date1, date2) {
-        this.signature1 = setInitData(new Date(date1))
-        this.signature2 = setInitData(new Date(date2))
+        if (date1) {
+          this.signature1 = setInitData(new Date(date1))
+        }
+        if(date2) {
+          this.signature2 = setInitData(new Date(date2))
+        }
       },
       calculateKinsData(kin1, kin2) {
-        const kin3 = kin1 + kin2 > 260 ? kin1 + kin2 - 260 : kin1 + kin2
-        const data = calulateRelatiionshipsData(kin3)
+        let kin = 0
+        if (kin2) {
+          kin = kin1 + kin2 > 260 ? kin1 + kin2 - 260 : kin1 + kin2
+        } else {
+          kin = kin1
+        }
+        const data = calulateRelatiionshipsData(kin)
         if (data && Object.entries(data).length > 0) {
-          this.signature3 = data
+          this.signature1 = kin2 ? this.signature1 : data
+          this.signature3 = kin2 ? data : []
           this.setSteps(3, true)
         } else {
           // TODO: Add error handler
