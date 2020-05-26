@@ -124,21 +124,21 @@
           <div class="signature-infos" v-if="type === 'single'">
             <div class="d-flex">
               <span>{{ showSignatureInfos(signature1) }}</span>
-              <v-icon >mdi-content-save</v-icon>
+              <v-icon @click="save(signature1, name1)">mdi-content-save</v-icon>
             </div>
           </div>
           <div class="signature-infos" v-else>
             <div class="d-flex">
               <span>{{ showSignatureInfos(signature1) }}</span>
-              <v-icon>mdi-content-save</v-icon>
+              <v-icon @click="save(signature1, name1)">mdi-content-save</v-icon>
             </div>
             <div class="d-flex">
               <span>{{ showSignatureInfos(signature2) }}</span>
-              <v-icon >mdi-content-save</v-icon>
+              <v-icon @click="save(signature2, name2)">mdi-content-save</v-icon>
             </div>
             <div class="d-flex">
               <span>{{ showSignatureInfos(signature3) }}</span>
-              <v-icon>mdi-content-save</v-icon>
+              <v-icon  @click="save(signature3, name3)">mdi-content-save</v-icon>
             </div>
           </div>
 
@@ -163,8 +163,10 @@
 <script>
   import {
     setInitData,
-    calulateRelatiionshipsData
+    calulateRelationshipsData
   } from '../helpers/moonCalender'
+  import { mapState, mapActions } from 'vuex'
+  import uuid from '../helpers/uuid' 
 
   export default {
     name: 'relationshipStepper',
@@ -173,6 +175,7 @@
       step: 1,
       name1: '',
       name2: '',
+      name3: '',
       menu1: false,
       menu2: false,
       signature1: [],
@@ -185,6 +188,9 @@
       this.setDefaultValue()
     },
     computed: {
+      ...mapState('user', [
+        'email'
+      ]),
       kin1() {
         return this.signature1.length > 0 && this.signature1.filter((item) => item.position === 'middle')[0].kin || null
       },
@@ -193,6 +199,19 @@
       },
     },
     methods: {
+      ...mapActions('logs', {
+        createLogs: 'CREATE_LOGS'
+      }),
+      save(signature, name){
+        const signID = uuid.set()
+        const data = {
+          signature,
+          user: this.email,
+          name,
+          signID, 
+        }
+        this.createLogs(data)
+      },
       setDefaultValue() {
         this.type = 'single'
         this.step = 1
@@ -259,7 +278,7 @@
         } else {
           kin = kin1
         }
-        const data = calulateRelatiionshipsData(kin)
+        const data = calulateRelationshipsData(kin)
         if (data && Object.entries(data).length > 0) {
           this.signature1 = kin2 ? this.signature1 : data
           this.signature3 = kin2 ? data : []

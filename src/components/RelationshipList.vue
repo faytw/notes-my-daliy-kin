@@ -5,7 +5,25 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: 'relationshipList'
+  name: 'relationshipList',
+  computed: {
+    ...mapState('user', [
+      'email'
+    ]),
+    ...mapState('logs', [
+      'infos'
+    ]),
+  },
+  created() {
+    this.getLogs({user: this.email})
+  },
+  methods: {
+    ...mapActions('logs', {
+      getLogs: 'GET_USER_LOGS',
+    }),
+  },
 }
+</script>

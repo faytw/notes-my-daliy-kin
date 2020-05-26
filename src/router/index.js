@@ -34,7 +34,6 @@ const routes = [
   },
   {
     path: '/relationships',
-    name: 'relationships',
     component: Relationships,
     children: [
       {
@@ -43,7 +42,7 @@ const routes = [
         component: RelationshipStepper
       },
       {
-        path: '/',
+        path: 'list',
         name: 'relationshipList',
         component: RelationshipList
       }

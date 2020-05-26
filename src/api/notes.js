@@ -20,7 +20,7 @@ export function createNotes(params) {
   data.push(updated)
   return new Promise((resolve, reject) => {
     notesRef.doc(`${doc}`).set({ data }).then(() => {
-      console.log('UPDATED SUCCESS')
+      console.log(`UPDATED ${doc} NOTES SUCCESS`)
     }).catch((err) => reject(err))
   })
 }

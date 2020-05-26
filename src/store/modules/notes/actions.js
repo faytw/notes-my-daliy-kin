@@ -25,6 +25,7 @@ export default {
           [element.kin]: updateData,
           doc: element.sealText,
         }
+        api.createNotes(dbParams)
       }) 
     })
   }

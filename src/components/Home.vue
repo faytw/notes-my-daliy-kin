@@ -18,7 +18,7 @@
             <v-icon>mdi-notebook</v-icon>
           </v-btn>
 
-          <v-btn value="relationships" href="/relationships">
+          <v-btn value="relationships" href="/relationships/list">
             <v-icon>mdi-handshake</v-icon>
           </v-btn>
         </v-bottom-navigation>

@@ -2,8 +2,8 @@
   <v-row justify="center" >
     <v-col cols="12">
        <v-textarea
-        v-for="column in notesColumnsTitle" 
-        :key="column.kin" 
+        v-for="(column, index) in notesColumnsTitle" 
+        :key="index" 
         outlined 
         :label="column.title"
         :hint="column.hint"
@@ -98,16 +98,19 @@ export default {
         }
       })
       temp.forEach(({sealText, kin, note, createdTime}) => {
-        const params = {
-          sealText,
-          kin,
-          data: {
-            note,
-            created_time: createdTime,
-            author: this.email,
-          },
+        let params
+        if(note) {
+          params = {
+            sealText,
+            kin,
+            data: {
+              note,
+              created_time: createdTime,
+              author: this.email,
+            },
+          }
+          all.push(params)
         }
-        all.push(params)
       })
       this.createNotes(all)
     },
