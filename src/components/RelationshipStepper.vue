@@ -22,7 +22,7 @@
           </v-btn>
           <v-btn 
             text 
-            href="/relationships"
+            href="/relationships/list"
           >
             回列表
           </v-btn>
@@ -123,20 +123,24 @@
         <v-stepper-content step="3">
           <div class="signature-infos" v-if="type === 'single'">
             <div class="d-flex">
+              <span>{{ name1 }}</span>
               <span>{{ showSignatureInfos(signature1) }}</span>
               <v-icon @click="save(signature1, name1)">mdi-content-save</v-icon>
             </div>
           </div>
           <div class="signature-infos" v-else>
             <div class="d-flex">
+              <span>{{ name1 }}</span>
               <span>{{ showSignatureInfos(signature1) }}</span>
               <v-icon @click="save(signature1, name1)">mdi-content-save</v-icon>
             </div>
             <div class="d-flex">
+              <span>{{ name2 }}</span>
               <span>{{ showSignatureInfos(signature2) }}</span>
               <v-icon @click="save(signature2, name2)">mdi-content-save</v-icon>
             </div>
             <div class="d-flex">
+              <span>{{ name3 }}</span>
               <span>{{ showSignatureInfos(signature3) }}</span>
               <v-icon  @click="save(signature3, name3)">mdi-content-save</v-icon>
             </div>
@@ -150,7 +154,7 @@
           </v-btn>
           <v-btn 
             text 
-            href="/relationships"
+            href="/relationships/list"
           >
             回列表
           </v-btn>
@@ -211,12 +215,18 @@
           signID, 
         }
         this.createLogs(data)
+        /* 
+        TODO: 
+        open a popup when upload data,
+        when a popup close, the save icon should be hidden
+        */
       },
       setDefaultValue() {
         this.type = 'single'
         this.step = 1
         this.name1 = ''
         this.name2 = ''
+        this.name3 = ''
         this.menu1 = false
         this.menu2 = false
         this.signature1 = []
@@ -282,6 +292,7 @@
         if (data && Object.entries(data).length > 0) {
           this.signature1 = kin2 ? this.signature1 : data
           this.signature3 = kin2 ? data : []
+          this.name3 = kin2 ? `${this.name1} & ${this.name2}` : ''
           this.setSteps(3, true)
         } else {
           // TODO: Add error handler

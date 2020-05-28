@@ -6,6 +6,7 @@ export default {
     api.getLogs().then(({ data }) => {
       const infos = data.filter((log) => log.user === user)
       commit('setLogsInfos', infos)
+      commit('setDataTableItems', infos)
     })
     .catch((err) => console.log(err))
   },
@@ -13,7 +14,9 @@ export default {
     api.getLogs().then(({ data }) => {
       const dbParams = data.slice()
       dbParams.push(payload)
-      api.createLogs(dbParams)
+      api.createLogs(dbParams).then(() => {
+        //TODO: set status to close popup
+      })
     }) .catch((err) => console.log(err))
   },
 }

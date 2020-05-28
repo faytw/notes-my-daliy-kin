@@ -1,6 +1,23 @@
 <template>
   <div>
-    <v-btn href="/relationships/computer">新增星盤</v-btn>
+    <div class="text-right">
+      <v-btn href="/relationships/computer" color="primary">新增星盤</v-btn>
+    </div>
+    <v-data-table
+      :headers="headers"
+      :items="dataTableItems"
+      :hide-default-footer="true"
+      :disable-sort="true"
+    >
+      <template v-slot:item.name="{item}">
+        <v-btn text :href="`/relationships/detail?id=${item.id}`">{{ item.name }}</v-btn>
+      </template>
+      <template v-slot:item.middle="{item}">
+        <span>{{ $t(`toneText.${item.middle.toneText}`) }}</span>
+        <span>{{ $t(`sealText.${item.middle.sealText}`) }}</span>
+        <span>(KIN{{ item.middle.kin }})</span>
+      </template>
+    </v-data-table>
   </div>
 </template>
 
@@ -9,16 +26,22 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'relationshipList',
+  data: () => ({
+    headers: [
+      { text: '名稱', value: 'name' },
+      { text: '馬雅主印記', value: 'middle' },
+    ],
+  }),
   computed: {
     ...mapState('user', [
       'email'
     ]),
     ...mapState('logs', [
-      'infos'
+      'infos', 'dataTableItems'
     ]),
   },
   created() {
-    this.getLogs({user: this.email})
+    this.getLogs({ user: this.email })
   },
   methods: {
     ...mapActions('logs', {

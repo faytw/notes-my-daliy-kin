@@ -18,6 +18,7 @@ export function createLogs(params) {
   return new Promise((resolve, reject) => {
     logsRef.set({data}).then(() => {
       console.log('CREATED LOGS SUCCESS')
+      resolve({ status: 200 })
     }).catch((err) => reject(err))
   })
 }
@@ -35,6 +36,7 @@ export function updateLogs(params) {
     return new Promise((resolve, reject) => {
       logsRef.set({ data: newData }).then(() => {
         console.log('UPDATED LOGS SUCCESS')
+        resolve({ status: 200 })
       }).catch((err) => reject(err))
     })
   })
@@ -53,6 +55,7 @@ export function deleteLogs(params) {
     return new Promise((resolve, reject) => {
       logsRef.set({ data: newData }).then(() => {
         console.log('DELETED LOGS SUCCESS')
+        resolve({ status: 200 })
       }).catch((err) => reject(err))
     })
   })
