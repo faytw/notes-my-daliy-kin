@@ -9,7 +9,7 @@
         :hint="column.hint"
         rows="2"
         counter="50" 
-        @input="(value) => addNewNotes(value, column.kin)"
+        @input="(value) => addNewNotes(value, column.kin, column.position)"
       />
     </v-col>
     <v-col align="end">
@@ -21,6 +21,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import uuid from '../helpers/uuid' 
 
 export default {
   name: 'notes',
@@ -71,17 +72,21 @@ export default {
       this.notes = columnsOrder.map(({
         kin,
         sealText,
+        position,
       }) => {
         return {
           kin,
-          sealText
+          sealText,
+          position,
         }
       })
     },
-    addNewNotes(input, kin) {
-      let notesIndex = 0
+    addNewNotes(input, kin, position) {
+      let notesIndex = -1
       this.notes.forEach((note, index) => {
-        if (note.kin === kin) notesIndex = index
+        if (note.position === position) {
+          notesIndex = index
+        }
       })
       this.notes[notesIndex] = {
         ...this.notes[notesIndex],
@@ -107,6 +112,7 @@ export default {
               note,
               created_time: createdTime,
               author: this.email,
+              note_id: uuid.set()
             },
           }
           all.push(params)

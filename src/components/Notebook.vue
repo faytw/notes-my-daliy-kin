@@ -21,7 +21,7 @@
               v-for="(note, index) in info.notes"
               :key="index"
             >
-            {{ note }}
+            {{ note.val }}
             </li>
           </ul>
         </v-card-text>
@@ -99,12 +99,12 @@ export default {
         const result = tempArr.reduce((acc, info) => {
           const itemIndex = acc.findIndex(accVal => accVal.createdTime === info.createdTime)
           if (itemIndex >= 0) {
-            acc[itemIndex].notes.push(info.note)
+            acc[itemIndex].notes.push({val:info.note, id:info.note_id})
           } else {
             acc.push({
-              notes: [info.note],
+              notes: [{val:info.note, id:info.note_id}],
               createdTime: info.createdTime,
-              author: info.author
+              author: info.author,
             })
           }
           return acc

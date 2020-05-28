@@ -15,12 +15,13 @@ export default {
       const params = {
         sealText: element.sealText 
       } 
+      let dbParams = {}
       api.getNotes(params).then(({ data }) => {
         const oriData = data ? data[0] : []
         let updateData = oriData[element.kin] ? oriData[element.kin].slice() : []
         updateData.push(element.data)
 
-        const dbParams = {
+        dbParams = {
           ...oriData,
           [element.kin]: updateData,
           doc: element.sealText,
