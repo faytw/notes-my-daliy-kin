@@ -10,10 +10,6 @@
             <v-icon>mdi-heart-half-full</v-icon>
           </v-btn>
 
-          <v-btn value="notes" href="/notes">
-            <v-icon>mdi-pen-plus</v-icon>
-          </v-btn>
-
           <v-btn value="notebook" href="/notebook">
             <v-icon>mdi-notebook</v-icon>
           </v-btn>
@@ -34,8 +30,15 @@
           <v-icon>mdi-chevron-left</v-icon>
         </span>
       </v-col>
-      <v-col>
+      <v-col cols="8">
         <span>{{ displayDateFormat }}</span>
+         <v-btn 
+          href="notebook/create"
+          v-show="showEditNoteIcon"
+          text
+        >
+          <v-icon>mdi-pen-plus</v-icon>
+        </v-btn>
       </v-col>
       <v-col>
         <span 
@@ -69,7 +72,7 @@ export default {
       relationshipList: 'relationships',
       relationshipStepper: 'relationships',
       signature: 'signature',
-      notes: 'notes',
+      notes: 'notebook',
       notebook: 'notebook'
     },
     pageNav: 'signature',
@@ -83,6 +86,9 @@ export default {
     ...mapState('signature', [
       'displayKin',
     ]),
+    showEditNoteIcon() {
+      return this.$route.name === 'signature'
+    },
     showArrowButtonStatus() {
       return this.$route.name === 'notebook'
     },

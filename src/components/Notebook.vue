@@ -25,7 +25,6 @@
             </li>
           </ul>
         </v-card-text>
-
       </v-card>
     </v-col>
   </v-row>
@@ -99,10 +98,10 @@ export default {
         const result = tempArr.reduce((acc, info) => {
           const itemIndex = acc.findIndex(accVal => accVal.createdTime === info.createdTime)
           if (itemIndex >= 0) {
-            acc[itemIndex].notes.push({val:info.note, id:info.note_id})
+            acc[itemIndex].notes.push({ val:info.note, id:info.note_id })
           } else {
             acc.push({
-              notes: [{val:info.note, id:info.note_id}],
+              notes: [{ val:info.note, id:info.note_id }],
               createdTime: info.createdTime,
               author: info.author,
             })
