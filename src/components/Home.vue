@@ -126,7 +126,7 @@ export default {
     setDisplayFormat(input = new Date()) {
       this.displayDate = input    
       const { year, month, date } = setDate(input)
-      this.displayDateFormat =  `${year}-${month < 10 ? '0' + (month + 1) : (month + 1)}-${date < 10 ? '0' + (date) : date}`
+      this.displayDateFormat =  `西元 ${year} 年 ${month < 10 ? '0' + (month + 1) : (month + 1)} 月 ${date < 10 ? '0' + (date) : date} 日`
     },
   }
 }

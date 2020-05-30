@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 
+import validationMessages_en from 'vee-validate/dist/locale/en'
+import validationMessages_zh_TW from 'vee-validate/dist/locale/zh_TW'
+
 Vue.use(VueI18n)
 
 function loadLocaleMessages () {
@@ -10,14 +13,18 @@ function loadLocaleMessages () {
     const matched = key.match(/([A-Za-z0-9-_]+)\./i)
     if (matched && matched.length > 1) {
       const locale = matched[1]
+      const validationMessage = locale === 'en' ? validationMessages_en : validationMessages_zh_TW
       messages[locale] = locales(key)
+      messages[locale].validations = validationMessage.messages
     }
   })
   return messages
 }
 
-export default new VueI18n({
+const i18n = new VueI18n({
   locale: process.env.VUE_APP_I18N_LOCALE || 'en',
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
   messages: loadLocaleMessages()
 })
+
+export default i18n

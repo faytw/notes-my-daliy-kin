@@ -13,7 +13,6 @@
             <v-radio label="個人" value="single"></v-radio>
             <v-radio label="合盤" value="multiple"></v-radio>
           </v-radio-group>
-
           <v-btn 
             color="primary" 
             @click="setSteps(2)"
@@ -32,47 +31,71 @@
           :complete="step > 2" 
           step="2"
         >
-          填寫欄位
+          填寫必要欄位
         </v-stepper-step>
         <v-stepper-content step="2">
-          <v-text-field
-            v-model="name1" 
-            label="第ㄧ組名稱" 
-          >
-          </v-text-field>
-          <v-menu
-            ref="menu1" 
-            v-model="menu1" 
-            :close-on-content-click="false" 
-            transition="scale-transition" 
-            offset-y
-            min-width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field 
-                v-model="date1" 
-                label="第一組日期" 
-                readonly 
-                v-on="on"
+          <ValidationObserver ref="inputs">
+            <ValidationProvider 
+              v-slot="{ required, errors  }"
+              name="name1"
+              rules="required"
+            >
+              <v-text-field
+                v-model="name1" 
+                label="第ㄧ組名稱"
+                placeholder="範例：王小明"
+                :error-messages="errors"
               >
               </v-text-field>
-            </template>
+            </ValidationProvider>
+              <v-menu
+                ref="menu1" 
+                v-model="menu1" 
+                :close-on-content-click="false" 
+                transition="scale-transition" 
+                offset-y
+                min-width="290px"
+              >
+                <template v-slot:activator="{ on }">
+                  <ValidationProvider 
+                    v-slot="{ required, errors  }"
+                    name="date1"
+                    rules="required"
+                  >
+                    <v-text-field 
+                      v-model="date1" 
+                      label="第一組日期" 
+                      placeholder="範例：2020-03-15"
+                      readonly 
+                      v-on="on"
+                      :error-messages="errors"
+                    >
+                    </v-text-field>
+                  </ValidationProvider>
+                </template>
 
-            <v-date-picker 
-              ref="picker1" 
-              v-model="date1" 
-              :max="new Date().toISOString().substr(0, 10)" 
-              min="1950-01-01"
-              @change="setCustomDate1()">
-            </v-date-picker>
+              <v-date-picker 
+                ref="picker1" 
+                v-model="date1" 
+                :max="new Date().toISOString().substr(0, 10)" 
+                min="1950-01-01"
+                @change="setCustomDate1()">
+              </v-date-picker>
           </v-menu>
-
-          <v-text-field
-            v-if="type === 'multiple'"
-            v-model="name2" 
-            label="第二組名稱" 
+          <ValidationProvider 
+            v-slot="{ required, errors  }"
+            name="name2"
+            :rules="`${ type === 'multiple' ? 'required' : '' }`"
           >
-          </v-text-field>
+            <v-text-field
+              v-if="type === 'multiple'"
+              v-model="name2" 
+              label="第二組名稱"
+              placeholder="範例：陳小二"
+              :error-messages="errors"
+            >
+            </v-text-field>
+          </ValidationProvider>
           <v-menu 
             v-if="type === 'multiple'"
             ref="menu2" 
@@ -83,12 +106,21 @@
             min-width="290px"
           >
             <template v-slot:activator="{ on }">
-              <v-text-field 
-                v-model="date2" 
-                label="第二組日期" 
-                readonly 
-                v-on="on">
-              </v-text-field>
+              <ValidationProvider 
+                v-slot="{ required, errors  }"
+                name="date2"
+                :rules="`${ type === 'multiple' ? 'required' : '' }`"
+              >
+                <v-text-field 
+                  v-model="date2" 
+                  label="第二組日期"
+                  placeholder="範例：2020-04-22"
+                  readonly 
+                  v-on="on"
+                  :error-messages="errors"
+                >
+                </v-text-field>
+              </ValidationProvider>
             </template>
             <v-date-picker 
               ref="picker2" 
@@ -100,18 +132,19 @@
             </v-date-picker>
           </v-menu>
 
-          <v-btn 
-            color="primary" 
-            @click="setSteps(3)"
-          >
-            計算
-          </v-btn>
-          <v-btn 
-            text 
-            @click="setSteps(1)"
-          >
-            上一步
-          </v-btn>
+            <v-btn 
+              color="primary" 
+              @click="validateInputs"
+            >
+              計算
+            </v-btn>
+            <v-btn 
+              text 
+              @click="setSteps(1)"
+            >
+              上一步
+            </v-btn>
+          </ValidationObserver>
         </v-stepper-content>
 
         <v-stepper-step 
@@ -221,6 +254,13 @@
         when a popup close, the save icon should be hidden
         */
       },
+      validateInputs() {
+        this.$refs.inputs.validate().then((valid) => {
+          if (valid) {
+            this.setSteps(3)
+          }
+        }).catch((err) => console.log('validateInputs', err))        
+      },
       setDefaultValue() {
         this.type = 'single'
         this.step = 1
@@ -236,7 +276,7 @@
         this.date2 = ''
       },
       showSignatureInfos(signature) {
-        if (this.step === 3) {
+        if (this.step === 3 && signature) {
           const middle = signature.filter((item) => item.position === 'middle')[0]
           const { toneText, sealText, kin} = middle
           const tone = this.$t(`toneText.${toneText}`)
