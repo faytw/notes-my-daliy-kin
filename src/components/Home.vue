@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <v-row class="text-center">
+      <notification></notification>
       <v-col>
         <v-bottom-navigation
           v-model="pageNav"
@@ -61,7 +62,7 @@ import {
   setInitData,
 } from '../helpers/moonCalender'
 import { mapActions, mapState } from 'vuex'
-
+import Notification from './Notification.vue'
 
 export default {
   name: 'home',
@@ -77,6 +78,9 @@ export default {
     },
     pageNav: 'signature',
   }),
+  components: {
+    Notification,
+  },
   mounted() {
     this.setDisplayFormat()
     this.pageNav = this.routeNameConfig[this.$route.name]
