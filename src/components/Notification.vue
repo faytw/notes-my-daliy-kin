@@ -1,6 +1,6 @@
 <template>
   <v-snackbar
-    :value="configs.status === 'visible'"
+    :value="status === 'visible'"
     :top="configs.positionY ==='top'"
     :left="configs.positionX ==='left'"
     :right="configs.positionX === 'right'"
@@ -12,6 +12,7 @@
   >
     {{ $t(`notify.${configs.message}`) }}
     <v-btn
+      v-if="configs.showConfirmButton"
       color="primary"
       text
       @click="close"
@@ -29,6 +30,7 @@ export default {
   computed: {
     ...mapState('notification', [
       'configs',
+      'status',
     ]),
   },
   methods: {
@@ -36,9 +38,7 @@ export default {
       setNotifyStatus: 'SET_NOTIFY_STATUS',
     }),
     close() {
-      const payload = {
-        status: 'hidden',
-      }
+      const payload = 'hidden'
       this.setNotifyStatus(payload)
     },
   },

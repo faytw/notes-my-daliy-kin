@@ -1,7 +1,9 @@
 <template>
   <div>
-    <div class="text-right">
-      <v-btn href="/relationships/computer" color="primary">新增星盤</v-btn>
+    <div class="text-center">
+      <v-btn href="/relationships/computer" color="primary">
+        新增星盤
+      </v-btn>
     </div>
     <v-data-table
       :headers="headers"

@@ -16,7 +16,7 @@
           </v-btn>
 
           <v-btn value="relationships" href="/relationships/list">
-            <v-icon>mdi-handshake</v-icon>
+            <v-icon>mdi-calculator</v-icon>
           </v-btn>
         </v-bottom-navigation>
       </v-col>
@@ -31,10 +31,10 @@
           <v-icon>mdi-chevron-left</v-icon>
         </span>
       </v-col>
-      <v-col cols="8">
+      <v-col :cols="showEditNoteIcon ? 10: 8">
         <span>{{ displayDateFormat }}</span>
          <v-btn 
-          href="notebook/create"
+          href="notebook/create-notes"
           v-show="showEditNoteIcon"
           text
         >
@@ -84,7 +84,7 @@ export default {
   mounted() {
     this.setDisplayFormat()
     this.pageNav = this.routeNameConfig[this.$route.name]
-    this.init()
+    this.initApp()
   },
   computed: {
     ...mapState('signature', [
@@ -103,12 +103,12 @@ export default {
   },
   methods: {
     ...mapActions('signature',{
-      initAppData: 'INIT_APP_DATA',
+      initDefaultValues: 'INIT_APP_DATA',
       setDisplayKin: 'SET_DISPLAY_KIN',
     }),
-    init() {
+    initApp() {
       const infos = setInitData()
-      this.initAppData(infos)
+      this.initDefaultValues(infos)
     },
     goDate(type, input, days = 1) {
       const d = this.displayDate
@@ -137,7 +137,6 @@ export default {
 </script>
 
 <style scoped>
- .v-bottom-navigation--fixed {position: fixed !important;}
-
-.v-item-group.v-bottom-navigation .v-btn {height: inherit !important;}
+.v-bottom-navigation--fixed { position: fixed !important; }
+.v-item-group.v-bottom-navigation .v-btn { height: inherit !important; }
 </style>

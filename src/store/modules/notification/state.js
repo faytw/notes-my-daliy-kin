@@ -2,9 +2,9 @@
 https://vuetifyjs.com/en/components/snackbars/
 */
 export default {
+  status: 'hidden', // 'visible'
   configs: {
-    status: 'visible', // 'hidden'
-    timeout: 0, // Use 0 to keep open indefinitely
+    timeout: 3000, // Use 0 to keep open indefinitely
     type: 'success', // 'info' , 'error'
     positionX: null, // 'left', 'right'
     positionY: 'bottom',// 'top'

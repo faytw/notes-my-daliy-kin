@@ -124,10 +124,49 @@
   "notify": {
     "close": "關閉",
     "confirm": "確認",
+    "loading": "處理中...",
     "testing": {
       "success": "成功訊息測試",
       "error": "錯誤訊息測試",
       "info": "一般資訊測試"
+    },
+    "note": {
+      "created": {
+        "success": "儲存筆記成功",
+        "failed": "儲存筆記失敗"
+      },
+      "updated": {
+        "success": "更新筆記成功",
+        "failed": "更新筆記失敗"
+      },
+      "removed": {
+        "success": "刪除筆記成功",
+        "failed": "刪除筆記失敗"
+      }
+    },
+    "logs": {
+      "created": {
+        "success": "儲存星盤資訊成功",
+        "failed": "儲存星盤資訊失敗"
+      },
+      "updated": {
+        "success": "更新星盤資訊成功",
+        "failed": "更新星盤資訊失敗"
+      },
+      "removed": {
+        "success": "刪除星盤資訊成功",
+        "failed": "刪除星盤資訊失敗"
+      }
+    },
+    "login": {
+      "success": "登入成功",
+      "failed": "登入失敗"      
+    },
+    "password": {
+      "updated": {
+        "success": "更新密碼成功",
+        "failed": "更新密碼失敗"
+      }
     }
   }
 }

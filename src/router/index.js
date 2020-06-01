@@ -18,7 +18,7 @@ const routes = [
     component: Signature,
   },
   {
-    path: '/notebook/create',
+    path: '/notebook/create-notes',
     name: 'notes',
     component: Notes,
   },

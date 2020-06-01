@@ -4,8 +4,6 @@
       <div class="mc-wave font-italic" v-if="config.showWaveInfos">
         {{ waveText }}
       </div>
-    </v-col>
-    <v-col cols="12" class="text-center">
       <div class="mc-qustion font-italic" v-if="config.showQuestions">
         <div
           v-for="(content,index) in questionContent"

@@ -247,10 +247,10 @@
           name,
           signID, 
         }
+
         this.createLogs(data)
         /* 
         TODO: 
-        open a popup when upload data,
         when a popup close, the save icon should be hidden
         */
       },
@@ -334,8 +334,6 @@
           this.signature3 = kin2 ? data : []
           this.name3 = kin2 ? `${this.name1} & ${this.name2}` : ''
           this.setSteps(3, true)
-        } else {
-          // TODO: Add error handler
         }
       },
     },
