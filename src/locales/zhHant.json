@@ -121,6 +121,19 @@
     "date1": "第一組日期",
     "date2": "第二組日期"
   },
+  "$vuetify": {
+    "noDataText": "無資料",
+    "dataTable": {
+      "sortBy": "排序",
+      "itemsPerPageText": "每頁顯示筆數"
+    },
+    "dataFooter": {
+      "prevPage": "上一頁",
+      "nextPage": "下一頁",
+      "pageText": "",
+      "itemsPerPageAll": ""
+    }
+  },
   "notify": {
     "close": "關閉",
     "confirm": "確認",
