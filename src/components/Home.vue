@@ -2,7 +2,7 @@
   <v-container>
     <v-row class="text-center">
       <notification></notification>
-      <v-col>
+      <v-col v-if="showtopNav">
         <v-bottom-navigation
           v-model="pageNav"
           dark
@@ -11,7 +11,7 @@
             <v-icon>mdi-heart-half-full</v-icon>
           </v-btn>
 
-          <v-btn value="notebook" href="/notebook">
+          <v-btn value="notebook" href="/notebook" v-if="showNotebookButton">
             <v-icon>mdi-notebook</v-icon>
           </v-btn>
 
@@ -35,7 +35,7 @@
         <span>{{ displayDateFormat }}</span>
          <v-btn 
           href="notebook/create-notes"
-          v-show="showEditNoteIcon"
+          v-if="showEditNoteIcon && showAddNotesButton"
           text
         >
           <v-icon>mdi-pen-plus</v-icon>
@@ -61,7 +61,7 @@ import {
   setDate,
   setInitData,
 } from '../helpers/moonCalender'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 import Notification from './Notification.vue'
 
 export default {
@@ -90,6 +90,10 @@ export default {
     ...mapState('signature', [
       'displayKin',
     ]),
+    ...mapGetters('user', [
+      'showNotebookButton',
+      'showAddNotesButton'
+    ]),
     showEditNoteIcon() {
       return this.$route.name === 'signature'
     },
@@ -99,7 +103,11 @@ export default {
     showDateInfoStatus() {
       const whiteList = ['notebook', 'signature']
       return whiteList.includes(this.$route.name)
-    }
+    },
+    showtopNav() {
+      const blackList = ['signIn', 'signOut', 'forgetPassword']
+      return !blackList.includes(this.$route.name)
+    },
   },
   methods: {
     ...mapActions('signature',{

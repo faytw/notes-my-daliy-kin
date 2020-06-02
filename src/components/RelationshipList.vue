@@ -5,7 +5,8 @@
         新增星盤
       </v-btn>
     </div>
-    <v-data-table
+    <v-data-table 
+      v-if="showRelationshipsLogs"
       :headers="headers"
       :items="dataTableItems"
       :hide-default-footer="true"
@@ -24,7 +25,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'relationshipList',
@@ -41,9 +42,15 @@ export default {
     ...mapState('logs', [
       'infos', 'dataTableItems'
     ]),
+    ...mapGetters('user', [
+      'showRelationshipsLogs',
+    ]),
   },
   created() {
-    this.getLogs({ user: this.email })
+    if (this.showRelationshipsLogs) {
+      // TODO: user: uuid
+      this.getLogs({ user: this.email })
+    }
   },
   methods: {
     ...mapActions('logs', {

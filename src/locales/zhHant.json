@@ -116,10 +116,17 @@
     "wave": "波符"
   },
   "fields": {
-    "name1": "第一組名稱",
-    "name2": "第二組名稱",
-    "date1": "第一組日期",
-    "date2": "第二組日期"
+    "inputs": {
+      "name1": "第一組名稱",
+      "name2": "第二組名稱",
+      "date1": "第一組日期",
+      "date2": "第二組日期"
+    },
+    "signInForm": {
+      "name": "名稱",
+      "password": "密碼",
+      "email": "Email"
+    }
   },
   "$vuetify": {
     "noDataText": "無資料",

@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Notes from '@/components/Notes.vue'
 import Notebook from '@/components/Notebook.vue'
 import Signature from '@/components/Signature.vue'
+import SignIn from '@/components/SignIn.vue'
 import Relationships from '@/components/Relationships.vue'
 import RelationshipStepper from '@/components/RelationshipStepper.vue'
 import RelationshipList from '@/components/RelationshipList.vue'
@@ -16,6 +17,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: Signature,
+  },
+  {
+    path: '/signin',
+    name: 'signIn',
+    component: SignIn,
   },
   {
     path: '/notebook/create-notes',

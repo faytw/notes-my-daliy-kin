@@ -22,6 +22,7 @@
           <v-btn 
             text 
             href="/relationships/list"
+            v-if="showRelationshipsSaveButton"
           >
             回列表
           </v-btn>
@@ -37,7 +38,7 @@
           <ValidationObserver ref="inputs">
             <ValidationProvider 
               v-slot="{ required, errors  }"
-              name="name1"
+              name="inputs.name1"
               rules="required"
             >
               <v-text-field
@@ -59,7 +60,7 @@
                 <template v-slot:activator="{ on }">
                   <ValidationProvider 
                     v-slot="{ required, errors  }"
-                    name="date1"
+                    name="inputs.date1"
                     rules="required"
                   >
                     <v-text-field 
@@ -77,15 +78,15 @@
               <v-date-picker 
                 ref="picker1" 
                 v-model="date1" 
-                :max="new Date().toISOString().substr(0, 10)" 
-                min="1950-01-01"
+                :max="datePickerRules.maxDate"
+                :min="datePickerRules.minDate"
                 @change="setCustomDate1()">
               </v-date-picker>
           </v-menu>
           <ValidationProvider 
             v-slot="{ required, errors  }"
-            name="name2"
-            :rules="`${ type === 'multiple' ? 'required' : '' }`"
+            name="inputs.name2"
+            :rules="`${type === 'multiple' ? 'required' : ''}`"
           >
             <v-text-field
               v-if="type === 'multiple'"
@@ -108,7 +109,7 @@
             <template v-slot:activator="{ on }">
               <ValidationProvider 
                 v-slot="{ required, errors  }"
-                name="date2"
+                name="inputs.date2"
                 :rules="`${ type === 'multiple' ? 'required' : '' }`"
               >
                 <v-text-field 
@@ -125,8 +126,8 @@
             <v-date-picker 
               ref="picker2" 
               v-model="date2" 
-              :max="new Date().toISOString().substr(0, 10)"
-              min="1950-01-01"
+              :max="datePickerRules.maxDate"
+              :min="datePickerRules.minDate"
               @change="setCustomDate2()"
             >
             </v-date-picker>
@@ -158,24 +159,43 @@
             <div class="d-flex">
               <span>{{ name1 }}</span>
               <span>{{ showSignatureInfos(signature1) }}</span>
-              <v-icon @click="save(signature1, name1)">mdi-content-save</v-icon>
+              <v-icon 
+                v-if="showRelationshipsSaveButton"
+                @click="save(signature1, name1)"
+              >
+                mdi-content-save
+              </v-icon>
             </div>
           </div>
           <div class="signature-infos" v-else>
             <div class="d-flex">
               <span>{{ name1 }}</span>
               <span>{{ showSignatureInfos(signature1) }}</span>
-              <v-icon @click="save(signature1, name1)">mdi-content-save</v-icon>
-            </div>
+              <v-icon 
+                v-if="showRelationshipsSaveButton"
+                @click="save(signature1, name1)"
+              >
+                mdi-content-save
+              </v-icon>            </div>
             <div class="d-flex">
               <span>{{ name2 }}</span>
               <span>{{ showSignatureInfos(signature2) }}</span>
-              <v-icon @click="save(signature2, name2)">mdi-content-save</v-icon>
+              <v-icon 
+                v-if="showRelationshipsSaveButton"
+                @click="save(signature2, name2)"
+              >
+                mdi-content-save
+              </v-icon>
             </div>
             <div class="d-flex">
               <span>{{ name3 }}</span>
               <span>{{ showSignatureInfos(signature3) }}</span>
-              <v-icon  @click="save(signature3, name3)">mdi-content-save</v-icon>
+              <v-icon 
+                v-if="showRelationshipsSaveButton"
+                @click="save(signature3, name3)"
+              >
+                mdi-content-save
+              </v-icon>
             </div>
           </div>
 
@@ -188,6 +208,7 @@
           <v-btn 
             text 
             href="/relationships/list"
+            v-if="showRelationshipsSaveButton"
           >
             回列表
           </v-btn>
@@ -202,7 +223,7 @@
     setInitData,
     calulateRelationshipsData
   } from '../helpers/moonCalender'
-  import { mapState, mapActions } from 'vuex'
+  import { mapState, mapActions, mapGetters } from 'vuex'
   import uuid from '../helpers/uuid' 
 
   export default {
@@ -220,6 +241,10 @@
       signature3: [],
       date1: '',
       date2: '',
+      datePickerRules: {
+        minDate: '1958-01-01',
+        maxDate: new Date().toISOString().substr(0, 10),
+      }
     }),
     beforeDestroy() {
       this.setDefaultValue()
@@ -227,6 +252,9 @@
     computed: {
       ...mapState('user', [
         'email'
+      ]),
+       ...mapGetters('user', [
+        'showRelationshipsSaveButton',
       ]),
       kin1() {
         return this.signature1.length > 0 && this.signature1.filter((item) => item.position === 'middle')[0].kin || null
