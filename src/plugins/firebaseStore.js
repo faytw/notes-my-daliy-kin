@@ -3,18 +3,18 @@ import 'firebase/firestore'
 
 // Your web app's Firebase configuration
 var firebaseConfig = {
-    apiKey: "AIzaSyCPNDiQ9u_4GQ85g33_4qy7YAVjC2x1J6Q",
-    authDomain: "timeisart-676d9.firebaseapp.com",
-    databaseURL: "https://timeisart-676d9.firebaseio.com",
-    projectId: "timeisart-676d9",
-    storageBucket: "timeisart-676d9.appspot.com",
-    messagingSenderId: "350137251991",
-    appId: "1:350137251991:web:51c6f851ca9fd7b8d891d2",
-    measurementId: "G-RJ2KW84R5Z"
-  };
+    apiKey: process.env.VUE_APP_FIREBASE_STORE_API_KEY,
+    authDomain: process.env.VUE_APP_FIREBASE_STORE_AUTH_DOMAIN,
+    databaseURL: process.env.VUE_APP_FIREBASE_STORE_DATABASE_URL,
+    projectId: process.env.VUE_APP_FIREBASE_STORE_PROJECT_ID,
+    storageBucket: process.env.VUE_APP_FIREBASE_STORE_STORAGE_BUCKET,
+    messagingSenderId: process.env.VUE_APP_FIREBASE_STORE_MESSAGEING_SENDER_ID,
+    appId: process.env.VUE_APP_FIREBASE_STORE_APP_ID,
+    measurementId: process.env.VUE_APP_FIREBASE_STORE_MEASUREMENT_ID
+  }
   // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
+  firebase.initializeApp(firebaseConfig)
+  firebase.analytics()
   
 export const db = firebase.firestore()
 

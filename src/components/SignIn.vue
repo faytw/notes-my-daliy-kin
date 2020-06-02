@@ -4,18 +4,6 @@
     <form class="text-center">
       <ValidationProvider 
         v-slot="{ errors }" 
-        name="signInForm.name" 
-        rules="required|max:15">
-        <v-text-field
-          v-model="name" 
-          :counter="15" 
-          :error-messages="errors" 
-          label="名稱" 
-          required>
-        </v-text-field>
-      </ValidationProvider>
-      <ValidationProvider 
-        v-slot="{ errors }" 
         name="signInForm.email" 
         rules="required|email">
         <v-text-field 
@@ -29,7 +17,7 @@
       <ValidationProvider 
         v-slot="{ errors }" 
         name="signInForm.password"
-        rules="required|password">
+        rules="required">
         <v-text-field 
           v-model="password" 
           :error-messages="errors" 
@@ -49,20 +37,26 @@
 </template>
 
 <script>
-// import { mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'signIn',
   data: () => ({
-    name: '',
-    password: '',
-    email: '',
+    password: 'test12345678',
+    email: 'rebecca.hsu1989@gmail.com',
   }),
   methods: {
+    ...mapActions('user', {
+      getUserInfos: 'GET_USER_INFOS',
+    }),
     submit() {
-      this.$refs.signInForm.validate().then((valid)=>{
+      this.$refs.signInForm.validate().then((valid) => {
         if (valid) {
-          // TODO: call login api to get user infos
+          const params = {
+            email: this.email,
+            password: this.password
+          }
+          this.getUserInfos(params)
         }
       }) 
     },
@@ -72,6 +66,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-</style>
