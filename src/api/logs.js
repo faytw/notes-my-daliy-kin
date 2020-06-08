@@ -1,8 +1,8 @@
 import { db } from '../plugins/firebaseStore';
 
-const logsRef = db.collection('relationships_logs').doc('logs')
-
-export function getLogs() {
+export function getLogs(params) {
+  const { user } = params
+  const logsRef = db.collection('relationships_logs').doc(user)
   return new Promise((resolve, reject) => {
     logsRef.get().then((docSnapshot) => {
       if(docSnapshot.exists) {
@@ -14,53 +14,18 @@ export function getLogs() {
 }
 
 export function createLogs(params) {
-  const data = params
+  const { user, signID } = params
+  const logsRef = db.collection('relationships_logs').doc(user)
   return new Promise((resolve, reject) => {
-    logsRef.set({data}).then(() => {
+    logsRef.set({ [signID]: params }, { merge: true })
+    .then(() => {
       resolve('created success')
-    }).catch((err) => reject(err))
-  })
-}
-
-export function updateLogs(params) {
-  const { updateID , updateUser, name } = params
-  getLogs().then(({ data }) => {
-    const temp = data.slice()
-    data.forEach((log, index) => {
-      if (log.signID === updateID && log.user === updateUser) {
-        temp[index].name = name
-      }
     })
-    const newData = temp
-    return new Promise((resolve, reject) => {
-      logsRef.set({ data: newData }).then(() => {
-        resolve('updated success')
-      }).catch((err) => reject(err))
-    })
-  })
-}
-
-export function deleteLogs(params) {
-  const { removeID, updateUser } = params
-  getLogs().then(({data}) => {
-    const temp = data.slice()
-    data.forEach((log, index) => {
-      if (log.signID === removeID && log.user === updateUser) {
-        temp.splice(index, 1)
-      }
-    })
-    const newData = temp
-    return new Promise((resolve, reject) => {
-      logsRef.set({ data: newData }).then(() => {
-        resolve('deleted success')
-      }).catch((err) => reject(err))
-    })
+    .catch((err) => reject(err))
   })
 }
 
 export default {
   getLogs,
   createLogs,
-  deleteLogs,
-  updateLogs,
 }

@@ -1,12 +1,14 @@
 import { LOGS as api } from '../../../api'
   
 export default {
-  GET_USER_LOGS: ({ commit, dispatch }, payload) => {
+  GET_USER_LOGS: ({ commit, dispatch }, payload = {}) => {
     dispatch('OPEN_LOGS_LOADING', 'visible')
-    const { user } = payload
-    api.getLogs().then(({ data }) => {
+    api.getLogs(payload).then((data) => {
       dispatch('CLOSE_LOGS_LOADING', 'hidden')
-      const infos = data.filter((log) => log.user === user)
+      const infos = []
+      Object.keys(data).forEach((key, index) => {
+        infos[index] = data[key]
+      })
       commit('setLogsInfos', infos)
       commit('setDataTableItems', infos)
     })
@@ -14,15 +16,10 @@ export default {
   },
   CREATE_LOGS: ({ dispatch }, payload) => {
     dispatch('OPEN_LOGS_LOADING', 'visible')
-    api.getLogs().then((res) => {
-      console.log('CREATE_LOGS', payload, res)
-      const dbParams = data.slice()
-      dbParams.push(payload)
-      api.createLogs(dbParams)
-        .then(() => {
-          dispatch('CLOSE_LOGS_LOADING', 'hidden')
-          dispatch('CREATED_LOGS_SUCCESSED', 'visible')
-        }).catch((err) => console.log(err))
+    api.createLogs(payload)
+      .then(() => {
+        dispatch('CLOSE_LOGS_LOADING', 'hidden')
+        dispatch('CREATED_LOGS_SUCCESSED', 'visible')
       }).catch((err) => console.log(err))
   },
   OPEN_LOGS_LOADING: ({ commit } , payload) => {
