@@ -21,7 +21,7 @@
           </v-btn>
           <v-btn 
             text 
-            href="/relationships/list"
+            to="/relationships/list"
             v-if="showRelationshipsSaveButton"
           >
             回列表
@@ -207,7 +207,7 @@
           </v-btn>
           <v-btn 
             text 
-            href="/relationships/list"
+            to="/relationships/list"
             v-if="showRelationshipsSaveButton"
           >
             回列表
@@ -223,8 +223,9 @@
     setInitData,
     calulateRelationshipsData
   } from '../helpers/moonCalender'
-  import { mapState, mapActions, mapGetters } from 'vuex'
+  import { mapState, mapActions } from 'vuex'
   import uuid from '../helpers/uuid' 
+  import auth from '../helpers/auth'
 
   export default {
     name: 'relationshipStepper',
@@ -251,10 +252,8 @@
     },
     computed: {
       ...mapState('user', [
-        'email'
-      ]),
-       ...mapGetters('user', [
-        'showRelationshipsSaveButton',
+        'id',
+        'roles'
       ]),
       kin1() {
         return this.signature1.length > 0 && this.signature1.filter((item) => item.position === 'middle')[0].kin || null
@@ -262,6 +261,9 @@
       kin2() {
         return this.signature2.length > 0 && this.signature2.filter((item) => item.position === 'middle')[0].kin || null
       },
+      showRelationshipsSaveButton() {
+        return auth.DISPLAY.showRelationshipsSaveButton.includes(this.roles[0])
+      }
     },
     methods: {
       ...mapActions('logs', {
@@ -271,7 +273,7 @@
         const signID = uuid.set()
         const data = {
           signature,
-          user: this.email,
+          user: this.id,
           name,
           signID, 
         }

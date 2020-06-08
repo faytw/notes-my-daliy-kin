@@ -37,6 +37,9 @@ export default {
       'email'
     ])
   },
+  mounted() {
+    this.getNotesColumnsTitle(this.infos)
+  },
   watch: {
     infos(val) {
       this.getNotesColumnsTitle(val)

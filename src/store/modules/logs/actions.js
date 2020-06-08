@@ -14,7 +14,8 @@ export default {
   },
   CREATE_LOGS: ({ dispatch }, payload) => {
     dispatch('OPEN_LOGS_LOADING', 'visible')
-    api.getLogs().then(({ data }) => {
+    api.getLogs().then((res) => {
+      console.log('CREATE_LOGS', payload, res)
       const dbParams = data.slice()
       dbParams.push(payload)
       api.createLogs(dbParams)

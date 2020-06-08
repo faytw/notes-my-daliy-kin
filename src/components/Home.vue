@@ -7,15 +7,15 @@
           v-model="pageNav"
           dark
         >
-          <v-btn value="signature" href="/signature">
+          <v-btn value="signature" link to="/signature">
             <v-icon>mdi-heart-half-full</v-icon>
           </v-btn>
 
-          <v-btn value="notebook" href="/notebook" v-if="showNotebookButton">
+          <v-btn value="notebook" link to="/notebook" v-if="showNotebookButton">
             <v-icon>mdi-notebook</v-icon>
           </v-btn>
 
-          <v-btn value="relationships" href="/relationships/list">
+          <v-btn value="relationships" link to="/relationships/list">
             <v-icon>mdi-calculator</v-icon>
           </v-btn>
         </v-bottom-navigation>
@@ -34,7 +34,8 @@
       <v-col :cols="showEditNoteIcon ? 10: 8">
         <span>{{ displayDateFormat }}</span>
          <v-btn 
-          href="notebook/create-notes"
+          link
+          to="notebook/create-notes"
           v-if="showEditNoteIcon && showAddNotesButton"
           text
         >
@@ -61,7 +62,8 @@ import {
   setDate,
   setInitData,
 } from '../helpers/moonCalender'
-import { mapActions, mapState, mapGetters } from 'vuex'
+import auth from '../helpers/auth'
+import { mapActions, mapState } from 'vuex'
 import Notification from './Notification.vue'
 
 export default {
@@ -74,7 +76,8 @@ export default {
       relationshipStepper: 'relationships',
       signature: 'signature',
       notes: 'notebook',
-      notebook: 'notebook'
+      notebook: 'notebook',
+      home: 'signature',
     },
     pageNav: 'signature',
   }),
@@ -90,12 +93,14 @@ export default {
     ...mapState('signature', [
       'displayKin',
     ]),
-    ...mapGetters('user', [
-      'showNotebookButton',
-      'showAddNotesButton'
+    ...mapState('user', [
+      'roles',
     ]),
     showEditNoteIcon() {
       return this.$route.name === 'signature'
+    },
+    showAddNotesButton() {
+      return auth.DISPLAY.showAddNotesButton.includes(this.roles[0])
     },
     showArrowButtonStatus() {
       return this.$route.name === 'notebook'
@@ -107,6 +112,9 @@ export default {
     showtopNav() {
       const blackList = ['signIn', 'signOut', 'forgetPassword']
       return !blackList.includes(this.$route.name)
+    },
+    showNotebookButton() {
+      return auth.NAV.showNotebookButton.includes(this.roles[0])
     },
   },
   methods: {

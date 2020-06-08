@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-center">
-      <v-btn href="/relationships/computer" color="primary">
+      <v-btn link text to="/relationships/computer" color="primary">
         新增星盤
       </v-btn>
     </div>
@@ -25,7 +25,8 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapState, mapActions} from 'vuex'
+import auth from '../helpers/auth'
 
 export default {
   name: 'relationshipList',
@@ -37,19 +38,19 @@ export default {
   }),
   computed: {
     ...mapState('user', [
-      'email'
+      'id',
+      'roles'
     ]),
     ...mapState('logs', [
       'infos', 'dataTableItems'
     ]),
-    ...mapGetters('user', [
-      'showRelationshipsLogs',
-    ]),
+    showRelationshipsLogs() {
+      return auth.DISPLAY.showRelationshipsLogs.includes(this.roles[0])
+    }
   },
   created() {
     if (this.showRelationshipsLogs) {
-      // TODO: user: uuid
-      this.getLogs({ user: this.email })
+      this.getLogs({ user: this.id })
     }
   },
   methods: {

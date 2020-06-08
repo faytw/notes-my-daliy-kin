@@ -11,6 +11,7 @@
           :error-messages="errors" 
           label="Email" 
           required
+          autocomplete="username"
         >
         </v-text-field>
       </ValidationProvider>
@@ -19,10 +20,12 @@
         name="signInForm.password"
         rules="required">
         <v-text-field 
+          type="password"
           v-model="password" 
           :error-messages="errors" 
           label="密碼" 
           required
+          autocomplete="current-password"
         >
         </v-text-field>
       </ValidationProvider>
@@ -42,8 +45,8 @@ import { mapActions } from 'vuex'
 export default {
   name: 'signIn',
   data: () => ({
-    password: 'test12345678',
-    email: 'rebecca.hsu1989@gmail.com',
+    password: 'developer777',
+    email: 'developer-account@gmail.com',
   }),
   methods: {
     ...mapActions('user', {
@@ -54,9 +57,11 @@ export default {
         if (valid) {
           const params = {
             email: this.email,
-            password: this.password
+            password: this.password,
           }
-          this.getUserInfos(params)
+          this.getUserInfos(params).then(() => {
+            this.$router.push({path: 'signature'})
+          })
         }
       }) 
     },

@@ -58,6 +58,11 @@ export default {
       'displayKin'
     ])
   },
+  mounted() {
+    this.setPositionNowProp(this.infos)
+    this.setQuestionContent(this.infos)
+    this.setWaveInfos(this.displayKin)
+  },
   watch: {
     infos(val) {
       this.setPositionNowProp(val)

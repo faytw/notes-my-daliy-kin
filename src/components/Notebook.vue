@@ -52,6 +52,16 @@ export default {
       displayKin: 'displayKin',
     }),
   },
+  mounted() {
+    this.setInfoData(this.notes)
+    const { sealText, toneText } = handleKinData(this.displayKin)
+    this.board = { ...this.board, 
+      name: `${this.$t(`toneText.${toneText}`)}${this.$t(`sealText.${sealText}`)}`,
+      question: this.$t(`toneQuestion.${toneText}`),
+      body: `${this.$t(`toneBody.${toneText}`)} & ${this.$t(`sealBody.${sealText}`)}`,
+      isGreenGrid: isGreenGrid(this.displayKin),
+    }
+  },
   watch: {
     displayKin(val) {
       const { sealText, toneText } = handleKinData(val)

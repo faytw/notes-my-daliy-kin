@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import Home from '@/components/Home.vue'
 import Notes from '@/components/Notes.vue'
 import Notebook from '@/components/Notebook.vue'
 import Signature from '@/components/Signature.vue'

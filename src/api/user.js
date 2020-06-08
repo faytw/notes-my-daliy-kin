@@ -13,9 +13,10 @@ export function getUserInfos(params) {
       querySnapshot.forEach(function (doc) {
         // doc.data() is never undefined for query doc snapshots
         const data = doc.data()
-        const {id, name, roles} = data
+        const { id, email, name, roles } = data
         const result = {
           id,
+          email,
           name,
           roles,
         }

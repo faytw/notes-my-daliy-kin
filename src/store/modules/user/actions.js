@@ -5,7 +5,7 @@ export default {
     // dispatch('OPEN_LOGS_LOADING', 'visible')
     api.getUserInfos(payload).then(( data ) => {
       // dispatch('CLOSE_LOGS_LOADING', 'hidden')
-      console.log(data)
+      commit('setUserInfos', data)
     })
     .catch((err) => console.log(err))
   },

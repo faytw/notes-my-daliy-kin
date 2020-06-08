@@ -4,9 +4,7 @@ import {
 
 export default {
   GET_NOTES: ({ commit, dispatch }, payload) => {
-    dispatch('OPEN_NOTES_LOADING', 'visible')
     api.getNotes(payload).then(({ data }) => {
-      dispatch('CLOSE_NOTES_LOADING', 'hidden')
       const infos = data && Object.entries(data[0]).length > 0 ? data[0] : []
       commit('setNoteInfos', infos)
     })
