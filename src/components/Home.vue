@@ -2,6 +2,7 @@
   <v-container>
     <v-row class="text-center">
       <notification></notification>
+      <!-- Top Nav -->
       <v-col v-if="showtopNav">
         <v-bottom-navigation
           v-model="pageNav"
@@ -21,7 +22,7 @@
         </v-bottom-navigation>
       </v-col>
     </v-row>
-
+    <!-- Date Infos and  Add notes button-->
     <v-row class="text-center justify-center" v-if="showDateInfoStatus">
       <v-col class="mb-1 font-weight-bold">
         <span 
@@ -35,7 +36,7 @@
         <span>{{ displayDateFormat }}</span>
          <v-btn 
           link
-          to="notebook/create-notes"
+          to="notebook/notes"
           v-if="showEditNoteIcon && showAddNotesButton"
           text
         >
@@ -51,9 +52,46 @@
         </span>
       </v-col>
     </v-row>
-
     <router-view></router-view>
-
+    <!-- Home page content -->
+    <v-row v-if="showGuideInfos" class="mr-auto ml-auto">
+      <v-col class="col-lg-6 col-md-6 mr-auto ml-auto">
+        <div class="title mb-2">APP 簡介</div>
+        <div class="subtitle-2 mb-4">
+          在馬雅系統中， 13 個調性和 20 個圖騰的循環，共有 260 種組合，
+          配合卓爾金曆法。每一天都有一個獨特的星系印記。
+        </div>
+        <div class="mb-4">
+          <v-icon>mdi-heart-half-full</v-icon>
+          <span class="pl-2">當日星盤</span>
+          <ul class="ml-7 caption">
+            <li>波符資訊</li>
+            <li>調性問句</li>
+            <li>圖騰問句</li>
+            <li>簡易星盤</li>
+            <li>標示綠格</li>
+            <li>標示當下區域</li>
+          </ul>
+        </div>
+        <div class="mb-4">
+          <v-icon>mdi-calculator</v-icon>
+          <span class="pl-2">星盤計算工具</span>
+          <ul class="ml-7 caption">
+            <li>個人星盤</li>
+            <li>關係合盤</li>
+            <li>儲存星盤紀錄</li>
+          </ul>
+        </div>
+        <div>
+          <v-icon>mdi-notebook</v-icon>
+          <span class="pl-2">日記本</span>
+          <ul class="ml-7 caption">
+            <li>可新增當日筆記</li>
+            <li>可閱讀任ㄧ天的日記</li>
+          </ul>
+        </div>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -77,9 +115,9 @@ export default {
       signature: 'signature',
       notes: 'notebook',
       notebook: 'notebook',
-      home: 'signature',
+      home: '123 '
     },
-    pageNav: 'signature',
+    pageNav: '',
   }),
   components: {
     Notification,
@@ -110,11 +148,14 @@ export default {
       return whiteList.includes(this.$route.name)
     },
     showtopNav() {
-      const blackList = ['signIn', 'signOut', 'forgetPassword']
+      const blackList = ['signIn', 'signOut', 'forgetPassword', 'home', 'index']
       return !blackList.includes(this.$route.name)
     },
     showNotebookButton() {
       return auth.NAV.showNotebookButton.includes(this.roles[0])
+    },
+    showGuideInfos() {
+      return this.$route.name === 'home' || this.$route.name === 'index'
     },
   },
   methods: {

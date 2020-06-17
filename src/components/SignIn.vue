@@ -32,7 +32,6 @@
 
       <div class="mt-3">
         <v-btn class="mr-4" @click="submit">送出</v-btn>
-        <v-btn @click="clear">清除</v-btn>
       </div>
     </form>
   </ValidationObserver>
@@ -64,10 +63,7 @@ export default {
           })
         }
       }) 
-    },
-    clear() {
-      this.$refs.signInForm.reset()
-    },
+    }
   },
 }
 </script>

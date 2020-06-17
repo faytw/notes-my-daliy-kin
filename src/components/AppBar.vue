@@ -1,7 +1,7 @@
 <template>
   <v-app-bar app color="#FFAB00" dark>
     <div class="d-flex align-center">
-      <v-btn to="/home" text link><span>{{ $t(`common.project`) }}</span></v-btn>
+      <v-btn to="/index" text link><span>{{ $t(`common.project`) }}</span></v-btn>
     </div>
     <v-spacer></v-spacer>
     <div class="navbar-without-auth" v-if="!isLogin">
