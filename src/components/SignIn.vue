@@ -31,6 +31,7 @@
       </ValidationProvider>
 
       <div class="mt-3">
+        <v-btn class="mr-4" @click="visitorSubmit">訪客登入</v-btn>
         <v-btn class="mr-4" @click="submit">送出</v-btn>
       </div>
     </form>
@@ -50,6 +51,7 @@ export default {
   methods: {
     ...mapActions('user', {
       getUserInfos: 'GET_USER_INFOS',
+      setVisitorInfos: 'SET_VISITOR_INFOS',
     }),
     submit() {
       this.$refs.signInForm.validate().then((valid) => {
@@ -63,7 +65,16 @@ export default {
           })
         }
       }) 
-    }
+    },
+    visitorSubmit() {
+      const payload = {
+        name: 'visitor',
+        roles: ['visitor']
+      }
+      this.setVisitorInfos(payload).then(() => {
+        this.$router.push({path: 'signature'})
+      })
+    },
   },
 }
 </script>

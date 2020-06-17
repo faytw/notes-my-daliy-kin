@@ -148,14 +148,14 @@ export default {
       return whiteList.includes(this.$route.name)
     },
     showtopNav() {
-      const blackList = ['signIn', 'signOut', 'forgetPassword', 'home', 'index']
+      const blackList = ['signIn', 'signOut', 'forgetPassword', 'index']
       return !blackList.includes(this.$route.name)
     },
     showNotebookButton() {
       return auth.NAV.showNotebookButton.includes(this.roles[0])
     },
     showGuideInfos() {
-      return this.$route.name === 'home' || this.$route.name === 'index'
+      return this.$route.name === 'index'
     },
   },
   methods: {
