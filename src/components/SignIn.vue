@@ -50,8 +50,8 @@ export default {
   }),
   methods: {
     ...mapActions('user', {
-      getUserInfos: 'GET_USER_INFOS',
-      setVisitorInfos: 'SET_VISITOR_INFOS',
+      getUserToken: 'GET_USER_TOKEN',
+      getVisitorInfos: 'GET_VISITOR_INFOS',
     }),
     submit() {
       this.$refs.signInForm.validate().then((valid) => {
@@ -60,20 +60,17 @@ export default {
             email: this.email,
             password: this.password,
           }
-          this.getUserInfos(params).then(() => {
-            this.$router.push({path: 'signature'})
-          })
+          this.getUserToken(params)
         }
       }) 
     },
     visitorSubmit() {
       const payload = {
         name: 'visitor',
-        roles: ['visitor']
+        roles: ['visitor'],
+        id: 'visitor-987654321-000000'
       }
-      this.setVisitorInfos(payload).then(() => {
-        this.$router.push({path: 'signature'})
-      })
+      this.getVisitorInfos(payload)
     },
   },
 }

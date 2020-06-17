@@ -3,4 +3,5 @@ export default {
     email: '',
     id: '',
     roles: [],
+    token: '',
 }

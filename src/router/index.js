@@ -13,7 +13,7 @@ import RelationshipList from '@/components/RelationshipList.vue'
 
 Vue.use(Router)
 
-const ALL = ['user','visitor','developer']
+const ALL = ['user', 'visitor', 'developer']
 const NO_VISITOR = ['user', 'developer']
 
 const routes = [
@@ -26,18 +26,28 @@ const routes = [
         path: '/signature',
         name: 'signature',
         component: Signature,
-        meta: { roles: ALL },
+        meta: {           
+          requiresAuth: true, 
+          allowed: ALL 
+        },
       },
       {
         path: '/notebook',
         name: 'notebook',
         component: Notebook,
-        meta: { roles: NO_VISITOR },
+        meta: { 
+          requiresAuth: true, 
+          allowed: NO_VISITOR 
+        },
         children: [
           {
             path: '/notebook/notes',
             name: 'notes',
             component: Notes,
+            meta: { 
+              requiresAuth: true, 
+              allowed: NO_VISITOR 
+            },
           },
         ]
       },
@@ -49,13 +59,19 @@ const routes = [
             path: 'computer',
             name: 'relationshipStepper',
             component: RelationshipStepper,
-            meta: { roles: ALL },
+            meta: {           
+              requiresAuth: true, 
+              allowed: ALL 
+            },
           },
           {
             path: 'list',
             name: 'relationshipList',
             component: RelationshipList,
-            meta: { roles: NO_VISITOR },
+            meta: { 
+              requiresAuth: true, 
+              allowed: NO_VISITOR 
+            },
           }
         ]
       },
@@ -79,8 +95,39 @@ Router.prototype.push = function push(location, onResolve, onReject) {
   return originalPush.call(this, location).catch(err => err)
 }
 
-export default new Router({
+function hasAccess(route = {}, roles = []) {
+  return roles.some((role) => {
+    const allowed = (route.meta && route.meta.allowed) || []
+    return allowed.includes(role);
+  });
+}
+
+export const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
 })
+
+router.beforeEach((to, from, next) => {
+  const {
+    user_token: token,
+    user_infos: userInfos = '{}',
+  } = localStorage
+
+  const hasToken = token && token !== 'undefined'
+  const authRequired = to.matched.some(record => record.meta.requiresAuth);
+  const infos = JSON.parse(userInfos);
+  const roles = infos.roles || []
+
+  if (to.path === '/') {
+    next({ path: '/signin' })
+  } else if (authRequired) {
+    if (hasToken && hasAccess(to, roles)) {
+      next()
+    }
+  } else {
+    next()
+  }
+})
+
+export default router

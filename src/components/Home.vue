@@ -123,6 +123,17 @@ export default {
     Notification,
   },
   mounted() {
+     const { 
+      user_token: id,
+      user_type: type,
+     } = localStorage
+
+    const payload = {
+      id,
+      type
+    }
+
+    this.getUserInfosWithId(payload)
     this.setDisplayFormat()
     this.pageNav = this.routeNameConfig[this.$route.name]
     this.initApp()
@@ -162,6 +173,9 @@ export default {
     ...mapActions('signature',{
       initDefaultValues: 'INIT_APP_DATA',
       setDisplayKin: 'SET_DISPLAY_KIN',
+    }),
+    ...mapActions('user', {
+      getUserInfosWithId: 'GET_USER_INFOS_WITH_ID',
     }),
     initApp() {
       const infos = setInitData()

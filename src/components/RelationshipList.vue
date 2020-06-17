@@ -48,7 +48,7 @@ export default {
       return auth.DISPLAY.showRelationshipsLogs.includes(this.roles[0])
     }
   },
-  created() {
+  mounted() {
     if (this.showRelationshipsLogs) {
       this.getLogs({ user: this.id })
     }
