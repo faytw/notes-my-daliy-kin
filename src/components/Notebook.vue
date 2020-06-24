@@ -28,7 +28,6 @@
       </v-card>
     </v-col>
   </v-row>
-
 </template>
 
 <script>
@@ -43,10 +42,18 @@ export default {
   data: () => ({
     infoData: [],
     board: {},
+    user: '',
+    params: {
+      kin: null,
+      userId: null
+    }
   }),
   computed: {
     ...mapState('notes', {
       notes: 'infos'
+    }),
+    ...mapState('user', {
+      id: 'id'
     }),
     ...mapState('signature', {
       displayKin: 'displayKin',
@@ -71,14 +78,24 @@ export default {
         body: `${this.$t(`toneBody.${toneText}`)} & ${this.$t(`sealBody.${sealText}`)}`,
         isGreenGrid: isGreenGrid(val),
       }
-      const params = {
-        sealText
-      }
-      this.getNotes(params)
+      this.params.kin = val
+    },
+    id(val) {
+      this.user = val
+      this.params.userId = val || this.user
     },
     notes(val) {
       this.setInfoData(val)
     },
+    params: {
+      handler(val) {
+        const { kin, userId } = val
+        if(kin !== null && userId !== null) {
+          this.getNotes(val)
+        }
+      },
+      deep: true
+    }
   },
   methods: {
     ...mapActions('notes', {
@@ -96,9 +113,8 @@ export default {
         throw new Error('Failed, "created_time" must be exist.')
       }
     },
-    setInfoData(val) {
-      const data = val[this.displayKin]
-      if (data && Object.entries(data).length > 0) {
+    setInfoData(data) {
+      if (data && data.length > 0) {
         const infos = data.slice()
         let tempArr = []
         infos.forEach((elm) => {

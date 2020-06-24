@@ -4,34 +4,25 @@ import {
 
 export default {
   GET_NOTES: ({ commit, dispatch }, payload) => {
-    api.getNotes(payload).then(({ data }) => {
-      const infos = data && Object.entries(data[0]).length > 0 ? data[0] : []
+    const { userId } = payload
+    api.getNotes(payload).then((data) => {
+      const temp = []
+      Object.keys(data).forEach((key) => {
+        const note = data[key]
+        temp.push(note)
+      })
+      const infos = temp.filter((elm) => elm.author === userId)
       commit('setNoteInfos', infos)
     })
     .catch( (err) => console.log(err))
   },
   CREATE_NOTES: ({ dispatch }, payload) => {
     dispatch('OPEN_NOTES_LOADING', 'visible')
-    payload.forEach(element => {
-      const params = {
-        sealText: element.sealText 
-      } 
-      let dbParams = {}
-      api.getNotes(params).then(({ data }) => {
-        const oriData = data ? data[0] : []
-        let updateData = oriData[element.kin] ? oriData[element.kin].slice() : []
-        updateData.push(element.data)
-
-        dbParams = {
-          ...oriData,
-          [element.kin]: updateData,
-          doc: element.sealText,
-        }
-        api.createNotes(dbParams).then(() => {
-          dispatch('CLOSE_NOTES_LOADING', 'hidden')
-          dispatch('CREATED_NOTES_SUCCESSED', 'visible')
-        })
-      }) 
+    payload.forEach(element => {     
+      api.createNotes(element).then(() => {
+        dispatch('CLOSE_NOTES_LOADING', 'hidden')
+        dispatch('CREATED_NOTES_SUCCESSED', 'visible')
+      })
     })
   },
   CREATED_NOTES_SUCCESSED: ({ commit }, payload) => {

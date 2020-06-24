@@ -1,25 +1,33 @@
 import { db } from '../plugins/firebaseStore';
 
-const notesRef = db.collection('diaries')
-
 export function getNotes(params) {
-  const { sealText } = params
+  const { 
+    kin,
+   } = params
+  const notesRef = db.collection('diaries').doc(`${kin}`)
   return new Promise((resolve, reject) => {
-    notesRef.doc(`${sealText}`).get().then((docSnapshot) => {
+    notesRef.get().then((docSnapshot) => {
       if(docSnapshot.exists) {
         let notes = docSnapshot.data()
         resolve(notes)
+      }else{
+        resolve([])
       }
     }).catch((err) => reject(err))
   })
 }
 
 export function createNotes(params) {
-  const { doc, ...updated } = params
-  const data = []
-  data.push(updated)
+  const { 
+    kin,
+    data
+  } = params
+  const { 
+    note_id: noteId,
+   } = data
+  const notesRef = db.collection('diaries').doc(`${kin}`)
   return new Promise((resolve, reject) => {
-    notesRef.doc(`${doc}`).set({ data }).then(() => {
+    notesRef.set({ [noteId]: data }, { merge: true }).then(() => {
       resolve('created success')
     }).catch((err) => reject(err))
   })

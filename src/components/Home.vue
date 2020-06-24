@@ -115,7 +115,6 @@ export default {
       signature: 'signature',
       notes: 'notebook',
       notebook: 'notebook',
-      home: '123 '
     },
     pageNav: '',
   }),

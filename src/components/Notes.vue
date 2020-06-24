@@ -34,7 +34,7 @@ export default {
       'infos',
     ]),
     ...mapState('user', [
-      'email'
+      'id'
     ])
   },
   mounted() {
@@ -109,12 +109,12 @@ export default {
         let params
         if(note) {
           params = {
-            sealText,
             kin,
             data: {
+              seal_text: sealText,
               note,
               created_time: createdTime,
-              author: this.email,
+              author: this.id,
               note_id: uuid.set()
             },
           }
