@@ -1,6 +1,4 @@
-import {
-  db
-} from '../plugins/firebaseStore';
+import { db } from '../plugins/firebaseStore'
 
 export function getUserInfos(params) {
   const { email, password } = params
@@ -25,14 +23,13 @@ export function getUserInfos(params) {
       })
     })
     .catch(function (error) {
-      console.log("Error getting documents: ", error);
+      console.log("Error getting documents: ", error)
       reject(error)
     })
   })
 }
 
 export function getUserInfosWithId(id) {
-  
   // TODO: encode password
   const userRef = db.collection("users").where("id", "==", id)
   return new Promise((resolve, reject) => {
@@ -52,7 +49,7 @@ export function getUserInfosWithId(id) {
       })
     })
     .catch(function (error) {
-      console.log("Error getting documents: ", error);
+      console.log("Error getting documents: ", error)
       reject(error)
     })
   })

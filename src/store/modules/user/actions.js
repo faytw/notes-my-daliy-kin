@@ -41,7 +41,6 @@ export default {
         id,
         ...infos
       }
-      console.log(visitorData)
       commit('setUserInfos', visitorData)
     }
     
@@ -55,8 +54,6 @@ export default {
     localStorage.setItem('user_token', token)
     localStorage.setItem('user_type', 0)
     localStorage.setItem('user_infos', JSON.stringify(infos))
-
-    console.log('GET_VISITOR_INFOS', token)
 
     commit('setUserToken', token)
     commit('setUserInfos', payload)

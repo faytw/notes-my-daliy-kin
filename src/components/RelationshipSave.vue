@@ -158,20 +158,43 @@
             <div class="d-flex">
               <span>{{ name1 }}</span>
               <span>{{ showSignatureInfos(signature1) }}</span>
+              <v-icon 
+                v-if="showRelationshipsSaveButton"
+                @click="save(signature1, name1)"
+              >
+                mdi-content-save
+              </v-icon>
             </div>
           </div>
           <div class="signature-infos" v-else>
             <div class="d-flex">
               <span>{{ name1 }}</span>
               <span>{{ showSignatureInfos(signature1) }}</span>
-            </div>
+              <v-icon 
+                v-if="showRelationshipsSaveButton"
+                @click="save(signature1, name1)"
+              >
+                mdi-content-save
+              </v-icon>            </div>
             <div class="d-flex">
               <span>{{ name2 }}</span>
               <span>{{ showSignatureInfos(signature2) }}</span>
+              <v-icon 
+                v-if="showRelationshipsSaveButton"
+                @click="save(signature2, name2)"
+              >
+                mdi-content-save
+              </v-icon>
             </div>
             <div class="d-flex">
               <span>{{ name3 }}</span>
               <span>{{ showSignatureInfos(signature3) }}</span>
+              <v-icon 
+                v-if="showRelationshipsSaveButton"
+                @click="save(signature3, name3)"
+              >
+                mdi-content-save
+              </v-icon>
             </div>
           </div>
 

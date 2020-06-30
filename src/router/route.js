@@ -59,7 +59,7 @@ export const routes = [{
             },
           },
           {
-            path: 'list',
+            path: 'list/:id',
             name: 'relationshipList',
             component: RelationshipList,
             meta: {

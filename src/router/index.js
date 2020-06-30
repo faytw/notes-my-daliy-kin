@@ -14,7 +14,7 @@ Router.prototype.push = function push(location, onResolve, onReject) {
 function hasAccess(route = {}, roles = []) {
   return roles.some((role) => {
     const allowed = (route.meta && route.meta.allowed) || []
-    return allowed.includes(role);
+    return allowed.includes(role)
   });
 }
 
@@ -31,8 +31,8 @@ router.beforeEach((to, from, next) => {
   } = localStorage
 
   const hasToken = token && token !== 'undefined'
-  const authRequired = to.matched.some(record => record.meta.requiresAuth);
-  const infos = JSON.parse(userInfos);
+  const authRequired = to.matched.some(record => record.meta.requiresAuth)
+  const infos = JSON.parse(userInfos)
   const roles = infos.roles || []
 
   if (to.path === '/') {
@@ -41,7 +41,12 @@ router.beforeEach((to, from, next) => {
     if (hasToken && hasAccess(to, roles)) {
       next()
     } else {
-      next({ path: '/signin' })
+      if (to.path === `/relationships/list/${token}`) {
+        next({path: '/relationships/computer'})
+      } else {
+        const page = from.path
+        next({ path: `${page}` })
+      }
     }
   } else {
     next()

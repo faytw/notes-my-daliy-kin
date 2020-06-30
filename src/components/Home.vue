@@ -16,7 +16,7 @@
             <v-icon>mdi-notebook</v-icon>
           </v-btn>
 
-          <v-btn value="relationships" link to="/relationships/list">
+          <v-btn value="relationships" link :to="`/relationships/computer`">
             <v-icon>mdi-calculator</v-icon>
           </v-btn>
         </v-bottom-navigation>
@@ -63,7 +63,7 @@
         </div>
         <div class="mb-4">
           <v-icon>mdi-heart-half-full</v-icon>
-          <span class="pl-2">當日星盤</span>
+          <router-link to="signature" class="pl-2">當日星盤</router-link>
           <ul class="ml-7 caption">
             <li>波符資訊</li>
             <li>調性問句</li>
@@ -75,16 +75,16 @@
         </div>
         <div class="mb-4">
           <v-icon>mdi-calculator</v-icon>
-          <span class="pl-2">星盤計算工具</span>
+          <router-link to="relationships/computer" class="pl-2">星盤計算工具</router-link>
           <ul class="ml-7 caption">
             <li>個人星盤</li>
             <li>關係合盤</li>
-            <li>儲存星盤紀錄</li>
+            <li><router-link :to="`relationships/list/${id}`">星盤紀錄列表</router-link></li>
           </ul>
         </div>
         <div>
           <v-icon>mdi-notebook</v-icon>
-          <span class="pl-2">日記本</span>
+          <router-link to="notebook" class="pl-2">共時筆記</router-link>
           <ul class="ml-7 caption">
             <li>可新增當日筆記</li>
             <li>可閱讀任ㄧ天的日記</li>
@@ -143,6 +143,7 @@ export default {
     ]),
     ...mapState('user', [
       'roles',
+      'id',
     ]),
     showEditNoteIcon() {
       return this.$route.name === 'signature'
@@ -161,11 +162,11 @@ export default {
       const blackList = ['signIn', 'signOut', 'forgetPassword', 'index']
       return !blackList.includes(this.$route.name)
     },
-    showNotebookButton() {
-      return auth.NAV.showNotebookButton.includes(this.roles[0])
-    },
     showGuideInfos() {
       return this.$route.name === 'index'
+    },
+    showNotebookButton() {
+      return auth.NAV.showNotebookButton.includes(this.roles[0])
     },
   },
   methods: {
