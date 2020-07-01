@@ -6,73 +6,47 @@
           :complete="step > 1" 
           step="1"
         >
-          選擇新增類型
+          選擇計算類型
         </v-stepper-step>
         <v-stepper-content step="1">
           <v-radio-group v-model="type" column>
             <v-radio label="個人" value="single"></v-radio>
             <v-radio label="合盤" value="multiple"></v-radio>
           </v-radio-group>
-          <v-btn 
-            color="primary" 
-            @click="setSteps(2)"
-          > 
-            下一步
-          </v-btn>
-          <v-btn 
-            text 
-            to="/index"
-          >
-            回首頁
-          </v-btn>
+          <v-btn color="primary" @click="setSteps(2)"> 下一步</v-btn>
+          <v-btn text to="/index">回首頁</v-btn>
         </v-stepper-content>
 
-        <v-stepper-step 
-          :complete="step > 2" 
-          step="2"
-        >
-          填寫必要欄位
+        <v-stepper-step :complete="step > 2" step="2">
+          選擇計算日期（西元年月日）
         </v-stepper-step>
         <v-stepper-content step="2">
           <ValidationObserver ref="inputs">
-            <ValidationProvider 
-              v-slot="{ required, errors  }"
-              name="inputs.name1"
-              rules="required"
+            <v-menu
+              ref="menu1" 
+              v-model="menu1" 
+              :close-on-content-click="false" 
+              transition="scale-transition" 
+              offset-y
+              min-width="290px"
             >
-              <v-text-field
-                v-model="name1" 
-                label="第ㄧ組名稱"
-                placeholder="範例：王小明"
-                :error-messages="errors"
-              >
-              </v-text-field>
-            </ValidationProvider>
-              <v-menu
-                ref="menu1" 
-                v-model="menu1" 
-                :close-on-content-click="false" 
-                transition="scale-transition" 
-                offset-y
-                min-width="290px"
-              >
-                <template v-slot:activator="{ on }">
-                  <ValidationProvider 
-                    v-slot="{ required, errors  }"
-                    name="inputs.date1"
-                    rules="required"
+              <template v-slot:activator="{ on }">
+                <ValidationProvider 
+                  v-slot="{ required, errors  }"
+                  name="inputs.date1"
+                  rules="required"
+                >
+                  <v-text-field 
+                    v-model="date1" 
+                    :label="type === 'single' ? '日期' : '第一組日期'" 
+                    placeholder="範例：2020-03-15"
+                    readonly 
+                    v-on="on"
+                    :error-messages="errors"
                   >
-                    <v-text-field 
-                      v-model="date1" 
-                      label="第一組日期" 
-                      placeholder="範例：2020-03-15"
-                      readonly 
-                      v-on="on"
-                      :error-messages="errors"
-                    >
-                    </v-text-field>
-                  </ValidationProvider>
-                </template>
+                  </v-text-field>
+                </ValidationProvider>
+              </template>
 
               <v-date-picker 
                 ref="picker1" 
@@ -81,112 +55,58 @@
                 :min="datePickerRules.minDate"
                 @change="setCustomDate1()">
               </v-date-picker>
-          </v-menu>
-          <ValidationProvider 
-            v-slot="{ required, errors  }"
-            name="inputs.name2"
-            :rules="`${type === 'multiple' ? 'required' : ''}`"
-          >
-            <v-text-field
-              v-if="type === 'multiple'"
-              v-model="name2" 
-              label="第二組名稱"
-              placeholder="範例：陳小二"
-              :error-messages="errors"
-            >
-            </v-text-field>
-          </ValidationProvider>
-          <v-menu 
-            v-if="type === 'multiple'"
-            ref="menu2" 
-            v-model="menu2" 
-            :close-on-content-click="false" 
-            transition="scale-transition" 
-            offset-y
-            min-width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <ValidationProvider 
-                v-slot="{ required, errors  }"
-                name="inputs.date2"
-                :rules="`${ type === 'multiple' ? 'required' : '' }`"
-              >
-                <v-text-field 
-                  v-model="date2" 
-                  label="第二組日期"
-                  placeholder="範例：2020-04-22"
-                  readonly 
-                  v-on="on"
-                  :error-messages="errors"
-                >
-                </v-text-field>
-              </ValidationProvider>
-            </template>
-            <v-date-picker 
-              ref="picker2" 
-              v-model="date2" 
-              :max="datePickerRules.maxDate"
-              :min="datePickerRules.minDate"
-              @change="setCustomDate2()"
-            >
-            </v-date-picker>
-          </v-menu>
+            </v-menu>
 
-            <v-btn 
-              color="primary" 
-              @click="validateInputs"
+            <v-menu 
+              v-if="type === 'multiple'"
+              ref="menu2" 
+              v-model="menu2" 
+              :close-on-content-click="false" 
+              transition="scale-transition" 
+              offset-y
+              min-width="290px"
             >
-              計算
-            </v-btn>
-            <v-btn 
-              text 
-              @click="setSteps(1)"
-            >
-              上一步
-            </v-btn>
+              <template v-slot:activator="{ on }">
+                <ValidationProvider 
+                  v-slot="{ required, errors  }"
+                  name="inputs.date2"
+                  :rules="`${ type === 'multiple' ? 'required' : '' }`"
+                >
+                  <v-text-field 
+                    v-model="date2" 
+                    label="第二組日期"
+                    placeholder="範例：2020-04-22"
+                    readonly 
+                    v-on="on"
+                    :error-messages="errors"
+                  >
+                  </v-text-field>
+                </ValidationProvider>
+              </template>
+              <v-date-picker 
+                ref="picker2" 
+                v-model="date2" 
+                :max="datePickerRules.maxDate"
+                :min="datePickerRules.minDate"
+                @change="setCustomDate2()"
+              >
+              </v-date-picker>
+            </v-menu>
+            <v-btn color="primary" @click="validateInputs">計算</v-btn>
+            <v-btn text @click="setSteps(1)">上一步</v-btn>
           </ValidationObserver>
         </v-stepper-content>
 
-        <v-stepper-step 
-          :complete="step > 3" 
-          step="3"
-        >
-          結果
+        <v-stepper-step :complete="step > 3" step="3">
+          計算結果
         </v-stepper-step>
         <v-stepper-content step="3">
-          <div class="signature-infos" v-if="type === 'single'">
-            <div class="d-flex">
-              <span>{{ name1 }}</span>
-              <span>{{ showSignatureInfos(signature1) }}</span>
-            </div>
+          <div class="signature-infos mb-6">
+            <div class="caption">{{type === 'single' ? '個人星盤' : '關係合盤'}}主印記</div>
+            <div>{{ showSignatureInfos(type === 'single' ? signature1 : signature3) }}</div>
           </div>
-          <div class="signature-infos" v-else>
-            <div class="d-flex">
-              <span>{{ name1 }}</span>
-              <span>{{ showSignatureInfos(signature1) }}</span>
-            </div>
-            <div class="d-flex">
-              <span>{{ name2 }}</span>
-              <span>{{ showSignatureInfos(signature2) }}</span>
-            </div>
-            <div class="d-flex">
-              <span>{{ name3 }}</span>
-              <span>{{ showSignatureInfos(signature3) }}</span>
-            </div>
-          </div>
-
-           <v-btn 
-            color="primary" 
-            @click="setSteps(1, true)"
-          >
-            再算一次
-          </v-btn>
-          <v-btn 
-            text 
-            to="/index"
-          >
-            回首頁
-          </v-btn>
+          <v-btn color="primary" @click="setSteps(1, true)">再算一次</v-btn>
+          <v-btn text to="/index">回首頁</v-btn>
         </v-stepper-content>
       </v-stepper>
     </v-col>
@@ -198,18 +118,13 @@
     setInitData,
     calulateRelationshipsData
   } from '../helpers/moonCalender'
-  import { mapState, mapActions } from 'vuex'
-  import uuid from '../helpers/uuid' 
-  import auth from '../helpers/auth'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'relationshipStepper',
     data: () => ({
       type: 'single',
       step: 1,
-      name1: '',
-      name2: '',
-      name3: '',
       menu1: false,
       menu2: false,
       signature1: [],
@@ -236,29 +151,8 @@
       kin2() {
         return this.signature2.length > 0 && this.signature2.filter((item) => item.position === 'middle')[0].kin || null
       },
-      showRelationshipsSaveButton() {
-        return auth.DISPLAY.showRelationshipsSaveButton.includes(this.roles[0])
-      }
     },
     methods: {
-      ...mapActions('logs', {
-        createLogs: 'CREATE_LOGS'
-      }),
-      save(signature, name){
-        const signID = uuid.set()
-        const data = {
-          signature,
-          user: this.id,
-          name,
-          signID, 
-        }
-
-        this.createLogs(data)
-        /* 
-        TODO: 
-        when a popup close, the save icon should be hidden
-        */
-      },
       validateInputs() {
         this.$refs.inputs.validate().then((valid) => {
           if (valid) {
@@ -269,9 +163,6 @@
       setDefaultValue() {
         this.type = 'single'
         this.step = 1
-        this.name1 = ''
-        this.name2 = ''
-        this.name3 = ''
         this.menu1 = false
         this.menu2 = false
         this.signature1 = []
@@ -337,7 +228,6 @@
         if (data && Object.entries(data).length > 0) {
           this.signature1 = kin2 ? this.signature1 : data
           this.signature3 = kin2 ? data : []
-          this.name3 = kin2 ? `${this.name1} & ${this.name2}` : ''
           this.setSteps(3, true)
         }
       },
@@ -352,19 +242,3 @@
     },
   }
 </script>
-
-<style scoped>
-.signature-infos {
-  margin-bottom: 20px;
-}
-.signature-infos .d-flex {
-  justify-content: space-between;
-}
-
-.signature-unsaved {
-  color: #2196f3;
-}
-.signature-saved {
-  color: forestgreen;
-}
-</style>

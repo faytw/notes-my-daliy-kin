@@ -12,7 +12,7 @@
             <v-icon>mdi-heart-half-full</v-icon>
           </v-btn>
 
-          <v-btn value="notebook" link to="/notebook" v-if="showNotebookButton">
+          <v-btn value="notebook" link to="/notebook">
             <v-icon>mdi-notebook</v-icon>
           </v-btn>
 
@@ -22,7 +22,7 @@
         </v-bottom-navigation>
       </v-col>
     </v-row>
-    <!-- Date Infos and  Add notes button-->
+    <!-- Date Infos -->
     <v-row class="text-center justify-center" v-if="showDateInfoStatus">
       <v-col class="mb-1 font-weight-bold">
         <span 
@@ -32,16 +32,8 @@
           <v-icon>mdi-chevron-left</v-icon>
         </span>
       </v-col>
-      <v-col :cols="showEditNoteIcon ? 10: 8">
+      <v-col cols="8">
         <span>{{ displayDateFormat }}</span>
-         <v-btn 
-          link
-          to="notebook/notes"
-          v-if="showEditNoteIcon && showAddNotesButton"
-          text
-        >
-          <v-icon>mdi-pen-plus</v-icon>
-        </v-btn>
       </v-col>
       <v-col>
         <span 
@@ -52,11 +44,16 @@
         </span>
       </v-col>
     </v-row>
+
     <router-view></router-view>
+    
     <!-- Home page content -->
     <v-row v-if="showGuideInfos" class="mr-auto ml-auto">
       <v-col class="col-lg-6 col-md-6 mr-auto ml-auto">
-        <div class="title mb-2">APP 簡介</div>
+        <div class="title mb-2">
+          <span>APP 簡介</span>
+          <v-icon class="ml-3" v-if="roles.length > 0" @click="signOut">mdi-logout-variant</v-icon>
+        </div>
         <div class="subtitle-2 mb-4">
           在馬雅系統中， 13 個調性和 20 個圖騰的循環，共有 260 種組合，
           配合卓爾金曆法。每一天都有一個獨特的星系印記。
@@ -86,8 +83,8 @@
           <v-icon>mdi-notebook</v-icon>
           <router-link to="notebook" class="pl-2">共時筆記</router-link>
           <ul class="ml-7 caption">
-            <li>可新增當日筆記</li>
-            <li>可閱讀任ㄧ天的日記</li>
+            <li>閱讀共時筆記</li>
+            <li><router-link to="/notebook/notes">新增當日筆記</router-link></li>
           </ul>
         </div>
       </v-col>
@@ -100,7 +97,7 @@ import {
   setDate,
   setInitData,
 } from '../helpers/moonCalender'
-import auth from '../helpers/auth'
+// import auth from '../helpers/auth'
 import { mapActions, mapState } from 'vuex'
 import Notification from './Notification.vue'
 
@@ -145,12 +142,6 @@ export default {
       'roles',
       'id',
     ]),
-    showEditNoteIcon() {
-      return this.$route.name === 'signature'
-    },
-    showAddNotesButton() {
-      return auth.DISPLAY.showAddNotesButton.includes(this.roles[0])
-    },
     showArrowButtonStatus() {
       return this.$route.name === 'notebook'
     },
@@ -165,9 +156,6 @@ export default {
     showGuideInfos() {
       return this.$route.name === 'index'
     },
-    showNotebookButton() {
-      return auth.NAV.showNotebookButton.includes(this.roles[0])
-    },
   },
   methods: {
     ...mapActions('signature',{
@@ -176,6 +164,7 @@ export default {
     }),
     ...mapActions('user', {
       getUserInfosWithId: 'GET_USER_INFOS_WITH_ID',
+      clearUserInfos: 'CLEAR_USER_INFOS',
     }),
     initApp() {
       const infos = setInitData()
@@ -203,6 +192,9 @@ export default {
       const { year, month, date } = setDate(input)
       this.displayDateFormat =  `西元 ${year} 年 ${month < 10 ? '0' + (month + 1) : (month + 1)} 月 ${date < 10 ? '0' + (date) : date} 日`
     },
+    signOut() {
+      this.clearUserInfos()
+    }
   }
 }
 </script>

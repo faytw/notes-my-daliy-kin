@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="text-center">
-      <v-btn link text to="/relationships/computer" color="primary">
-        新增星盤
+      <v-btn link text to="/relationships/computer-saved" color="primary">
+        新增星盤紀錄
       </v-btn>
     </div>
     <v-data-table 

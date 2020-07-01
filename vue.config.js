@@ -19,5 +19,5 @@ module.exports = {
       },
     }
   },
-  publicPath: process.env.NODE_ENV === 'production' ? '/notes-daliy-kin/' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/notes-my-daliy-kin/' : '/',
 }

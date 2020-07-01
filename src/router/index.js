@@ -36,17 +36,13 @@ router.beforeEach((to, from, next) => {
   const roles = infos.roles || []
 
   if (to.path === '/') {
-    next({ path: '/index' })
+    next({ path: '/signin' })
   } else if (authRequired) {
     if (hasToken && hasAccess(to, roles)) {
       next()
     } else {
-      if (to.path === `/relationships/list/${token}`) {
-        next({path: '/relationships/computer'})
-      } else {
-        const page = from.path
-        next({ path: `${page}` })
-      }
+      const page = from.path
+      next({ path: `${page}` })
     }
   } else {
     next()

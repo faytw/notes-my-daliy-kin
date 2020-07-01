@@ -9,4 +9,11 @@ export default {
   setUserToken: (state, token) => {
     state.token = token
   },
+  clearUserInfos: (state) => {
+    state.id = ''
+    state.email = ''
+    state.roles = []
+    state.name = ''
+    state.token = ''
+  }
 }

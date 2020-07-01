@@ -15,8 +15,8 @@ export default {
       localStorage.setItem('user_infos', JSON.stringify(infos))
 
       commit('setUserToken', token)
-      
-      router.push({path: 'signature'})
+
+      router.push({ path: 'index' })
     })
     .catch((err) => console.log(err))
   },
@@ -58,6 +58,15 @@ export default {
     commit('setUserToken', token)
     commit('setUserInfos', payload)
 
-    router.push({path: 'signature'})
+    router.push({ path: 'index' })
+  },
+  CLEAR_USER_INFOS: ({ commit }) => {
+    localStorage.removeItem('user_token')
+    localStorage.removeItem('user_type')
+    localStorage.removeItem('user_infos')
+
+    commit('clearUserInfos')
+
+    router.push({ path: 'signin' })
   }
 }
