@@ -76,7 +76,9 @@
           <ul class="ml-7 caption">
             <li>個人星盤</li>
             <li>關係合盤</li>
-            <li><router-link :to="`relationships/list/${id}`">星盤紀錄列表</router-link></li>
+            <li @click="checkAllowed('list')">
+              <router-link :to="`relationships/list/${id}`">星盤紀錄列表</router-link>
+            </li>
           </ul>
         </div>
         <div>
@@ -84,7 +86,9 @@
           <router-link to="notebook" class="pl-2">共時筆記</router-link>
           <ul class="ml-7 caption">
             <li>閱讀共時筆記</li>
-            <li><router-link to="/notebook/notes">新增當日筆記</router-link></li>
+            <li @click="checkAllowed('notes')">
+              <router-link to="/notebook/notes">新增當日筆記</router-link>
+            </li>
           </ul>
         </div>
       </v-col>
@@ -97,9 +101,9 @@ import {
   setDate,
   setInitData,
 } from '../helpers/moonCalender'
-// import auth from '../helpers/auth'
 import { mapActions, mapState } from 'vuex'
 import Notification from './Notification.vue'
+import { checkPermission } from '../helpers/auth'
 
 export default {
   name: 'home',
@@ -166,6 +170,10 @@ export default {
       getUserInfosWithId: 'GET_USER_INFOS_WITH_ID',
       clearUserInfos: 'CLEAR_USER_INFOS',
     }),
+    ...mapActions('notification', {
+      setNotifyStatus: 'SET_NOTIFY_STATUS',
+      setNotifyConfigs: 'SET_NOTIFY_CONFIGS',
+    }),
     initApp() {
       const infos = setInitData()
       this.initDefaultValues(infos)
@@ -194,7 +202,21 @@ export default {
     },
     signOut() {
       this.clearUserInfos()
-    }
+    },
+    checkAllowed(routeName = '' , roles = this.roles) {
+      const pass = checkPermission(routeName, roles)
+      if (!pass) {
+        this.showNotify()
+      }
+    },
+    showNotify() {
+      const configs = {
+        type: 'error', 
+        message: 'permission.failed',
+      }
+      this.setNotifyStatus('visible')
+      this.setNotifyConfigs(configs)
+    },
   }
 }
 </script>

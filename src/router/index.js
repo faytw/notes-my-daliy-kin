@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import routes from './route'
+import { hasAccess } from '../helpers/route'
 
 Vue.use(Router)
 
@@ -9,13 +10,6 @@ const originalPush = Router.prototype.push
 Router.prototype.push = function push(location, onResolve, onReject) {
   if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
   return originalPush.call(this, location).catch(err => err)
-}
-
-function hasAccess(route = {}, roles = []) {
-  return roles.some((role) => {
-    const allowed = (route.meta && route.meta.allowed) || []
-    return allowed.includes(role)
-  });
 }
 
 export const router = new Router({
@@ -39,8 +33,10 @@ router.beforeEach((to, from, next) => {
     next({ path: '/signin' })
   } else if (authRequired) {
     if (hasToken && hasAccess(to, roles)) {
+      console.log('next')
       next()
     } else {
+      console.log('stay')
       const page = from.path
       next({ path: `${page}` })
     }

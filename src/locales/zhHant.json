@@ -145,6 +145,9 @@
     "close": "關閉",
     "confirm": "確認",
     "loading": "處理中...",
+    "permission": {
+      "failed": "沒有權限進入此頁面"
+    },
     "testing": {
       "success": "成功訊息測試",
       "error": "錯誤訊息測試",

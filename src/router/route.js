@@ -7,8 +7,7 @@ import Relationships from '@/components/Relationships.vue'
 import RelationshipStepper from '@/components/RelationshipStepper.vue'
 import RelationshipList from '@/components/RelationshipList.vue'
 
-const ALL = ['user', 'visitor', 'developer']
-const NO_VISITOR = ['user', 'developer']
+import { ALL, NO_VISITOR } from '@/helpers/auth'
 
 export const routes = [{
     path: '/signin',
