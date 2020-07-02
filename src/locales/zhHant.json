@@ -146,7 +146,8 @@
     "confirm": "確認",
     "loading": "處理中...",
     "permission": {
-      "failed": "沒有權限進入此頁面"
+      "failed": "沒有權限進入此頁面",
+      "notYet": "此功能開發中"
     },
     "testing": {
       "success": "成功訊息測試",

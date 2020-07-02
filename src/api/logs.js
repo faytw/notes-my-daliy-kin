@@ -1,6 +1,7 @@
 import { db } from '../plugins/firebaseStore';
 
 export function getLogs(params) {
+  console.log(params)
   const { user } = params
   const logsRef = db.collection('relationships_logs').doc(user)
   return new Promise((resolve, reject) => {

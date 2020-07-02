@@ -33,10 +33,8 @@ router.beforeEach((to, from, next) => {
     next({ path: '/signin' })
   } else if (authRequired) {
     if (hasToken && hasAccess(to, roles)) {
-      console.log('next')
       next()
     } else {
-      console.log('stay')
       const page = from.path
       next({ path: `${page}` })
     }

@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="text-center">
-      <v-btn link text to="/relationships/computer-saved" color="primary">
+      <!-- <v-btn link text to="/relationships/computer-saved" color="primary" @click="preparing"> -->
+      <v-btn link text color="primary" @click="preparing">
         新增星盤紀錄
       </v-btn>
     </div>
     <v-data-table 
-      v-if="showRelationshipsLogs"
       :headers="headers"
       :items="dataTableItems"
       :hide-default-footer="true"
@@ -26,7 +26,6 @@
 
 <script>
 import { mapState, mapActions} from 'vuex'
-import auth from '../helpers/auth'
 
 export default {
   name: 'relationshipList',
@@ -44,19 +43,35 @@ export default {
     ...mapState('logs', [
       'infos', 'dataTableItems'
     ]),
-    showRelationshipsLogs() {
-      return auth.DISPLAY.showRelationshipsLogs.includes(this.roles[0])
-    }
   },
-  mounted() {
-    if (this.showRelationshipsLogs) {
-      this.getLogs({ user: this.id })
+  // mounted() {
+  //   console.log(this.id)
+  //   this.getLogs({ user: this.id })
+  // },
+  watch: {
+    id(val) {
+      this.getLogs({ user: val })
     }
   },
   methods: {
     ...mapActions('logs', {
       getLogs: 'GET_USER_LOGS',
     }),
+    ...mapActions('notification', {
+      setNotifyStatus: 'SET_NOTIFY_STATUS',
+      setNotifyConfigs: 'SET_NOTIFY_CONFIGS',
+    }),
+    showNotify() {
+      const configs = {
+        type: 'error', 
+        message: 'permission.notYet',
+      }
+      this.setNotifyStatus('visible')
+      this.setNotifyConfigs(configs)
+    },
+    preparing() {
+      this.showNotify()
+    }
   },
 }
 </script>
