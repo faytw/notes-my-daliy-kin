@@ -42,11 +42,6 @@ export default {
   data: () => ({
     infoData: [],
     board: {},
-    user: '',
-    params: {
-      kin: null,
-      userId: null
-    }
   }),
   computed: {
     ...mapState('notes', {
@@ -60,6 +55,12 @@ export default {
     }),
   },
   mounted() {
+    const params = {
+      kin: this.displayKin,
+      userId: this.id
+    }
+    this.getNotes(params)
+
     this.setInfoData(this.notes)
     const { sealText, toneText } = handleKinData(this.displayKin)
     this.board = { ...this.board, 
@@ -78,24 +79,15 @@ export default {
         body: `${this.$t(`toneBody.${toneText}`)} & ${this.$t(`sealBody.${sealText}`)}`,
         isGreenGrid: isGreenGrid(val),
       }
-      this.params.kin = val
-    },
-    id(val) {
-      this.user = val
-      this.params.userId = val || this.user
+      const params = {
+        kin: this.displayKin,
+        userId: this.id
+        }
+      this.getNotes(params)
     },
     notes(val) {
       this.setInfoData(val)
     },
-    params: {
-      handler(val) {
-        const { kin, userId } = val
-        if(kin !== null && userId !== null) {
-          this.getNotes(val)
-        }
-      },
-      deep: true
-    }
   },
   methods: {
     ...mapActions('notes', {
