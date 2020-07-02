@@ -69,8 +69,11 @@ export default {
         text: '以訪客身份登入',
         value: 'visit',
       },{
+        text: '以測試帳號登入',
+        value: 'develop',
+      },{
         text: '以認證帳號登入',
-        value: 'account',
+        value: 'account'
       }
     ],
   }),
@@ -88,7 +91,16 @@ export default {
         case 'visit':
           this.visitorSubmit()
           break
+        case 'develop':
+          this.developSubmit()
       }
+    },
+    developSubmit() {
+      const params = {
+        email: 'developer-account@gmail.com',
+        password: 'developer777',
+      }
+      this.getUserToken(params)
     },
     normalSubmit() {
       this.$refs.signInForm.validate().then((valid) => {
