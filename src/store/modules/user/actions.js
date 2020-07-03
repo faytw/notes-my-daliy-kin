@@ -32,12 +32,13 @@ export default {
       id, 
       type
     } = payload
-    if(type === 1) {
+
+    if (type === 1) {
       api.getUserInfosWithId(id).then((data) => {      
         commit('setUserInfos', data)
       })
       .catch((err) => console.log(err))
-    } else {
+    } else if (type === '0'){
       const {
         user_token: id,
         user_infos
@@ -48,8 +49,9 @@ export default {
         ...infos
       }
       commit('setUserInfos', visitorData)
+    } else {
+      router.push({ path: 'signin' })
     }
-    
   },
   GET_VISITOR_INFOS: ({ commit }, payload) => {
     const {
