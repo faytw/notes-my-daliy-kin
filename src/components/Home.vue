@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row class="text-center">
-      <notification></notification>
+      <notification :active="active" :configs="configs"></notification>
       <!-- Top Nav -->
       <v-col v-if="showtopNav">
         <v-bottom-navigation
@@ -12,12 +12,12 @@
             <v-icon>mdi-heart-half-full</v-icon>
           </v-btn>
 
-          <v-btn value="notebook" link to="/notebook">
-            <v-icon>mdi-notebook</v-icon>
-          </v-btn>
-
           <v-btn value="relationships" link :to="`/relationships/computer`">
             <v-icon>mdi-calculator</v-icon>
+          </v-btn>
+
+          <v-btn value="notebook" link to="/notebook">
+            <v-icon>mdi-notebook</v-icon>
           </v-btn>
         </v-bottom-navigation>
       </v-col>
@@ -52,11 +52,16 @@
       <v-col class="col-lg-6 col-md-6 mr-auto ml-auto">
         <div class="title mb-2">
           <span>APP 簡介</span>
-          <v-icon class="ml-3" v-if="roles.length > 0" @click="signOut">mdi-logout-variant</v-icon>
+          <v-icon class="ml-3 mr-2" v-if="roles.length > 0" @click="signOut">
+            mdi-logout-variant
+          </v-icon>
         </div>
         <div class="subtitle-2 mb-4">
           在馬雅系統中， 13 個調性和 20 個圖騰的循環，共有 260 種組合，
           配合卓爾金曆法。每一天都有一個獨特的星系印記。
+        </div>
+        <div class="subtitle-2 mb-4">
+          馬雅曆共時筆記，為了提供另一種記錄生活的方式而誕生。
         </div>
         <div class="mb-4">
           <v-icon>mdi-heart-half-full</v-icon>
@@ -83,9 +88,9 @@
         </div>
         <div>
           <v-icon>mdi-notebook</v-icon>
-          <router-link to="notebook" class="pl-2">共時筆記</router-link>
+          <span class="pl-2">共時筆記</span>
           <ul class="ml-7 caption">
-            <li>閱讀共時筆記</li>
+            <li @click="checkAllowed('notes')"><router-link to="notebook">閱讀共時筆記</router-link></li>
             <li @click="checkAllowed('notes')">
               <router-link to="/notebook/notes">新增當日筆記</router-link>
             </li>
@@ -145,6 +150,10 @@ export default {
     ...mapState('user', [
       'roles',
       'id',
+    ]),
+    ...mapState('notification', [
+      'configs',
+      'active',
     ]),
     showArrowButtonStatus() {
       return this.$route.name === 'notebook'
@@ -214,7 +223,7 @@ export default {
         type: 'error', 
         message: 'permission.failed',
       }
-      this.setNotifyStatus('visible')
+      this.setNotifyStatus(true)
       this.setNotifyConfigs(configs)
     },
   }

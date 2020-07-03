@@ -1,6 +1,6 @@
 <template>
   <v-snackbar
-    :value="status === 'visible'"
+    v-model="snackbar"
     :top="configs.positionY ==='top'"
     :left="configs.positionX ==='left'"
     :right="configs.positionX === 'right'"
@@ -23,23 +23,41 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'notification',
-  computed: {
-    ...mapState('notification', [
-      'configs',
-      'status',
-    ]),
+  data() {
+    return {
+      snackbar: null
+    }
+  },
+  props: {
+    active: {
+      type: Boolean,
+      required: true
+    },
+    configs: {
+      type: Object,
+      required: true
+    }
+  },
+  watch: {
+    active(val) {
+      this.snackbar = val
+    },
+    snackbar(val) {
+      if(!val) {
+        this.setNotifyStatus(false)
+      }
+    }
   },
   methods: {
     ...mapActions('notification',{
       setNotifyStatus: 'SET_NOTIFY_STATUS',
     }),
     close() {
-      const payload = 'hidden'
-      this.setNotifyStatus(payload)
+      this.setNotifyStatus(false)
     },
   },
 }

@@ -4,7 +4,7 @@ import Notebook from '@/components/Notebook.vue'
 import Signature from '@/components/Signature.vue'
 import SignIn from '@/components/SignIn.vue'
 import Relationships from '@/components/Relationships.vue'
-import RelationshipStepper from '@/components/RelationshipStepper.vue'
+import RelationshipComputer from '@/components/RelationshipComputer.vue'
 import RelationshipList from '@/components/RelationshipList.vue'
 
 import { ALL, NO_VISITOR } from '@/helpers/auth'
@@ -50,8 +50,8 @@ export const routes = [{
         component: Relationships,
         children: [{
             path: 'computer',
-            name: 'relationshipStepper',
-            component: RelationshipStepper,
+            name: 'relationshipComputer',
+            component: RelationshipComputer,
             meta: {
               requiresAuth: true,
               allowed: ALL

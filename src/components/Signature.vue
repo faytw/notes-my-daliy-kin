@@ -72,12 +72,14 @@ export default {
   },
   methods: {
     setWaveInfos(kin) {
-      const wave = getWave(kin)
-      this.waveText = `${this.$t(`sealText.${wave}`)}${this.$t('common.wave')}`
+      if(kin) {
+        const wave = getWave(kin)
+        this.waveText = `${this.$t(`sealText.${wave}`)}${this.$t('common.wave')}`
+      }
     },
     setPositionNowProp(val) {
       const { hours } = setDate(new Date())
-      const temp = val.slice()
+      const temp = val && val.length > 0 ? val.slice() : []
       this.displayData = temp.map((data) => {
         data = {
           ...data,
@@ -88,16 +90,18 @@ export default {
       })
     },
     setQuestionContent(val) {
-      const toneText = val.filter(info => info.position === 'middle')[0].toneText
-      const tempString = this.$t(`toneQuestion.${toneText}`)
-      const questionMarkType = {
+      const markType = {
         en: '?', 
         zhHant: '？'
       }
-      const mark = questionMarkType[this.$i18n.locale]
-      this.questionContent = tempString.split(`${mark}`)
+      const mark = markType[this.$i18n.locale]
+      if (val && val.length > 0) {
+        const toneText = val.filter(info => info.position === 'middle')[0].toneText
+        const tempString = this.$t(`toneQuestion.${toneText}`)
+        this.questionContent = tempString.split(`${mark}`)
         .filter(content => content)
         .map((content) => `${content}${mark}`)
+      }
     }
   },
 }

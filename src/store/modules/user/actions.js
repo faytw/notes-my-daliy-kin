@@ -25,8 +25,7 @@ export default {
       id, 
       type
     } = payload
-
-    if(type) {
+    if(type === 1) {
       api.getUserInfosWithId(id).then((data) => {      
         commit('setUserInfos', data)
       })
@@ -34,9 +33,9 @@ export default {
     } else {
       const {
         user_token: id,
-        user_infos: infos
+        user_infos
       } = localStorage
-
+      const infos = JSON.parse(user_infos)
       const visitorData = {
         id,
         ...infos

@@ -1,6 +1,6 @@
 export default {
   setNotifyStatus: (state, payload) => {
-    state.status = payload
+    state.active = payload
   },
   setNotifyConfigs: (state, payload) => {
     state.configs = {

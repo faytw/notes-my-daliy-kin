@@ -4,7 +4,7 @@ export default {
   GET_USER_LOGS: ({ commit, dispatch }, payload = {}) => {
     dispatch('OPEN_LOGS_LOADING', 'visible')
     api.getLogs(payload).then((data) => {
-      dispatch('CLOSE_LOGS_LOADING', 'hidden')
+      dispatch('CLOSE_LOGS_LOADING', 'false')
       const infos = []
       Object.keys(data).forEach((key, index) => {
         infos[index] = data[key]
@@ -18,7 +18,7 @@ export default {
     dispatch('OPEN_LOGS_LOADING', 'visible')
     api.createLogs(payload)
       .then(() => {
-        dispatch('CLOSE_LOGS_LOADING', 'hidden')
+        dispatch('CLOSE_LOGS_LOADING', 'false')
         dispatch('CREATED_LOGS_SUCCESSED', 'visible')
       }).catch((err) => console.log(err))
   },

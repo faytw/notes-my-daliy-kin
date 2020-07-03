@@ -33,7 +33,7 @@
               <template v-slot:activator="{ on }">
                 <ValidationProvider 
                   v-slot="{ required, errors  }"
-                  name="inputs.date1"
+                  :name="`${type === 'single' ? 'inputs.date' : 'inputs.date1'}`"
                   rules="required"
                 >
                   <v-text-field 
@@ -121,7 +121,7 @@
   import { mapState } from 'vuex'
 
   export default {
-    name: 'relationshipStepper',
+    name: 'relationshipComputer',
     data: () => ({
       type: 'single',
       step: 1,
@@ -188,6 +188,7 @@
               this.setDefaultValue()
             } else {
               this.step = step
+              //TODO: clear validation error messages
             }
             break
           case 2:

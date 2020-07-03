@@ -20,7 +20,7 @@ export default {
     dispatch('OPEN_NOTES_LOADING', 'visible')
     payload.forEach(element => {     
       api.createNotes(element).then(() => {
-        dispatch('CLOSE_NOTES_LOADING', 'hidden')
+        dispatch('CLOSE_NOTES_LOADING', 'false')
         dispatch('CREATED_NOTES_SUCCESSED', 'visible')
       })
     })
