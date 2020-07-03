@@ -1,7 +1,6 @@
 import { USER as api } from '../../../api'
 import router from '../../../router'
 
-
 export default {
   GET_USER_TOKEN: ({ commit }, payload) => {
     api.getUserInfos(payload).then(( data ) => {
@@ -18,7 +17,14 @@ export default {
 
       router.push({ path: 'index' })
     })
-    .catch((err) => console.log(err))
+    .catch((error) => {
+      const configs = {
+        type: 'error',
+        message: error,
+      }
+      commit('notification/setNotifyStatus', payload, { root: true })
+      commit('notification/setNotifyConfigs', configs, { root: true })
+    })
   },
   GET_USER_INFOS_WITH_ID: ({ commit }, payload) => {
     const {

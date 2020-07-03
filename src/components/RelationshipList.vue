@@ -1,8 +1,7 @@
 <template>
   <div>
-    <div class="text-center">
-      <!-- <v-btn link text to="/relationships/computer-saved" color="primary" @click="preparing"> -->
-      <v-btn link text color="primary" @click="preparing">
+    <div class="text-right">
+      <v-btn link to="/relationships/computer-saved" color="primary">
         新增星盤紀錄
       </v-btn>
     </div>
@@ -44,10 +43,11 @@ export default {
       'infos', 'dataTableItems'
     ]),
   },
-  // mounted() {
-  //   console.log(this.id)
-  //   this.getLogs({ user: this.id })
-  // },
+  mounted() {
+    if (this.id) {
+      this.getLogs({ user: this.id })
+    }
+  },
   watch: {
     id(val) {
       this.getLogs({ user: val })
@@ -68,9 +68,6 @@ export default {
       }
       this.setNotifyStatus('visible')
       this.setNotifyConfigs(configs)
-    },
-    preparing() {
-      this.showNotify()
     }
   },
 }

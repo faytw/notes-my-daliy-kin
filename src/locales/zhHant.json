@@ -156,6 +156,9 @@
       "error": "錯誤訊息測試",
       "info": "一般資訊測試"
     },
+    "user": {
+      "empty": "帳號不存在"
+    },
     "note": {
       "created": {
         "success": "儲存筆記成功",

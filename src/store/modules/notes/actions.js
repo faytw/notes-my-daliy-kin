@@ -3,7 +3,7 @@ import {
 } from '../../../api'
 
 export default {
-  GET_NOTES: ({ commit, dispatch }, payload) => {
+  GET_NOTES: ({ commit }, payload) => {
     const { userId } = payload
     api.getNotes(payload).then((data) => {
       const temp = []
@@ -17,11 +17,11 @@ export default {
     .catch( (err) => console.log(err))
   },
   CREATE_NOTES: ({ dispatch }, payload) => {
-    dispatch('OPEN_NOTES_LOADING', 'visible')
+    dispatch('OPEN_NOTES_LOADING', true)
     payload.forEach(element => {     
       api.createNotes(element).then(() => {
-        dispatch('CLOSE_NOTES_LOADING', 'false')
-        dispatch('CREATED_NOTES_SUCCESSED', 'visible')
+        dispatch('CLOSE_NOTES_LOADING', false)
+        dispatch('CREATED_NOTES_SUCCESSED', true)
       })
     })
   },

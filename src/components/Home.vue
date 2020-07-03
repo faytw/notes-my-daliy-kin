@@ -1,7 +1,6 @@
 <template>
   <v-container>
     <v-row class="text-center">
-      <notification :active="active" :configs="configs"></notification>
       <!-- Top Nav -->
       <v-col v-if="showtopNav">
         <v-bottom-navigation
@@ -16,7 +15,7 @@
             <v-icon>mdi-calculator</v-icon>
           </v-btn>
 
-          <v-btn value="notebook" link to="/notebook">
+          <v-btn value="notebook" link to="/notebook" @click="checkAllowed('notes')">
             <v-icon>mdi-notebook</v-icon>
           </v-btn>
         </v-bottom-navigation>
@@ -107,7 +106,6 @@ import {
   setInitData,
 } from '../helpers/moonCalender'
 import { mapActions, mapState } from 'vuex'
-import Notification from './Notification.vue'
 import { checkPermission } from '../helpers/auth'
 
 export default {
@@ -124,9 +122,6 @@ export default {
     },
     pageNav: '',
   }),
-  components: {
-    Notification,
-  },
   mounted() {
      const { 
       user_token: id,
@@ -150,10 +145,6 @@ export default {
     ...mapState('user', [
       'roles',
       'id',
-    ]),
-    ...mapState('notification', [
-      'configs',
-      'active',
     ]),
     showArrowButtonStatus() {
       return this.$route.name === 'notebook'

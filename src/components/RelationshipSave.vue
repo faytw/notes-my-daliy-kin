@@ -125,12 +125,14 @@
         <v-stepper-content step="3">
           <div class="signature-infos">
             <div class="signature-infos mb-6">
+              <div class="caption">名稱</div>
+              <div>{{ type === 'single' ? name1 : name3 }}</div>
               <div class="caption">{{type === 'single' ? '個人星盤' : '關係合盤'}}主印記</div>
               <div>{{ showSignatureInfos(type === 'single' ? signature1 : signature3) }}</div>
             </div>
           </div>
           <!-- step3 action button -->
-          <v-btn color="primary" @click="setSteps(1, true)">再算一次</v-btn>
+          <v-btn color="success" @click="save(type)" class="mr-3">儲存</v-btn>
           <v-btn text :to="`/relationships/list/${id}`">回列表</v-btn>
         </v-stepper-content>
       </v-stepper>
@@ -145,10 +147,9 @@
   } from '../helpers/moonCalender'
   import { mapState, mapActions } from 'vuex'
   import uuid from '../helpers/uuid' 
-  import auth from '../helpers/auth'
 
   export default {
-    name: 'relationshipStepper',
+    name: 'relationshipSave',
     data: () => ({
       type: 'single',
       step: 1,
@@ -181,15 +182,24 @@
       kin2() {
         return this.signature2.length > 0 && this.signature2.filter((item) => item.position === 'middle')[0].kin || null
       },
-      showRelationshipsSaveButton() {
-        return auth.DISPLAY.showRelationshipsSaveButton.includes(this.roles[0])
-      }
     },
     methods: {
       ...mapActions('logs', {
         createLogs: 'CREATE_LOGS'
       }),
-      save(signature, name){
+      save(type){
+        let signature = []
+        let name = ''
+        switch(type) {
+          case 'single':
+            signature = this.signature1
+            name = this.name1
+            break
+          case 'multiple':
+            signature = this.signature3
+            name = `${this.name1} & ${this.name2}`
+        }
+
         const signID = uuid.set()
         const data = {
           signature,
@@ -199,10 +209,6 @@
         }
 
         this.createLogs(data)
-        /* 
-        TODO: 
-        when a popup close, the save icon should be false
-        */
       },
       validateInputs() {
         this.$refs.inputs.validate().then((valid) => {

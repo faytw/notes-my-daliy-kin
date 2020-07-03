@@ -5,6 +5,7 @@ import Signature from '@/components/Signature.vue'
 import SignIn from '@/components/SignIn.vue'
 import Relationships from '@/components/Relationships.vue'
 import RelationshipComputer from '@/components/RelationshipComputer.vue'
+import RelationshipSave from '@/components/RelationshipSave.vue'
 import RelationshipList from '@/components/RelationshipList.vue'
 
 import { ALL, NO_VISITOR } from '@/helpers/auth'
@@ -55,6 +56,15 @@ export const routes = [{
             meta: {
               requiresAuth: true,
               allowed: ALL
+            },
+          },
+          {
+            path: 'computer-saved',
+            name: 'relationshipSave',
+            component: RelationshipSave,
+            meta: {
+              requiresAuth: true,
+              allowed: NO_VISITOR
             },
           },
           {

@@ -1,10 +1,11 @@
 import { LOGS as api } from '../../../api'
+import router from '../../../router'
   
 export default {
   GET_USER_LOGS: ({ commit, dispatch }, payload = {}) => {
-    dispatch('OPEN_LOGS_LOADING', 'visible')
+    dispatch('OPEN_LOGS_LOADING', true)
     api.getLogs(payload).then((data) => {
-      dispatch('CLOSE_LOGS_LOADING', 'false')
+      dispatch('CLOSE_LOGS_LOADING', false)
       const infos = []
       Object.keys(data).forEach((key, index) => {
         infos[index] = data[key]
@@ -15,11 +16,13 @@ export default {
     .catch((err) => console.log(err))
   },
   CREATE_LOGS: ({ dispatch }, payload) => {
-    dispatch('OPEN_LOGS_LOADING', 'visible')
+    const {user: userId} = payload
+    dispatch('OPEN_LOGS_LOADING', true)
     api.createLogs(payload)
       .then(() => {
-        dispatch('CLOSE_LOGS_LOADING', 'false')
-        dispatch('CREATED_LOGS_SUCCESSED', 'visible')
+        dispatch('CLOSE_LOGS_LOADING', false)
+        dispatch('CREATED_LOGS_SUCCESSED', true)
+        router.push({ path: `list/${userId}` })
       }).catch((err) => console.log(err))
   },
   OPEN_LOGS_LOADING: ({ commit } , payload) => {
