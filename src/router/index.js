@@ -13,7 +13,7 @@ Router.prototype.push = function push(location, onResolve, onReject) {
 }
 
 export const router = new Router({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes,
 })
