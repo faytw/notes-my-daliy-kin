@@ -22,7 +22,8 @@ export default {
         type: 'error',
         message: error,
       }
-      commit('notification/setNotifyStatus', payload, { root: true })
+      localStorage.setItem('user_type', -1)
+      commit('notification/setNotifyStatus', true, { root: true })
       commit('notification/setNotifyConfigs', configs, { root: true })
     })
   },
