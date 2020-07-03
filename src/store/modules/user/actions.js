@@ -33,7 +33,7 @@ export default {
       type
     } = payload
 
-    if (type === 1) {
+    if (type === '1') {
       api.getUserInfosWithId(id).then((data) => {      
         commit('setUserInfos', data)
       })
