@@ -7,10 +7,13 @@ import Relationships from '@/components/Relationships.vue'
 import RelationshipComputer from '@/components/RelationshipComputer.vue'
 import RelationshipSave from '@/components/RelationshipSave.vue'
 import RelationshipList from '@/components/RelationshipList.vue'
+import Page403 from '@/components/Page403.vue'
+
 
 import { ALL, NO_VISITOR } from '@/helpers/auth'
 
-export const routes = [{
+export const routes = [
+  {
     path: '/signin',
     name: 'signIn',
     component: SignIn,
@@ -19,7 +22,13 @@ export const routes = [{
     path: '/index',
     name: 'index',
     component: Home,
-    children: [{
+    children: [
+      {
+        path: '/403',
+        name: '403',
+        component: Page403,
+      },
+      {
         path: '/signature',
         name: 'signature',
         component: Signature,
@@ -49,7 +58,8 @@ export const routes = [{
       {
         path: '/relationships',
         component: Relationships,
-        children: [{
+        children: [
+          {
             path: 'computer',
             name: 'relationshipComputer',
             component: RelationshipComputer,

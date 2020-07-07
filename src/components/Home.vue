@@ -15,7 +15,7 @@
             <v-icon>mdi-calculator</v-icon>
           </v-btn>
 
-          <v-btn value="notebook" link to="/notebook" @click="checkAllowed('notes')">
+          <v-btn value="notebook" link to="/notebook">
             <v-icon>mdi-notebook</v-icon>
           </v-btn>
         </v-bottom-navigation>
@@ -32,7 +32,7 @@
         </span>
       </v-col>
       <v-col cols="8">
-        <span>{{ displayDateFormat }}</span>
+        <span>{{ showArrowButtonStatus ? `kin ${displayKin}` : displayDateFormat }}</span>
       </v-col>
       <v-col>
         <span 
@@ -80,19 +80,15 @@
           <ul class="ml-7 caption">
             <li>個人星盤</li>
             <li>關係合盤</li>
-            <li @click="checkAllowed('list')">
-              <router-link :to="`relationships/list/${id}`">星盤紀錄列表</router-link>
-            </li>
+            <li><router-link :to="`relationships/list/${id}`">星盤紀錄列表</router-link></li>
           </ul>
         </div>
         <div>
           <v-icon>mdi-notebook</v-icon>
           <span class="pl-2">共時筆記</span>
           <ul class="ml-7 caption">
-            <li @click="checkAllowed('notes')"><router-link to="notebook">閱讀共時筆記</router-link></li>
-            <li @click="checkAllowed('notes')">
-              <router-link to="/notebook/notes">新增當日筆記</router-link>
-            </li>
+            <li><router-link to="notebook">閱讀共時筆記</router-link></li>
+            <li><router-link to="/notebook/notes">新增當日筆記</router-link></li>
           </ul>
         </div>
       </v-col>
@@ -202,20 +198,6 @@ export default {
     },
     signOut() {
       this.clearUserInfos()
-    },
-    checkAllowed(routeName = '' , roles = this.roles) {
-      const pass = checkPermission(routeName, roles)
-      if (!pass) {
-        this.showNotify()
-      }
-    },
-    showNotify() {
-      const configs = {
-        type: 'error', 
-        message: 'permission.failed',
-      }
-      this.setNotifyStatus(true)
-      this.setNotifyConfigs(configs)
     },
   }
 }

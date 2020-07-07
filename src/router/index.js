@@ -35,8 +35,7 @@ router.beforeEach((to, from, next) => {
     if (hasToken && hasAccess(to, roles)) {
       next()
     } else {
-      const page = from.path
-      next({ path: `${page}` })
+      next({ path: '/403' })
     }
   } else {
     next()
