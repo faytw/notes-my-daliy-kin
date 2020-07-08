@@ -32,6 +32,7 @@ export default {
   computed: {
     ...mapState('signature', [
       'infos',
+      'displayKin',
     ]),
     ...mapState('user', [
       'id'
@@ -94,6 +95,7 @@ export default {
       this.notes[notesIndex] = {
         ...this.notes[notesIndex],
         note: input,
+        position: position,
         createdTime: new Date()
       }
     },
@@ -105,7 +107,7 @@ export default {
           temp.push(note)
         }
       })
-      temp.forEach(({sealText, kin, note, createdTime}) => {
+      temp.forEach(({sealText, kin, note, createdTime, position}) => {
         let params
         if(note) {
           params = {
@@ -115,7 +117,9 @@ export default {
               note,
               created_time: createdTime,
               author: this.id,
-              note_id: uuid.set()
+              note_id: uuid.set(),
+              main_kin: this.displayKin,
+              position: position,
             },
           }
           all.push(params)

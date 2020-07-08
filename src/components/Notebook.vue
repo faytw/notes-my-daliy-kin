@@ -14,7 +14,9 @@
         :key="index"
       >
         <v-card-text>
-          <div class="text-right">{{ info.createdTime }}</div>
+          <div class="text-right">{{ info.createdTime }} 
+            <span v-if="info.position">({{$t(`positionText.${info.position}`)}})</span>
+          </div>
           <ul>
             <li 
               class="infos-content"
@@ -34,6 +36,7 @@
 import { 
   handleKinData,
   isGreenGrid,
+  setPositionText
 } from '../helpers/moonCalender'
 import { mapActions, mapState } from 'vuex'
 
@@ -122,6 +125,7 @@ export default {
               notes: [{ val:info.note, id:info.note_id }],
               createdTime: info.createdTime,
               author: info.author,
+              position: info.position ? setPositionText(info.position) : null 
             })
           }
           return acc

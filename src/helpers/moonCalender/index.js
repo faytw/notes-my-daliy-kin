@@ -237,6 +237,12 @@ export const handleKinData = (displayKin) => {
   return data
 }
 
+export const setPositionText = (position) => {
+  if (position && position!== '') {
+    return positionTextTable[position]
+  }
+}
+
 export default {
   setDate,
   calulateDateMainIcon,
@@ -244,5 +250,6 @@ export default {
   setInitData,
   handleKinData,
   isGreenGrid,
-  getWave
+  getWave,
+  setPositionText
 }
