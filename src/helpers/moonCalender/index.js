@@ -123,7 +123,8 @@ const getSeals = (mainKin, mainTone)  => {
   const middleN = mainNum
   const rightN = 19 - mainNum
   const leftN = mainNum < 10 ? mainNum + 10 : mainNum - 10
-  const bottomN = 21 - mainNum > 20 ? 21 - mainNum - 20 : 21 - mainNum
+  const _bottomN = 21 - mainNum > 20 ? 21 - mainNum - 20 : 21 - mainNum
+  const bottomN = _bottomN === 20 ? 0 : _bottomN
   const topN = Number(guideSealNum)
   
   const data = {

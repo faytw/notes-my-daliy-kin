@@ -108,6 +108,9 @@ export default {
 </script>
 
 <style scoped>
+  .mc-container {
+    background-color: #dae8e8;
+  }
   .square[data-mc] {      
     font-size: 12px;
     width: 31.5%;

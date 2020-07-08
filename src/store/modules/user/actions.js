@@ -59,14 +59,16 @@ export default {
       ...infos
     } = payload
 
-    localStorage.setItem('user_token', token)
-    localStorage.setItem('user_type', 0)
-    localStorage.setItem('user_infos', JSON.stringify(infos))
+    if(token !== null && infos !== null) {
+      localStorage.setItem('user_token', token)
+      localStorage.setItem('user_type', 0)
+      localStorage.setItem('user_infos', JSON.stringify(infos))
 
-    commit('setUserToken', token)
-    commit('setUserInfos', payload)
+      commit('setUserToken', token)
+      commit('setUserInfos', payload)
 
-    router.push({ path: 'index' })
+      router.push({ path: 'index' })
+    }
   },
   CLEAR_USER_INFOS: ({ commit }) => {
     localStorage.removeItem('user_token')

@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
-    "test:e2e": "vue-cli-service test:e2e",
+    "test:e2e": "cypress open test:e2e",
     "deploy": "sh deploy.sh"
   },
   "dependencies": {

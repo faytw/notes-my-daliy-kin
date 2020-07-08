@@ -13,40 +13,40 @@
     hide-details
   >
   </v-select>
-  <div v-show="mode === 'account'">
-    <ValidationObserver ref="signInForm">
-      <form class="pr-4 pl-4">
-        <ValidationProvider 
-          v-slot="{ errors }" 
-          name="signInForm.email" 
-          rules="required|email">
-          <v-text-field 
-            v-model="email" 
-            :error-messages="errors" 
-            label="Email" 
-            required
-            autocomplete="username"
-          >
-          </v-text-field>
-        </ValidationProvider>
-        <ValidationProvider 
-          v-slot="{ errors }" 
-          name="signInForm.password"
-          rules="required">
-          <v-text-field 
-            type="password"
-            v-model="password" 
-            :error-messages="errors" 
-            label="密碼" 
-            required
-            autocomplete="current-password"
-          >
-          </v-text-field>
-        </ValidationProvider>
-      </form>
-    </ValidationObserver>
-  </div>
-  <div class="text-center">
+  <ValidationObserver ref="signInForm">
+    <form class="pr-4 pl-4">
+      <ValidationProvider 
+        v-slot="{ errors }" 
+        name="signInForm.email" 
+        rules="required|email">
+        <v-text-field 
+          v-model="email" 
+          :error-messages="errors" 
+          label="Email" 
+          required
+          autocomplete="username"
+          :disabled="mode !== 'account'"
+        >
+        </v-text-field>
+      </ValidationProvider>
+      <ValidationProvider 
+        v-slot="{ errors }" 
+        name="signInForm.password"
+        rules="required">
+        <v-text-field 
+          type="password"
+          v-model="password" 
+          :error-messages="errors" 
+          label="密碼" 
+          required
+          autocomplete="current-password"
+          :disabled="mode !== 'account'"
+        >
+        </v-text-field>
+      </ValidationProvider>
+    </form>
+  </ValidationObserver>
+  <div class="text-center mt-5">
     <v-btn 
       width="50%"
       class="primary"
@@ -61,8 +61,8 @@ import { mapActions } from 'vuex'
 export default {
   name: 'signIn',
   data: () => ({
-    password: null,
-    email: null,
+    password: '1qaz2wsx',
+    email: 'visitor-account@test.com',
     mode: 'visit',
     items: [
       { 
@@ -77,14 +77,34 @@ export default {
       }
     ],
   }),
+  watch: {
+    mode(val, oldVal) {
+      switch(val) {
+        case 'visit':
+          this.email = 'visitor-account@test.com',
+          this.password = '1qaz2wsx'
+          break
+        case 'develop':
+          this.email = 'developer-account@gmail.com',
+          this.password = 'developer777'
+          break
+        case 'account':
+          if(val !== oldVal) {
+            this.email = '',
+            this.password = ''
+          }
+          break
+      }
+    }
+  },
   methods: {
     ...mapActions('user', {
       getUserToken: 'GET_USER_TOKEN',
       getVisitorInfos: 'GET_VISITOR_INFOS',
     }),
     submit() {
-      const MODE = this.mode
-      switch(MODE) {
+      const signInType = this.mode
+      switch(signInType) {
         case 'account':
           this.normalSubmit()
           break
@@ -93,12 +113,13 @@ export default {
           break
         case 'develop':
           this.developSubmit()
+          break
       }
     },
     developSubmit() {
       const params = {
-        email: 'developer-account@gmail.com',
-        password: 'developer777',
+        email: this.email,
+        password: this.password,
       }
       this.getUserToken(params)
     },
@@ -114,11 +135,11 @@ export default {
       }) 
     },
     visitorSubmit() {
-      const payload = {
-        name: 'visitor',
-        roles: ['visitor'],
-        id: 'visitor-987654321-000000'
-      }
+      const name = process.env.VUE_APP_LOGIN_VISTOR_NAME
+      const roles = [process.env.VUE_APP_LOGIN_VISTOR_ROLE]
+      const id = process.env.VUE_APP_LOGIN_VISTOR_ID
+      
+      const payload = { name, roles, id }
       this.getVisitorInfos(payload)
     }
   },
