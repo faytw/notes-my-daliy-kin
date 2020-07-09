@@ -1,7 +1,13 @@
 <template>
-  <v-app-bar app color="#FFAB00" dark>
+  <v-app-bar app color="#FFAB00" dark
+    data-cy="Content-App-Top-Bar"
+  >
     <div class="d-flex align-center">
-      <v-btn to="/index" text link><span>{{ $t(`common.project`) }}</span></v-btn>
+      <v-btn to="/index" text link 
+        data-cy="Content-App-Link-Title"
+      >
+        <span>{{ $t(`common.project`) }}</span>
+      </v-btn>
     </div>
     <v-spacer></v-spacer>
     <div class="navbar-without-auth" v-if="!isLogin">
@@ -11,7 +17,10 @@
         </span>
       </v-btn>
     </div>
-    <div class="navbar-with-auth" v-else>
+    <div v-else
+      class="navbar-with-auth"         
+      data-cy="Content-App-User-Info-Name"
+    >
       <v-icon>mdi-account-circle</v-icon>
       <span class="ml-2">{{ name }}</span>
     </div>

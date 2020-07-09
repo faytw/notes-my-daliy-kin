@@ -1,5 +1,13 @@
 {
   "baseUrl": "http://localhost:8080/",
+  "env": {
+    "visitEmail": "visitor-account@test.com",
+    "visitPassword": "1qaz2wsx",
+    "developEmail": "developer-account@gmail.com",
+    "developPassword": "developer777",
+    "accountEmail": "developer-account@gmail.com",
+    "accountPassword": "developer777"
+  },
   "chromeWebSecurity": false,
   "ignoreTestFiles": ["*.md"],
   "pluginsFile": "tests/e2e/plugins/index.js",

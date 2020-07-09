@@ -5,7 +5,8 @@
     <div class="subtitle-2">您可以用訪客身份進入 APP，享受部分功能，或者您可以用認證帳號進入 APP，享受所有功能</div>
   </div>
   <v-select
-    class=" mb-5"
+    data-cy="Content-Login-Select"
+    class="mb-5"
     v-model="mode"
     :items="items"
     outlined
@@ -20,6 +21,7 @@
         name="signInForm.email" 
         rules="required|email">
         <v-text-field 
+          data-cy="Content-Login-Input-Email"
           v-model="email" 
           :error-messages="errors" 
           label="Email" 
@@ -34,6 +36,7 @@
         name="signInForm.password"
         rules="required">
         <v-text-field 
+          data-cy="Content-Login-Input-Password"
           type="password"
           v-model="password" 
           :error-messages="errors" 
@@ -48,6 +51,7 @@
   </ValidationObserver>
   <div class="text-center mt-5">
     <v-btn 
+      data-cy="Content-Login-Button-Submit"
       width="50%"
       class="primary"
       @click="submit">送出</v-btn>
