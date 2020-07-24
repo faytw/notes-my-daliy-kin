@@ -4,7 +4,6 @@
   >
     <div class="d-flex align-center">
       <v-btn to="/index" text link
-        class="pl-0" 
         data-cy="Content-App-Link-Title"
       >
         <span>{{ $t(`common.project`) }}</span>
