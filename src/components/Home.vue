@@ -150,7 +150,7 @@ export default {
       return whiteList.includes(this.$route.name)
     },
     showtopNav() {
-      const blackList = ['signIn', 'signOut', 'forgetPassword', 'index']
+      const blackList = ['signIn', 'signOut', 'forgetPassword', 'index', '403']
       return !blackList.includes(this.$route.name)
     },
     showGuideInfos() {

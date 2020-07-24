@@ -12,7 +12,7 @@
       :disable-sort="true"
     >
       <template v-slot:item.name="{item}">
-        <v-btn text :href="`/relationships/detail?id=${item.id}`">{{ item.name }}</v-btn>
+        <v-btn class="pl-0 pr-0" min-width="16" text :href="`/relationships/detail?id=${item.id}`">{{ item.name }}</v-btn>
       </template>
       <template v-slot:item.middle="{item}">
         <span>{{ $t(`toneText.${item.middle.toneText}`) }}</span>
