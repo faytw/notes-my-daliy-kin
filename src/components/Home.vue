@@ -102,7 +102,6 @@ import {
   setInitData,
 } from '../helpers/moonCalender'
 import { mapActions, mapState } from 'vuex'
-import { checkPermission } from '../helpers/auth'
 
 export default {
   name: 'home',
@@ -194,7 +193,9 @@ export default {
     setDisplayFormat(input = new Date()) {
       this.displayDate = input    
       const { year, month, date } = setDate(input)
-      this.displayDateFormat =  `西元 ${year} 年 ${month < 10 ? '0' + (month + 1) : (month + 1)} 月 ${date < 10 ? '0' + (date) : date} 日`
+      const displayMonth = month < 10 ? '0' + (month + 1) : (month + 1)
+      const displayDate = date < 10 ? '0' + (date) : date
+      this.displayDateFormat =  `西元 ${year} 年 ${displayMonth} 月 ${displayDate} 日`
     },
     signOut() {
       this.clearUserInfos()

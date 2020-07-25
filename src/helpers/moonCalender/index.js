@@ -3,8 +3,6 @@ import {
   sealTextTable,
   sealColorTable,
   monthTable,
-  yearTable,
-  yearTableValue,
   greenGrids,
   guideSealGroups,
   positionTextTable,
@@ -12,6 +10,9 @@ import {
   waveTable,
   waveIndexTable,
 } from './config'
+
+import getYearValue from './year.js'
+
 
 const setGuideIcon = (sealGroups, icon, tone) => {
   const group = sealGroups[icon]
@@ -48,18 +49,18 @@ export const setDate = (input = new Date()) => {
   return data
 }
 
-const getYearValue = (input) => {
-  let gIndex = null
-  const errMessage = `input value "${input}" is out of years setting.`
-  yearTable.forEach((group) => {
-    if (group.indexOf(input) !== -1) gIndex = group.indexOf(input)
-  })
-  if (gIndex >= 0) {
-    return yearTableValue[gIndex] 
-  } else {
-    throw new Error(errMessage)
-  }
-}
+// const getYearValue = (input) => {
+//   let gIndex = null
+//   const errMessage = `input value "${input}" is out of years setting.`
+//   yearTable.forEach((group) => {
+//     if (group.indexOf(input) !== -1) gIndex = group.indexOf(input)
+//   })
+//   if (gIndex >= 0) {
+//     return yearTableValue[gIndex] 
+//   } else {
+//     throw new Error(errMessage)
+//   }
+// }
 
 export const calulateDateMainIcon = (dateInput) => {
   const { year, month, date} = dateInput

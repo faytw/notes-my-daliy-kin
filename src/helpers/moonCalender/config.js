@@ -85,13 +85,6 @@ export const monthTable = {
   12: 74
 }
 
-export const yearTableValue = [
-  62, 167, 12, 117, 222, 67, 172, 17, 122, 227, 72, 177, 22, 127, 
-  232, 77, 182, 27, 132, 237, 82, 187, 32, 137, 242, 87,
-  192, 37, 142, 247, 92, 197, 42, 147, 252, 97, 202, 47, 152,
-  257, 102, 207, 52, 157, 2, 107, 212, 57, 162, 7, 112, 217
-]
-
 export const setWaveTable = () => {
   let kins = []
   for (let i=1; i<=260; i++) {
@@ -104,29 +97,8 @@ export const setWaveTable = () => {
   return table
 }
 
-export const setYearTable = () => {
-  //TODO: input range is 1858 ~ this year ＋ 52
-  const yearNow = new Date().getFullYear()
-  const length = Math.round((yearNow - 1858) % 52) > 0 
-    ? Math.round((yearNow - 1858) / 52) + 1 
-    : Math.round((yearNow - 1858) / 52)
-  const afterCount = 52 - Math.round((yearNow - 1858) % 52)
-  const afterYears = yearNow + afterCount
-
-  let years = []
-  for(let i=1858; i<afterYears; i++) {
-    years.push(i)
-  }
-
-  let table = []
-  for(let i=0; i<length; i++) {
-    table[i] = years.slice(i * 52, (i + 1) * 52)
-  }
-  return table
-}
 
 export const waveTable = setWaveTable()
-export const yearTable = setYearTable()
 
 export default {
   toneTextTable,
@@ -135,8 +107,6 @@ export default {
   guideSealGroups,
   sealColorTable,
   monthTable,
-  yearTable,
-  yearTableValue,
   timeZones,
   greenGrids,
   waveTable,
