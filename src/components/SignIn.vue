@@ -1,8 +1,8 @@
 <template>
 <v-col class="pr-6 pl-6 col-lg-4 col-md-5 col-sm-6 mr-auto ml-auto">
-  <div class="mt-4 mb-4">歡迎使用馬雅曆共時筆記。</div>
+  <div class="mt-4 mb-4" data-cy="Contnet-Login-Info-Title">歡迎使用馬雅曆共時筆記。</div>
   <div class="mb-5">
-    <div class="subtitle-2">您可以用訪客身份進入 APP，享受部分功能，或者您可以用認證帳號進入 APP，享受所有功能</div>
+    <div class="subtitle-2" data-cy="Contnet-Login-Info-Text">您可以用訪客身份進入 APP，享受部分功能，或者您可以用認證帳號進入 APP，享受所有功能</div>
   </div>
   <v-select
     data-cy="Content-Login-Select"

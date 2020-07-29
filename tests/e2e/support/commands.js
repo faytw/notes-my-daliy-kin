@@ -9,7 +9,10 @@ Cypress.Commands.add('goToPage', (pathName) => {
     cy.wait(400)
 })
 
-Cypress.Commands.add("login", (email, password) => {  
+Cypress.Commands.add("login", (email, password) => {
+    cy.get('[data-cy="Content-Login-Input-Email"]').as('email')
+    cy.get('[data-cy="Content-Login-Input-Password"]').as('password')
+
     cy.get('@email').type(email)
     cy.get('@password').type(password)
 })
