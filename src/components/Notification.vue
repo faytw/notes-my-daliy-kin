@@ -1,5 +1,6 @@
 <template>
   <v-snackbar
+    data-cy="Content-Notify-Container"
     v-model="snackbar"
     :top="configs.positionY ==='top'"
     :left="configs.positionX ==='left'"
@@ -12,6 +13,7 @@
   >
     {{ $t(`notify.${configs.message}`) }}
     <v-btn
+      data-cy="Content-Notify-Button-Confirm"
       v-if="configs.showConfirmButton"
       color="primary"
       text

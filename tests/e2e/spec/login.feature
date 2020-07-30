@@ -37,7 +37,7 @@ Feature: The Login
   @frontend @behavior
   Scenario Outline: A user logs in with member mode successed
     Given user select login type as 'member'
-    And user types correct '<email>' and '<password>'
+    And user types '<email>' and '<password>'
     When user clicks submit button
     Then user logs in with 'member' mode successed
   
@@ -48,10 +48,42 @@ Feature: The Login
   @frontend @behavior
   Scenario Outline: A user logs in with member mode failed
     Given user select login type as 'member'
-    And user types incorrect '<email>' and '<password>'
+    And user types '<email>' and '<password>'
     When user clicks submit button
-    Then error message should shows up and it shows '帳號不存在'
+    Then notify shows up without confirm button
+    And notify message is '帳號不存在'
+    And user is in 'signin' page
     
     Examples:
     |email                   |password |
     |wrong-account@gmail.com |2wrfvn764| 
+
+  @frontend @field-validation
+  Scenario Outline: Input fields with empty value
+    Given user select login type as 'member'
+    And input '<field>' with empty value of '<page>'
+    When user clicks submit button
+    Then error message '<message>' shows under the field <index>
+
+    Examples:
+      | field    | message     | index | page  |
+      | Email    | Email 為必填 | 0     | Login |
+      | Password | 密碼 為必填   | 1     | Login |
+
+  @frontend @field-validation
+  Scenario Outline: user types invalid value in the input field
+    Given user select login type as 'member'
+    And user types invalid '<value>' in the input '<field>' of '<page>'
+    Then error message '<message>' shows under the field <index>
+
+    Examples:
+      | field    | value            | message               | index | page  |
+      | Email    | iuegyvg          | Email 須為有效的電子信箱 | 0     | Login |
+      | Email    | ayhv754@vjdl     | Email 須為有效的電子信箱 | 0     | Login |
+      | Email    | ayhv754@vjdl.jd  | Email 須為有效的電子信箱 | 0     | Login |
+
+
+
+
+  
+    

@@ -32,6 +32,6 @@ Then('user logs in with {string} mode successed', (mode) => {
     .should(($div) => expect($div).to.be.text(userName))
 })
 
-Then('user types correct {string} and {string}', (email, password) => {
+Then('user types {string} and {string}', (email, password) => {
   cy.login(email, password)
 })
